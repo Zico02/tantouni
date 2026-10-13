@@ -1,0 +1,69 @@
+.deepsea {
+
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 70% at 50% -10%, rgba(40, 140, 255, calc(0.55 - var(--depth) * 0.45)), transparent 60%),
+    linear-gradient(180deg,
+      color-mix(in srgb, #0a4fb0 calc(100% - var(--depth) * 100%), #031033) 0%,
+      color-mix(in srgb, #04235a calc(100% - var(--depth) * 100%), #010717) 55%,
+      #010a1c 100%);
+}
+.deepsea__rays {
+  position: absolute;
+  inset: -20% -10% 30%;
+  background: repeating-conic-gradient(from 195deg at 45% -5%, rgba(170, 220, 255, 0.09) 0deg 3deg, transparent 3deg 9deg, rgba(170, 220, 255, 0.05) 9deg 11deg, transparent 11deg 17deg);
+  -webkit-mask-image: radial-gradient(ellipse at 45% 0%, #000 10%, transparent 70%);
+  mask-image: radial-gradient(ellipse at 45% 0%, #000 10%, transparent 70%);
+  opacity: calc(1 - var(--depth) * 1.1);
+  animation: ds-rays 16s ease-in-out infinite alternate;
+}
+.deepsea__caustics {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(40% 18% at 30% 8%, rgba(120, 210, 255, 0.12), transparent 70%),
+    radial-gradient(30% 14% at 72% 4%, rgba(120, 210, 255, 0.1), transparent 70%);
+  animation: ds-caustics 9s ease-in-out infinite alternate;
+  opacity: calc(1 - var(--depth));
+}
+.deepsea__ghost {
+  position: absolute;
+  left: 0;
+  opacity: 0.16;
+  filter: blur(1.5px);
+  animation: ds-ghost linear infinite;
+}
+.deepsea__ghost.is-rev { animation-name: ds-ghost-rev; }
+.deepsea__particles { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+@keyframes ds-rays { from { transform: rotate(-3deg) translateX(-2%); } to { transform: rotate(3deg) translateX(2%); } }
+@keyframes ds-caustics { to { transform: translateX(6%) scale(1.1); } }
+@keyframes ds-ghost { from { transform: translateX(110vw); } to { transform: translateX(-110%); } }
+@keyframes ds-ghost-rev { from { transform: translateX(-110%) scaleX(-1); } to { transform: translateX(110vw) scaleX(-1); } }
+
+.depth {
+  position: fixed;
+  inset-inline-start: 22px;
+  top: 50%;
+  translate: 0 -50%;
+  z-index: 5;
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  pointer-events: none;
+}
+.depth__track {
+  width: 3px;
+  height: 180px;
+  border-radius: 3px;
+  background: repeating-linear-gradient(180deg, rgba(233, 246, 255, 0.35) 0 1px, transparent 1px 18px), rgba(233, 246, 255, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+.depth__fill { position: absolute; inset: 0 0 auto 0; background: linear-gradient(180deg, var(--cyan), var(--sun)); transition: height 0.15s linear; }
+.depth__value { font-size: 18px; color: var(--cyan); }
+.depth__value small { font-size: 11px; margin-inline-start: 2px; color: var(--muted); }
+@media (max-width: 1100px) { .depth { display: none; } }

@@ -1,0 +1,42 @@
+.scene {
+  position: relative;
+  width: 100%;
+  margin: 0 0 8px;
+  overflow: hidden;
+  border-radius: 22px;
+  direction: ltr;
+  border: 1px solid var(--line);
+  box-shadow: 0 30px 60px -30px rgba(0, 10, 40, 0.8);
+}
+.scene__svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.scene__water { animation: scene-wave 4s linear infinite; }
+@keyframes scene-wave { to { transform: translateX(-250px); } }
+.scene__handle { animation: scene-reel 0.7s linear infinite; }
+@keyframes scene-reel { to { transform: rotate(360deg); } }
+.omar { animation: scene-bob 3.2s ease-in-out infinite; transform-origin: 170px 300px; }
+@keyframes scene-bob { 50% { transform: translateY(3px) rotate(-0.6deg); } }
+.scene__rays { animation: scene-rays 6s ease-in-out infinite alternate; }
+@keyframes scene-rays { to { opacity: 0.08; } }
+.scene__fish { position: absolute; transform-origin: center; filter: drop-shadow(0 12px 14px rgba(0, 10, 40, 0.5)); }
+.scene__bubbles { position: absolute; inset: 52% 0 0 0; pointer-events: none; }
+.scene__bubbles i {
+  position: absolute;
+  bottom: -10px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  border: 1px solid rgba(220, 240, 255, 0.6);
+  animation: scene-bubble 6s linear infinite;
+}
+@keyframes scene-bubble {
+  from { transform: translateY(0); opacity: 0; }
+  10% { opacity: 1; }
+  to { transform: translateY(-240px) translateX(10px); opacity: 0; }
+}
+
+.scene__clouds { animation: scene-clouds 40s linear infinite alternate; }
+@keyframes scene-clouds { to { transform: translateX(-120px); } }
+.scene__sun { animation: scene-sun 6s ease-in-out infinite; transform-origin: 760px 40px; }
+@keyframes scene-sun { 50% { transform: scale(1.08); opacity: 0.9; } }
+.scene__glare { animation: scene-glare 3s ease-in-out infinite alternate; }
+@keyframes scene-glare { from { opacity: 0.5; } to { opacity: 1; } }

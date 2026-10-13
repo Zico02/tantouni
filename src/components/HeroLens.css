@@ -1,0 +1,92 @@
+.lens {
+  --px: 0;
+  --py: 0;
+  position: relative;
+  width: min(880px, 92vw);
+  aspect-ratio: 1140 / 380;
+  margin-inline: auto;
+  direction: ltr;
+  filter: drop-shadow(0 30px 40px rgba(0, 8, 30, 0.55));
+}
+.lens__glass {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  overflow: hidden;
+}
+.lens__world {
+  position: absolute;
+  inset: -8%;
+  transform: translate3d(calc(var(--px) * 3%), calc(var(--py) * 4%), 0);
+}
+.lens__sky {
+  position: absolute;
+  inset: 0 0 42% 0;
+  background:
+    radial-gradient(60% 90% at 50% 100%, #fff3b0 0%, #ffd23f 26%, #ff9e2c 52%, transparent 78%),
+    linear-gradient(180deg, #2f7de0 0%, #55a6f0 40%, #ffd86a 100%);
+}
+.lens__sun {
+  position: absolute;
+  left: 50%;
+  top: 30%;
+  width: 22%;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fffbe6 0%, rgba(255, 231, 140, 0.9) 25%, rgba(255, 200, 61, 0) 70%);
+  filter: blur(6px);
+  animation: lens-sun 6s ease-in-out infinite;
+}
+.lens__sea {
+  position: absolute;
+  inset: 58% 0 0 0;
+  background:
+    repeating-linear-gradient(176deg, rgba(255, 255, 255, 0.16) 0 2px, transparent 2px 14px),
+    linear-gradient(180deg, #2b8cf0 0%, #0b4fb5 40%, #05265f 100%);
+  animation: lens-sea 7s linear infinite;
+}
+.lens__sea::before {
+  content: '';
+  position: absolute;
+  left: 38%;
+  right: 38%;
+  top: 0;
+  height: 70%;
+  background: linear-gradient(180deg, rgba(255, 230, 140, 0.85), transparent);
+  filter: blur(8px);
+}
+.lens__catch { position: absolute; }
+.lens__catch--tuna { left: 15%; top: 40%; width: 26%; transform: scaleX(-1) rotate(-5deg); }
+.lens__catch--marlin { right: 13%; top: 34%; width: 31%; transform: rotate(8deg); }
+.lens__tint {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(14, 70, 190, 0.55) 0%, transparent 28%, transparent 72%, rgba(14, 70, 190, 0.55) 100%),
+    linear-gradient(180deg, rgba(255, 170, 40, 0.15), rgba(10, 40, 120, 0.35));
+  mix-blend-mode: multiply;
+}
+.lens__glare {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.42) 38%, transparent 44%, transparent 58%, rgba(255, 255, 255, 0.18) 62%, transparent 66%);
+  background-size: 250% 100%;
+  animation: lens-glare 7s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+.lens__frame { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+
+@keyframes lens-glare {
+  0%, 15% { background-position: 120% 0; }
+  60%, 100% { background-position: -40% 0; }
+}
+@keyframes lens-sea {
+  from { background-position: 0 0, 0 0; }
+  to { background-position: 0 56px, 0 0; }
+}
+@keyframes lens-sun {
+  0%, 100% { opacity: 0.85; scale: 1; }
+  50% { opacity: 1; scale: 1.08; }
+}

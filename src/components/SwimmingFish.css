@@ -1,0 +1,33 @@
+.swim {
+  position: relative;
+  width: 100%;
+  direction: ltr;
+}
+.swim__body {
+  position: absolute;
+  inset: 0;
+}
+.swim--drift .swim__body {
+  animation: swim-drift calc(var(--period) * 3.4) ease-in-out infinite;
+}
+.swim__strip {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-repeat: no-repeat;
+  will-change: transform;
+  animation: swim-wave var(--period) ease-in-out infinite;
+}
+.swim--paused .swim__strip,
+.swim--paused .swim__body { animation-play-state: paused; }
+
+@keyframes swim-wave {
+  0%, 100% { transform: translate3d(0, calc(var(--a) * -1), 0); }
+  50% { transform: translate3d(0, var(--a), 0); }
+}
+@keyframes swim-drift {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+  25% { transform: translate3d(-1.6%, -2.5%, 0) rotate(-1.2deg); }
+  50% { transform: translate3d(-3%, 0.5%, 0) rotate(0.4deg); }
+  75% { transform: translate3d(-1.4%, 2.6%, 0) rotate(1.1deg); }
+}
