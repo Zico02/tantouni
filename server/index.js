@@ -17,6 +17,8 @@ export const PRICE_PER_PERSON = 1000; // MAD
 export const BOATS = 2;
 export const SEATS_PER_BOAT = 5;
 const TOKEN_TTL_MS = 1000 * 60 * 60 * 12;
+// Boats leave at 7:00 (Casablanca time): today stays bookable until then.
+const DEPARTURE_HOUR = 7;
 
 if (!ADMIN_PASSWORD) {
   console.warn('[tantoni] ADMIN_PASSWORD is not set in .env - admin login is disabled.');
@@ -35,6 +37,16 @@ app.use('/uploads', express.static(UPLOAD_DIR, { maxAge: '7d' }));
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 const todayCasa = () =>
   new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Casablanca' }).format(new Date());
+
+const hourCasa = () =>
+  Number(new Intl.DateTimeFormat('en-GB', { timeZone: 'Africa/Casablanca', hour: '2-digit', hourCycle: 'h23' }).format(new Date()));
+const addDays = (iso, n) => {
+  const d = new Date(iso + 'T12:00:00Z');
+  d.setUTCDate(d.getUTCDate() + n);
+  return d.toISOString().slice(0, 10);
+};
+/** First date a customer can still book: today before departure, otherwise tomorrow. */
+const firstBookable = () => (hourCasa() < DEPARTURE_HOUR ? todayCasa() : addDays(todayCasa(), 1));
 
 const active = (r) => r.status !== 'cancelled';
 
@@ -119,39 +131,49 @@ app.get('/api/availability', (req, res) => {
       left: blocked ? 0 : loads.reduce((a, l) => a + (SEATS_PER_BOAT - l), 0),
     };
   }
-  res.json({ today: todayCasa(), days });
+  res.json({ today: todayCasa(), firstBookable: firstBookable(), days });
 });
 
-app.post('/api/reservations', async (req, res) => {
-  const name = clean(req.body.name, 120);
-  const phone = clean(req.body.phone, 40);
-  const email = clean(req.body.email, 160);
-  const message = clean(req.body.message, 1000);
-  const date = clean(req.body.date, 10);
-  const people = Number(req.body.people);
+const STATUSES = ['pending', 'confirmed', 'paid', 'cancelled'];
 
-  if (!name || !phone) return res.status(400).json({ error: 'missing_fields' });
-  if (!DATE_RE.test(date) || date <= todayCasa()) return res.status(400).json({ error: 'bad_date' });
-  if (!Number.isInteger(people) || people < 1 || people > BOATS * SEATS_PER_BOAT)
-    return res.status(400).json({ error: 'bad_people' });
-  if (isBlocked(date)) return res.status(409).json({ error: 'day_blocked' });
+// Validates and stores a booking. Admin bookings may use any date (walk-ins,
+// past trips to record) and any status, but boat capacity is always enforced.
+async function createReservation(body, { admin = false } = {}) {
+  const name = clean(body.name, 120);
+  const phone = clean(body.phone, 40);
+  const email = clean(body.email, 160);
+  const message = clean(body.message, 1000);
+  const date = clean(body.date, 10);
+  const people = Number(body.people);
+
+  if (!name || !phone) return { error: 'missing_fields', code: 400 };
+  if (!DATE_RE.test(date) || (!admin && date < firstBookable())) return { error: 'bad_date', code: 400 };
+  if (!Number.isInteger(people) || people < 1 || people > BOATS * SEATS_PER_BOAT) return { error: 'bad_people', code: 400 };
+  if (!admin && isBlocked(date)) return { error: 'day_blocked', code: 409 };
 
   const allocation = allocate(date, people);
-  if (!allocation) return res.status(409).json({ error: 'not_enough_seats' });
+  if (!allocation) return { error: 'not_enough_seats', code: 409 };
 
   const reservation = {
     id: crypto.randomUUID(),
     ref: 'TAN-' + crypto.randomBytes(3).toString('hex').toUpperCase(),
     name, phone, email, message, date, people,
-    lang: clean(req.body.lang, 5) || 'fr',
+    lang: clean(body.lang, 5) || 'fr',
     allocation,
     total: people * PRICE_PER_PERSON,
-    status: 'pending',
+    status: admin && STATUSES.includes(body.status) ? body.status : 'pending',
+    source: admin ? 'admin' : 'site',
     createdAt: new Date().toISOString(),
   };
   db().reservations.push(reservation);
   await save();
-  res.status(201).json({ ref: reservation.ref, date, people, total: reservation.total, allocation });
+  return { reservation };
+}
+
+app.post('/api/reservations', async (req, res) => {
+  const { error, code, reservation: r } = await createReservation(req.body);
+  if (error) return res.status(code).json({ error });
+  res.status(201).json({ ref: r.ref, date: r.date, people: r.people, total: r.total, allocation: r.allocation });
 });
 
 app.get('/api/fish', (_req, res) => {
@@ -179,11 +201,17 @@ app.get('/api/admin/reservations', (_req, res) => {
   res.json([...db().reservations].sort((a, b) => (a.date === b.date ? a.createdAt.localeCompare(b.createdAt) : a.date.localeCompare(b.date))));
 });
 
+app.post('/api/admin/reservations', async (req, res) => {
+  const { error, code, reservation } = await createReservation(req.body, { admin: true });
+  if (error) return res.status(code).json({ error });
+  res.status(201).json(reservation);
+});
+
 app.patch('/api/admin/reservations/:id', async (req, res) => {
   const r = db().reservations.find((x) => x.id === req.params.id);
   if (!r) return res.status(404).json({ error: 'not_found' });
   const { status, adminNotes } = req.body;
-  if (status && !['pending', 'confirmed', 'paid', 'cancelled'].includes(status)) return res.status(400).json({ error: 'bad_status' });
+  if (status && !STATUSES.includes(status)) return res.status(400).json({ error: 'bad_status' });
   if (status && r.status === 'cancelled' && status !== 'cancelled') {
     const allocation = allocate(r.date, r.people, r.id);
     if (!allocation) return res.status(409).json({ error: 'not_enough_seats' });

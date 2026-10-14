@@ -70,6 +70,7 @@ export interface Reservation {
   total: number;
   status: 'pending' | 'confirmed' | 'paid' | 'cancelled';
   createdAt: string;
+  source?: 'site' | 'admin';
   adminNotes?: string;
 }
 

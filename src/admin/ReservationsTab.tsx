@@ -1,7 +1,9 @@
-import { useEffect, useMemo, useState } from 'react';
-import { api } from '../lib/api';
+import { useEffect, useMemo, useState, type FormEvent } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import { api, ApiError } from '../lib/api';
+import { scrollLock } from '../lib/motion';
 import { SITE } from '../lib/site';
-import type { Reservation } from '../lib/types';
+import type { DayAvailability, Reservation } from '../lib/types';
 import { dh, frDate } from './Admin';
 
 type When = 'upcoming' | 'past' | 'all';
@@ -10,12 +12,99 @@ const STATUS: Record<Reservation['status'], string> = { pending: 'En attente', c
 const CAP = SITE.boats * SITE.seatsPerBoat;
 const todayIso = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Casablanca' }).format(new Date());
 
+const ERRORS: Record<string, string> = {
+  missing_fields: 'Nom et téléphone obligatoires.',
+  bad_date: 'Date invalide.',
+  bad_people: 'Nombre de personnes invalide (1 à 10).',
+  not_enough_seats: 'Plus assez de places ce jour-là.',
+};
+
+// Booking taken by phone, WhatsApp or on the quay, entered by Omar himself.
+function NewReservation({ onClose, onCreated, onAuthError }: { onClose: () => void; onCreated: (r: Reservation) => void; onAuthError: (e: unknown) => void }) {
+  const [f, setF] = useState({ date: todayIso(), people: 1, name: '', phone: '', email: '', message: '', status: 'confirmed' as Reservation['status'] });
+  const [day, setDay] = useState<DayAvailability | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState('');
+
+  useEffect(() => {
+    scrollLock.lock();
+    const k = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
+    window.addEventListener('keydown', k);
+    return () => { scrollLock.unlock(); window.removeEventListener('keydown', k); };
+  }, [onClose]);
+  useEffect(() => {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(f.date)) return;
+    api.availability(f.date, f.date).then((r) => setDay(r.days[f.date] ?? null)).catch(() => setDay(null));
+  }, [f.date]);
+
+  const seatsLeft = day ? day.boatsLeft.reduce((a, b) => a + b, 0) : CAP;
+  const submit = async (e: FormEvent) => {
+    e.preventDefault();
+    setBusy(true);
+    setErr('');
+    try {
+      onCreated(await api.createReservation(f));
+    } catch (e) {
+      onAuthError(e);
+      setErr(ERRORS[e instanceof ApiError ? e.message : ''] ?? "Impossible d'enregistrer la réservation.");
+    }
+    setBusy(false);
+  };
+
+  return (
+    <motion.div className="adm-modal" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={onClose}>
+      <motion.form className="adm-modal__panel adm-modal__panel--sm" onSubmit={submit} onClick={(e) => e.stopPropagation()} initial={{ y: 40 }} animate={{ y: 0 }} data-lenis-prevent>
+        <header className="adm-modal__head">
+          <h2 className="display">Nouvelle réservation</h2>
+          <button type="button" className="adm-icon-btn" onClick={onClose}>✕</button>
+        </header>
+        <div className="adm-newres">
+          <div className="adm-grid3">
+            <div className="field"><label>Date *</label><input type="date" required value={f.date} onChange={(e) => setF({ ...f, date: e.target.value })} /></div>
+            <div className="field">
+              <label>Pêcheurs *</label>
+              <select value={f.people} onChange={(e) => setF({ ...f, people: Number(e.target.value) })}>
+                {Array.from({ length: CAP }, (_, i) => <option key={i} value={i + 1} disabled={i + 1 > seatsLeft}>{i + 1}</option>)}
+              </select>
+            </div>
+            <div className="field">
+              <label>Statut</label>
+              <select value={f.status} onChange={(e) => setF({ ...f, status: e.target.value as Reservation['status'] })}>
+                <option value="pending">En attente</option>
+                <option value="confirmed">Confirmée</option>
+                <option value="paid">Payée ✓</option>
+              </select>
+            </div>
+          </div>
+          <p className={`adm-newres__info ${seatsLeft < f.people ? 'is-bad' : ''}`}>
+            {day?.blocked && <b>{day.weather ? '⚡ Jour marqué « Mauvais temps ». ' : '⛔ Jour bloqué. '}</b>}
+            {seatsLeft} place{seatsLeft > 1 ? 's' : ''} libre{seatsLeft > 1 ? 's' : ''} ce jour-là
+            {day && ` (Bateau 1 : ${day.boatsLeft[0]} · Bateau 2 : ${day.boatsLeft[1]})`} · Total : <b>{dh(f.people * SITE.pricePerPerson)}</b>
+          </p>
+          <div className="adm-grid2">
+            <div className="field"><label>Nom complet *</label><input required value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} /></div>
+            <div className="field"><label>Téléphone / WhatsApp *</label><input required type="tel" dir="ltr" placeholder="+212 6…" value={f.phone} onChange={(e) => setF({ ...f, phone: e.target.value })} /></div>
+          </div>
+          <div className="field"><label>E-mail (facultatif)</label><input type="email" dir="ltr" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} /></div>
+          <div className="field"><label>Note (facultatif)</label><textarea rows={3} value={f.message} onChange={(e) => setF({ ...f, message: e.target.value })} placeholder="Réservé par téléphone, acompte reçu…" /></div>
+        </div>
+        <footer className="adm-modal__foot">
+          {err && <p className="adm-err">{err}</p>}
+          <button type="button" className="btn ghost" onClick={onClose}>Annuler</button>
+          <button className="btn" disabled={busy || seatsLeft < f.people}>{busy ? 'Enregistrement…' : 'Ajouter la réservation'}</button>
+        </footer>
+      </motion.form>
+    </motion.div>
+  );
+}
+
 export default function ReservationsTab({ onAuthError }: { onAuthError: (e: unknown) => void }) {
   const [list, setList] = useState<Reservation[] | null>(null);
   const [when, setWhen] = useState<When>('upcoming');
   const [status, setStatus] = useState<'all' | Reservation['status']>('all');
   const [q, setQ] = useState('');
   const [msg, setMsg] = useState('');
+  const [adding, setAdding] = useState(false);
 
   const load = () => api.reservations().then(setList).catch(onAuthError);
   useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -78,7 +167,10 @@ export default function ReservationsTab({ onAuthError }: { onAuthError: (e: unkn
           <h1 className="display">Réservations</h1>
           <p>{SITE.pricePerPerson} DH / personne · {SITE.boats} bateaux × {SITE.seatsPerBoat} places</p>
         </div>
-        <button className="btn ghost sm" onClick={load}>↻ Actualiser</button>
+        <div className="adm-head-actions">
+          <button className="btn ghost sm" onClick={load}>↻ Actualiser</button>
+          <button className="btn sm" onClick={() => setAdding(true)}>+ Nouvelle réservation</button>
+        </div>
       </header>
 
       <div className="adm-stats">
@@ -126,7 +218,7 @@ export default function ReservationsTab({ onAuthError }: { onAuthError: (e: unkn
                   <div key={r.id} className={`adm-row is-${r.status}`}>
                     <div className="adm-row__who">
                       <b>{r.name}</b>
-                      <span className="adm-ref">{r.ref}</span>
+                      <span className="adm-ref">{r.ref}{r.source === 'admin' && <span className="adm-manual">Ajoutée par l'admin</span>}</span>
                       {r.message && <p className="adm-row__msg">« {r.message} »</p>}
                     </div>
                     <div className="adm-row__contact">
@@ -159,6 +251,16 @@ export default function ReservationsTab({ onAuthError }: { onAuthError: (e: unkn
           );
         })}
       </div>
+      <AnimatePresence>
+        {adding && (
+          <NewReservation
+            key="new"
+            onClose={() => setAdding(false)}
+            onAuthError={onAuthError}
+            onCreated={(r) => { setList((l) => [...(l ?? []), r].sort((a, b) => a.date.localeCompare(b.date))); setAdding(false); setMsg(''); }}
+          />
+        )}
+      </AnimatePresence>
     </div>
   );
 }

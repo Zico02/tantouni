@@ -25,7 +25,7 @@ export default function Reservation() {
 
   const [month, setMonth] = useState(() => { const d = new Date(); return new Date(d.getFullYear(), d.getMonth(), 1); });
   const [days, setDays] = useState<Record<string, DayAvailability> | null>(null);
-  const [today, setToday] = useState('');
+  const [firstBookable, setFirstBookable] = useState('');
   const [date, setDate] = useState<string | null>(null);
   const [people, setPeople] = useState(2);
   const [form, setForm] = useState({ name: '', phone: '', email: '', message: '' });
@@ -38,7 +38,7 @@ export default function Reservation() {
     try {
       const r = await api.availability(from, to);
       setDays(r.days);
-      setToday(r.today);
+      setFirstBookable(r.firstBookable);
     } catch {
       setError(t('book.errors.generic'));
     }
@@ -57,7 +57,7 @@ export default function Reservation() {
 
   const renderDay = (d: string) => {
     const a = days?.[d];
-    const past = !today || d <= today;
+    const past = !firstBookable || d < firstBookable;
     if (past) return { className: 'is-past', disabled: true };
     if (!a) return { disabled: true };
     if (a.blocked && a.weather) return { className: 'is-weather', disabled: true, content: <span className="cal__tag cal__tag--weather"><Bolt />{t('book.legend.weather')}</span>, title: t('book.legend.weather') };
