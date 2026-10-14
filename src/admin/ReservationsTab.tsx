@@ -6,11 +6,17 @@ import { SITE } from '../lib/site';
 import type { DayAvailability, Reservation } from '../lib/types';
 import { dh, frDate } from './Admin';
 
-type When = 'upcoming' | 'past' | 'all';
+type When = 'today' | 'tomorrow' | 'upcoming' | 'past' | 'all';
+const WHEN_LABEL: Record<When, string> = { today: "Aujourd'hui", tomorrow: 'Demain', upcoming: 'À venir', past: 'Passées', all: 'Toutes' };
 // pending → confirmed (Omar called/messaged them) → paid (trip done, money received)
 const STATUS: Record<Reservation['status'], string> = { pending: 'En attente', confirmed: 'Confirmée', paid: 'Payée ✓', cancelled: 'Annulée' };
 const CAP = SITE.boats * SITE.seatsPerBoat;
 const todayIso = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Casablanca' }).format(new Date());
+const tomorrowIso = () => {
+  const d = new Date(todayIso() + 'T12:00:00Z');
+  d.setUTCDate(d.getUTCDate() + 1);
+  return d.toISOString().slice(0, 10);
+};
 
 const ERRORS: Record<string, string> = {
   missing_fields: 'Nom et téléphone obligatoires.',
@@ -110,14 +116,33 @@ export default function ReservationsTab({ onAuthError }: { onAuthError: (e: unkn
   useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const today = todayIso();
+  const tomorrow = tomorrowIso();
+  const inRange = (k: When, date: string) =>
+    k === 'all' ? true
+      : k === 'today' ? date === today
+        : k === 'tomorrow' ? date === tomorrow
+          : k === 'upcoming' ? date >= today
+            : date < today;
+  const counts = useMemo(() => {
+    const live = (list ?? []).filter((r) => r.status !== 'cancelled');
+    return Object.fromEntries((Object.keys(WHEN_LABEL) as When[]).map((k) => [k, live.filter((r) => inRange(k, r.date)).length])) as Record<When, number>;
+  }, [list, today, tomorrow]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Open on today's trips when there are any, otherwise on everything upcoming.
+  const [defaulted, setDefaulted] = useState(false);
+  useEffect(() => {
+    if (!list || defaulted) return;
+    setDefaulted(true);
+    if (counts.today > 0) setWhen('today');
+  }, [list, counts, defaulted]);
   const filtered = useMemo(() => {
     const nq = q.trim().toLowerCase();
     const out = (list ?? []).filter((r) =>
-      (when === 'all' || (when === 'upcoming' ? r.date >= today : r.date < today)) &&
+      inRange(when, r.date) &&
       (status === 'all' || r.status === status) &&
       (!nq || [r.name, r.phone, r.email, r.ref].some((v) => v?.toLowerCase().includes(nq))));
     return when === 'past' ? out.reverse() : out;
-  }, [list, when, status, q, today]);
+  }, [list, when, status, q, today, tomorrow]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const groups = useMemo(() => {
     const m = new Map<string, Reservation[]>();
@@ -182,8 +207,10 @@ export default function ReservationsTab({ onAuthError }: { onAuthError: (e: unkn
 
       <div className="adm-filters">
         <div className="adm-seg">
-          {(['upcoming', 'past', 'all'] as const).map((k) => (
-            <button key={k} className={when === k ? 'is-on' : ''} onClick={() => setWhen(k)}>{{ upcoming: 'À venir', past: 'Passées', all: 'Toutes' }[k]}</button>
+          {(['today', 'tomorrow', 'upcoming', 'past', 'all'] as const).map((k) => (
+            <button key={k} className={when === k ? 'is-on' : ''} onClick={() => setWhen(k)}>
+              {WHEN_LABEL[k]} <span className={`adm-count ${counts[k] ? '' : 'is-zero'}`}>{counts[k]}</span>
+            </button>
           ))}
         </div>
         <select value={status} onChange={(e) => setStatus(e.target.value as typeof status)} className="adm-select">
