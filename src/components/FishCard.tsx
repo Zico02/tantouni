@@ -18,6 +18,9 @@ export default function FishCard({ fish, index, onOpen }: { fish: Fish; index: n
   const ref = useRef<HTMLElement>(null);
   const seen = useInView(ref, { once: true, amount: 0.5 });
   const v = fishVisual(fish);
+  const fishRef = useRef<HTMLDivElement>(null);
+  // Hover speeds the swim up a little: change playbackRate so the wave keeps its phase (no jump).
+  const setSpeed = (rate: number) => fishRef.current?.getAnimations({ subtree: true }).forEach((a) => { a.playbackRate = rate; });
   const word = ghostWord(fish);
 
   return (
@@ -30,6 +33,10 @@ export default function FishCard({ fish, index, onOpen }: { fish: Fish; index: n
       transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
       className={`fcard ${fish.caught ? 'is-caught' : 'is-todo'} fcard--${fish.rarity}`}
       onClick={onOpen}
+      onMouseEnter={() => setSpeed(1.45)}
+      onMouseLeave={() => setSpeed(1)}
+      onFocus={() => setSpeed(1.45)}
+      onBlur={() => setSpeed(1)}
       onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && (e.preventDefault(), onOpen())}
       tabIndex={0}
       role="button"
@@ -41,8 +48,9 @@ export default function FishCard({ fish, index, onOpen }: { fish: Fish; index: n
       </header>
       <div className="fcard__stage">
         <span className="fcard__ghost display" style={{ '--len': word.length } as CSSProperties} aria-hidden>{word}</span>
-        <div className="fcard__fish">
-          <SwimmingFish src={v.src} aspect={v.aspect} period={2.8 + (index % 5) * 0.35} />
+        <div className="fcard__fish" ref={fishRef}>
+          {/* caught fish swim a little slower than the ones still to catch */}
+          <SwimmingFish src={v.src} aspect={v.aspect} period={(2.8 + (index % 5) * 0.35) * (fish.caught ? 1.3 : 1)} />
         </div>
         {fish.caught && seen && <CaughtStamp />}
       </div>
