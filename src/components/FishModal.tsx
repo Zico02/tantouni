@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useState, type CSSProperties } from 'react';
 import { motion } from 'motion/react';
 import { useTranslation } from 'react-i18next';
-import XMark from './XMark';
+import CaughtStamp from './CaughtStamp';
 import { ghostWord } from './FishCard';
 import { fishVisual } from '../lib/fishArt';
 import { fishDescription, fishName } from '../lib/useFish';
@@ -106,7 +106,7 @@ export default function FishModal({ list, index, onClose, onNav }: Props) {
               <WaveFish src={v.src} />
             </Suspense>
           </div>
-          {fish.caught && <div className="fm__x"><XMark /></div>}
+          {fish.caught && <div className="fm__x"><CaughtStamp /></div>}
           <div className="fm__navs">
             <button onClick={prev} aria-label={t('fish.prev')}>‹</button>
             <span>{index + 1} / {list.length}</span>

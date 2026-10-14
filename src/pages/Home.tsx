@@ -5,7 +5,7 @@ import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
 import HeroLens from '../components/HeroLens';
 import SwimmingFish from '../components/SwimmingFish';
 import BoatSeats from '../components/BoatSeats';
-import XMark from '../components/XMark';
+import CaughtStamp from '../components/CaughtStamp';
 import { Arrow, Check } from '../components/icons';
 import { SocialIcon } from '../components/Footer';
 import { gsap, useGSAP, useReveal } from '../lib/motion';
@@ -277,7 +277,7 @@ function Teaser() {
             return (
               <Link to={`/tableau-de-chasse/${f.slug}`} key={f.id} className={`teaser__fish teaser__fish--${i}`} data-reveal data-reveal-delay={i * 0.15}>
                 <SwimmingFish src={v.src} aspect={v.aspect} period={3 + i * 0.6} alt={fishName(f, lang)} />
-                {f.caught && <XMark />}
+                {f.caught && <CaughtStamp />}
                 <span className="teaser__name">{fishName(f, lang)}</span>
               </Link>
             );

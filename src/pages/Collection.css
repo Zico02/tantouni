@@ -181,7 +181,7 @@
 .fcard:hover .fcard__fish { scale: 1.06; }
 .fcard.is-todo .fcard__fish { filter: saturate(0.55) brightness(0.85) drop-shadow(0 18px 18px rgba(0, 8, 30, 0.55)); }
 .fcard.is-todo:hover .fcard__fish { filter: saturate(1) brightness(1) drop-shadow(0 18px 18px rgba(0, 8, 30, 0.55)); }
-.fcard__stage .xmark { position: absolute; height: 108%; width: auto; aspect-ratio: 1; left: 50%; top: 50%; translate: -50% -50%; z-index: 2; }
+.fcard__stage .stamp { position: absolute; width: 74%; height: auto; left: 50%; top: 50%; translate: -50% -50%; z-index: 2; }
 
 .fcard__foot { display: flex; justify-content: space-between; align-items: flex-end; gap: 12px; }
 .fcard__foot h3 { font-size: clamp(18px, 1.7vw, 23px); margin: 0; line-height: 1; }
@@ -270,7 +270,7 @@
 .fm__canvas { position: absolute; inset: 0; }
 .fm__fallback { position: absolute; left: 10%; right: 10%; top: 50%; translate: 0 -50%; width: 80%; }
 .fm__x { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
-.fm__x .xmark { width: min(52%, 340px); height: auto; opacity: 0.85; }
+.fm__x .stamp { width: min(62%, 420px); height: auto; }
 .fm__navs {
   position: absolute;
   bottom: 20px;

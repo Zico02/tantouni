@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { api } from '../lib/api';
 import { fishVisual } from '../lib/fishArt';
 import type { Fish } from '../lib/types';
-import XMark from '../components/XMark';
+import CaughtStamp from '../components/CaughtStamp';
 import FishForm from './FishForm';
 
 export default function FishTab({ onAuthError }: { onAuthError: (e: unknown) => void }) {
@@ -71,7 +71,7 @@ export default function FishTab({ onAuthError }: { onAuthError: (e: unknown) => 
               <motion.div layout key={f.id} className={`adm-fishrow ${f.caught ? 'is-caught' : ''}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, x: -30 }}>
                 <div className="adm-fishrow__img">
                   <img src={v.src} alt="" />
-                  {f.caught && <XMark />}
+                  {f.caught && <CaughtStamp />}
                 </div>
                 <div className="adm-fishrow__name">
                   <b>{f.names.fr}</b>

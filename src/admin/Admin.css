@@ -156,8 +156,7 @@
 .adm-fishrow.is-caught { border-color: rgba(255, 59, 48, 0.35); background: linear-gradient(90deg, rgba(255, 59, 48, 0.08), rgba(6, 48, 110, 0.2) 40%); }
 .adm-fishrow__img { position: relative; height: 56px; display: grid; place-items: center; }
 .adm-fishrow__img img { max-height: 56px; width: auto; max-width: 100%; }
-.adm-fishrow__img .xmark { position: absolute; height: 100%; width: auto; aspect-ratio: 1; }
-.adm-fishrow__img .xmark path { stroke-width: 18; }
+.adm-fishrow__img .stamp { position: absolute; width: 96%; height: auto; }
 .adm-fishrow__name { display: grid; min-width: 0; }
 .adm-fishrow__name small { color: var(--muted); }
 .adm-fishrow__actions { display: flex; gap: 6px; align-items: center; }
@@ -205,7 +204,7 @@
 }
 .adm-preview__ghost { position: absolute; bottom: 6%; inset-inline: 0; text-align: center; font-size: 15cqw; color: transparent; -webkit-text-stroke: 1px rgba(233, 246, 255, 0.25); white-space: nowrap; overflow: hidden; }
 .adm-preview .swim { width: 88%; }
-.adm-preview .xmark { position: absolute; height: 92%; width: auto; aspect-ratio: 1; }
+.adm-preview .stamp { position: absolute; width: 70%; height: auto; }
 .adm-caught { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-radius: 14px; border: 1.5px dashed var(--line); cursor: pointer; font-weight: 800; }
 .adm-caught input { width: 20px; height: 20px; accent-color: var(--red); }
 .adm-caught.is-on { border: 1.5px solid var(--red); background: rgba(255, 59, 48, 0.12); color: #ffb3ad; }

@@ -2,7 +2,7 @@ import { useRef, type CSSProperties } from 'react';
 import { motion, useInView } from 'motion/react';
 import { useTranslation } from 'react-i18next';
 import SwimmingFish from './SwimmingFish';
-import XMark from './XMark';
+import CaughtStamp from './CaughtStamp';
 import { fishVisual } from '../lib/fishArt';
 import { fishName } from '../lib/useFish';
 import { currentLang } from '../i18n';
@@ -44,7 +44,7 @@ export default function FishCard({ fish, index, onOpen }: { fish: Fish; index: n
         <div className="fcard__fish">
           <SwimmingFish src={v.src} aspect={v.aspect} period={2.8 + (index % 5) * 0.35} />
         </div>
-        {fish.caught && seen && <XMark />}
+        {fish.caught && seen && <CaughtStamp />}
       </div>
       <footer className="fcard__foot">
         <div>

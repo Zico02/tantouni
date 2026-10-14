@@ -183,7 +183,7 @@
 .teaser__fish--2 { margin-inline-end: 14%; }
 .teaser__fish .swim { width: 82%; margin-inline: auto; }
 .teaser__name { position: absolute; bottom: 4px; inset-inline-start: 20px; font-size: 13px; font-weight: 700; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; }
-.teaser__fish .xmark { position: absolute; inset: -6% 22%; width: auto; height: 112%; }
+.teaser__fish .stamp { position: absolute; left: 50%; top: 50%; translate: -50% -50%; width: 62%; height: auto; }
 
 /* ---------- videos ---------- */
 .videos__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 46px; }

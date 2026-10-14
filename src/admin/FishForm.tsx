@@ -7,7 +7,7 @@ import { youtubeId } from '../lib/site';
 import { LANGS } from '../i18n/locales';
 import type { Fish, FishArt, Habitat, Lang, Technique } from '../lib/types';
 import SwimmingFish from '../components/SwimmingFish';
-import XMark from '../components/XMark';
+import CaughtStamp from '../components/CaughtStamp';
 
 const HABITATS: Record<Habitat, string> = { pelagic: 'Large (pélagique)', reef: 'Roches & récifs', coastal: 'Côtier', surf: 'Plages & estuaires' };
 const TECHS: Record<Technique, string> = { jigging: 'Jigging', trolling: 'Traîne', livebait: 'Vif', popping: 'Popping', spinning: 'Lancer', bottom: 'Fond' };
@@ -94,7 +94,7 @@ export default function FishForm({ fish, onClose, onSaved, onAuthError }: Props)
             <div className="adm-preview">
               <span className="adm-preview__ghost display">{(f.nickname || f.names.en || f.names.fr || 'TANTOUNI').toUpperCase()}</span>
               <SwimmingFish key={visual.src} src={visual.src} aspect={visual.aspect} />
-              {f.caught && <XMark key={String(f.caught)} />}
+              {f.caught && <CaughtStamp key={String(f.caught)} />}
             </div>
             <label className={`adm-caught ${f.caught ? 'is-on' : ''}`}>
               <input type="checkbox" checked={f.caught} onChange={(e) => set('caught', e.target.checked)} />
