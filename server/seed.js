@@ -394,5 +394,37 @@ export function seedAchievements() {
         '/uploads/jebel-sifah-affiche.jpg',
       ],
     },
+    {
+      "id": "jig-tanger",
+      "date": "",
+      "place": 3,
+      "award": {
+        "fr": "3ᵉ place sur 17 bateaux",
+        "en": "3rd place out of 17 boats",
+        "ar": "المركز الثالث من بين 17 قاربًا",
+        "es": "3.er puesto de 17 barcos",
+        "it": "3° posto su 17 barche"
+      },
+      "title": {
+        "fr": "Compétition jig",
+        "en": "Jigging competition",
+        "ar": "مسابقة الجيغ",
+        "es": "Competición de jigging",
+        "it": "Gara di jigging"
+      },
+      "location": "Tanger, Maroc",
+      "organizer": "Royal Yacht Club Tanger",
+      "description": {
+        "fr": "Face à 17 bateaux engagés au large de Tanger, Omar décroche la 3ᵉ place de cette compétition de jigging organisée au Royal Yacht Club Tanger. Une journée de jig vertical intense, conclue sur le podium avec le trophée en main. TANTOUNI !",
+        "en": "Up against 17 boats off Tangier, Omar took 3rd place in this jigging competition hosted by the Royal Yacht Club Tanger. An intense day of vertical jigging, finished on the podium with the trophy in hand. TANTOUNI!",
+        "ar": "في مواجهة 17 قاربًا قبالة طنجة، حصل عمر على المركز الثالث في مسابقة الجيغ التي نظمها النادي الملكي لليخوت بطنجة. يوم مكثف من الجيغ العمودي انتهى على منصة التتويج والكأس في يده. طنطوني!"
+      },
+      "photos": [
+        "/uploads/jig-tanger-podium.jpg",
+        "/uploads/jig-tanger-trophee.jpg",
+        "/uploads/jig-tanger-mer.jpg"
+      ],
+      "video": ""
+    }
   ];
 }
