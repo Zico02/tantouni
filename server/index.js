@@ -114,6 +114,7 @@ app.get('/api/availability', (req, res) => {
     const blocked = isBlocked(date);
     days[date] = {
       blocked: Boolean(blocked),
+      weather: blocked?.type === 'weather',
       boatsLeft: loads.map((l) => SEATS_PER_BOAT - l),
       left: blocked ? 0 : loads.reduce((a, l) => a + (SEATS_PER_BOAT - l), 0),
     };
@@ -182,7 +183,7 @@ app.patch('/api/admin/reservations/:id', async (req, res) => {
   const r = db().reservations.find((x) => x.id === req.params.id);
   if (!r) return res.status(404).json({ error: 'not_found' });
   const { status, adminNotes } = req.body;
-  if (status && !['pending', 'confirmed', 'cancelled'].includes(status)) return res.status(400).json({ error: 'bad_status' });
+  if (status && !['pending', 'confirmed', 'paid', 'cancelled'].includes(status)) return res.status(400).json({ error: 'bad_status' });
   if (status && r.status === 'cancelled' && status !== 'cancelled') {
     const allocation = allocate(r.date, r.people, r.id);
     if (!allocation) return res.status(409).json({ error: 'not_enough_seats' });
@@ -208,7 +209,10 @@ app.get('/api/admin/blocked', (_req, res) => res.json(db().blockedDays));
 app.post('/api/admin/blocked', async (req, res) => {
   const date = clean(req.body.date, 10);
   if (!DATE_RE.test(date)) return res.status(400).json({ error: 'bad_date' });
-  if (!isBlocked(date)) db().blockedDays.push({ date, reason: clean(req.body.reason, 200) });
+  const type = req.body.type === 'weather' ? 'weather' : 'blocked';
+  const existing = isBlocked(date);
+  if (existing) Object.assign(existing, { type, reason: clean(req.body.reason, 200) || existing.reason });
+  else db().blockedDays.push({ date, type, reason: clean(req.body.reason, 200) });
   await save();
   const affected = db().reservations.filter((r) => r.date === date && active(r)).length;
   res.status(201).json({ date, affected });

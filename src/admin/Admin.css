@@ -89,17 +89,28 @@
 .adm-row__who { display: grid; gap: 2px; min-width: 0; }
 .adm-ref { font-family: ui-monospace, monospace; font-size: 12px; color: var(--cyan); }
 .adm-row__msg { margin: 4px 0 0; font-size: 12.5px; color: var(--muted); font-style: italic; }
-.adm-row__contact { display: grid; gap: 2px; min-width: 0; }
-.adm-row__contact a { color: var(--text); overflow: hidden; text-overflow: ellipsis; }
-.adm-row__contact a:hover { color: var(--cyan); }
-.adm-wa { color: #4ade80 !important; font-weight: 700; font-size: 12.5px; }
+.adm-row__contact { display: flex; align-items: center; gap: 14px; min-width: 0; }
+.adm-row__ids { display: grid; gap: 4px; min-width: 0; }
+.adm-phone { font-weight: 700; font-variant-numeric: tabular-nums; direction: ltr; }
+.adm-mail { color: var(--muted); font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.adm-mail:hover { color: var(--cyan); }
+.adm-row__btns { display: grid; gap: 6px; flex: none; }
+.adm-cbtn { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; color: #fff; transition: transform 0.15s, filter 0.15s; }
+.adm-cbtn:hover { transform: scale(1.08); filter: brightness(1.1); }
+.adm-cbtn--wa { background: #25d366; }
+.adm-cbtn--call { background: #1d86ff; }
 .adm-row__num { display: grid; }
 .adm-row__num b { font-size: 18px; }
 .adm-row__num small { color: var(--muted); font-size: 11.5px; }
 .adm-row__total { font-weight: 800; color: var(--sun); }
 .adm-status { border-radius: 10px; padding: 8px 10px; font-weight: 700; font-size: 13px; border: 1px solid var(--line); background: rgba(1, 10, 28, 0.6); }
 .adm-status.is-pending { color: #ffb347; border-color: rgba(255, 179, 71, 0.4); }
-.adm-status.is-confirmed { color: #4ade80; border-color: rgba(74, 222, 128, 0.4); }
+.adm-status.is-confirmed { color: #7cc4ff; border-color: rgba(72, 160, 255, 0.55); background: rgba(29, 134, 255, 0.15); }
+.adm-status.is-paid { color: #4ade80; border-color: rgba(74, 222, 128, 0.55); background: rgba(34, 197, 94, 0.15); }
+.adm-row.is-confirmed { background: rgba(29, 134, 255, 0.1); box-shadow: inset 3px 0 0 #1d86ff; }
+.adm-row.is-paid { background: rgba(34, 197, 94, 0.1); box-shadow: inset 3px 0 0 #22c55e; }
+.adm-stat--paid { border-color: rgba(74, 222, 128, 0.35); background: rgba(34, 197, 94, 0.08); }
+.adm-stat--paid b { color: #4ade80; }
 .adm-status.is-cancelled { color: #ff8a82; }
 .adm-icon-btn {
   width: 36px;
@@ -256,3 +267,12 @@
 .adm-photo--add { display: grid; place-items: center; text-align: center; cursor: pointer; font-weight: 700; font-size: 13px; color: var(--cyan); border-style: dashed; padding: 10px; }
 .adm-photo--add:hover { background: rgba(72, 200, 255, 0.1); }
 @media (max-width: 800px) { .adm-ach { grid-template-columns: 80px 1fr; } .adm-ach .adm-fishrow__actions { grid-column: span 2; } }
+
+/* ---------- bad weather ---------- */
+.btn.weather { --bg: #8b5cf6; color: #fff; box-shadow: 0 8px 22px -10px rgba(139, 92, 246, 0.8); }
+.btn.weather:hover { box-shadow: 0 12px 28px -10px rgba(139, 92, 246, 0.95); }
+.btn .bolt { width: 16px; height: 16px; flex: none; }
+.adm-split { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.adm-split .btn { width: 100%; }
+.adm-blocked li.is-weather { background: rgba(139, 92, 246, 0.12); border-color: rgba(167, 139, 250, 0.35); }
+.adm-blocked li .bolt { vertical-align: -2px; margin-inline-end: 4px; }

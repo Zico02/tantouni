@@ -51,6 +51,7 @@ export interface Fish {
 
 export interface DayAvailability {
   blocked: boolean;
+  weather?: boolean;
   boatsLeft: number[];
   left: number;
 }
@@ -67,7 +68,7 @@ export interface Reservation {
   lang: Lang;
   allocation: { boat: number; seats: number }[];
   total: number;
-  status: 'pending' | 'confirmed' | 'cancelled';
+  status: 'pending' | 'confirmed' | 'paid' | 'cancelled';
   createdAt: string;
   adminNotes?: string;
 }
@@ -75,6 +76,7 @@ export interface Reservation {
 export interface BlockedDay {
   date: string;
   reason: string;
+  type?: 'blocked' | 'weather';
 }
 
 export interface Achievement {

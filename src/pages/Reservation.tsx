@@ -11,7 +11,7 @@ import { useReveal } from '../lib/motion';
 import { SITE } from '../lib/site';
 import { currentLang } from '../i18n';
 import type { DayAvailability } from '../lib/types';
-import { Arrow, Check } from '../components/icons';
+import { Arrow, Bolt, Check } from '../components/icons';
 import './Reservation.css';
 
 const CAP = SITE.boats * SITE.seatsPerBoat;
@@ -60,6 +60,7 @@ export default function Reservation() {
     const past = !today || d <= today;
     if (past) return { className: 'is-past', disabled: true };
     if (!a) return { disabled: true };
+    if (a.blocked && a.weather) return { className: 'is-weather', disabled: true, content: <span className="cal__tag cal__tag--weather"><Bolt />{t('book.legend.weather')}</span>, title: t('book.legend.weather') };
     if (a.blocked) return { className: 'is-blocked', disabled: true, content: <span className="cal__tag">{t('book.legend.blocked')}</span>, title: t('book.legend.blocked') };
     if (a.left === 0) return { className: 'is-full', disabled: true, content: <span className="cal__tag">{t('book.legend.full')}</span> };
     return {
@@ -137,6 +138,7 @@ export default function Reservation() {
                   <li><i className="lg lg--few" />{t('book.legend.few')}</li>
                   <li><i className="lg lg--full" />{t('book.legend.full')}</li>
                   <li><i className="lg lg--blocked" />{t('book.legend.blocked')}</li>
+                  <li><Bolt />{t('book.legend.weather')}</li>
                 </ul>
               </div>
 

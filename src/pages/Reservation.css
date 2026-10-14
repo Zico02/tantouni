@@ -88,3 +88,5 @@
 }
 .book__done-title { display: grid; justify-items: center; gap: 4px; text-align: center; }
 .book__done-title span { font-family: 'Archivo', sans-serif; font-size: 1.25em; }
+
+.book__legend .bolt { width: 14px; height: 14px; }

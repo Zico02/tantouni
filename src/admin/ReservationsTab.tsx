@@ -5,7 +5,8 @@ import type { Reservation } from '../lib/types';
 import { dh, frDate } from './Admin';
 
 type When = 'upcoming' | 'past' | 'all';
-const STATUS: Record<Reservation['status'], string> = { pending: 'En attente', confirmed: 'Confirmée', cancelled: 'Annulée' };
+// pending → confirmed (Omar called/messaged them) → paid (trip done, money received)
+const STATUS: Record<Reservation['status'], string> = { pending: 'En attente', confirmed: 'Confirmée', paid: 'Payée ✓', cancelled: 'Annulée' };
 const CAP = SITE.boats * SITE.seatsPerBoat;
 const todayIso = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Africa/Casablanca' }).format(new Date());
 
@@ -40,7 +41,9 @@ export default function ReservationsTab({ onAuthError }: { onAuthError: (e: unkn
     trips: new Set(upcoming.map((r) => r.date)).size,
     people: upcoming.reduce((a, r) => a + r.people, 0),
     pending: upcoming.filter((r) => r.status === 'pending').length,
-    revenue: upcoming.filter((r) => r.status === 'confirmed').reduce((a, r) => a + r.total, 0),
+    // revenue only counts money Omar actually received
+    revenue: (list ?? []).filter((r) => r.status === 'paid').reduce((a, r) => a + r.total, 0),
+    paidCount: (list ?? []).filter((r) => r.status === 'paid').length,
   };
 
   const update = async (r: Reservation, s: Reservation['status']) => {
@@ -63,7 +66,8 @@ export default function ReservationsTab({ onAuthError }: { onAuthError: (e: unkn
 
   const wa = (phone: string) => {
     let d = phone.replace(/\D/g, '');
-    if (d.startsWith('0')) d = '212' + d.slice(1);
+    if (d.startsWith('00')) d = d.slice(2);
+    else if (d.startsWith('0')) d = '212' + d.slice(1);
     return `https://wa.me/${d}`;
   };
 
@@ -81,7 +85,7 @@ export default function ReservationsTab({ onAuthError }: { onAuthError: (e: unkn
         <div className="adm-stat"><small>Sorties à venir</small><b className="display">{stats.trips}</b></div>
         <div className="adm-stat"><small>Pêcheurs à venir</small><b className="display">{stats.people}</b></div>
         <div className="adm-stat adm-stat--warn"><small>À confirmer</small><b className="display">{stats.pending}</b></div>
-        <div className="adm-stat adm-stat--gold"><small>CA confirmé à venir</small><b className="display">{dh(stats.revenue)}</b></div>
+        <div className="adm-stat adm-stat--paid"><small>CA encaissé ({stats.paidCount} payée{stats.paidCount > 1 ? 's' : ''})</small><b className="display">{dh(stats.revenue)}</b></div>
       </div>
 
       <div className="adm-filters">
@@ -126,9 +130,18 @@ export default function ReservationsTab({ onAuthError }: { onAuthError: (e: unkn
                       {r.message && <p className="adm-row__msg">« {r.message} »</p>}
                     </div>
                     <div className="adm-row__contact">
-                      <a href={`tel:${r.phone}`}>{r.phone}</a>
-                      <a href={wa(r.phone)} target="_blank" rel="noreferrer" className="adm-wa">WhatsApp</a>
-                      {r.email && <a href={`mailto:${r.email}`}>{r.email}</a>}
+                      <div className="adm-row__ids">
+                        <span className="adm-phone">{r.phone}</span>
+                        {r.email && <a href={`mailto:${r.email}`} className="adm-mail">{r.email}</a>}
+                      </div>
+                      <div className="adm-row__btns">
+                        <a href={wa(r.phone)} target="_blank" rel="noreferrer" className="adm-cbtn adm-cbtn--wa" title={`WhatsApp ${r.phone}`} aria-label="WhatsApp">
+                          <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.8-1.4.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z" /></svg>
+                        </a>
+                        <a href={`tel:${r.phone.replace(/[^\d+]/g, '')}`} className="adm-cbtn adm-cbtn--call" title={`Appeler ${r.phone}`} aria-label="Appeler">
+                          <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.2.2 2.4.6 3.6.1.3 0 .7-.2 1l-2.3 2.2z" /></svg>
+                        </a>
+                      </div>
                     </div>
                     <div className="adm-row__num">
                       <b>{r.people}</b> pers.

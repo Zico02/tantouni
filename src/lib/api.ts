@@ -57,8 +57,8 @@ export const api = {
     request<Reservation>(`/api/admin/reservations/${id}`, { method: 'PATCH', body: json(patch) }, true),
   deleteReservation: (id: string) => request<void>(`/api/admin/reservations/${id}`, { method: 'DELETE' }, true),
   blocked: () => request<BlockedDay[]>('/api/admin/blocked', {}, true),
-  block: (date: string, reason: string) =>
-    request<{ date: string; affected: number }>('/api/admin/blocked', { method: 'POST', body: json({ date, reason }) }, true),
+  block: (date: string, reason: string, type: 'blocked' | 'weather' = 'blocked') =>
+    request<{ date: string; affected: number }>('/api/admin/blocked', { method: 'POST', body: json({ date, reason, type }) }, true),
   unblock: (date: string) => request<void>(`/api/admin/blocked/${date}`, { method: 'DELETE' }, true),
   createFish: (fish: Partial<Fish>) => request<Fish>('/api/admin/fish', { method: 'POST', body: json(fish) }, true),
   updateFish: (id: string, fish: Partial<Fish>) =>
