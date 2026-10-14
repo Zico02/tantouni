@@ -31,6 +31,7 @@ const SPECIES = [
     slug: 'marlin-blanc', rarity: 'legend', zone: 'maroc',
     names: { fr: 'Marlin blanc', en: 'White marlin', ar: 'المرلين الأبيض', es: 'Aguja blanca', it: 'Marlin bianco' },
     scientific: 'Kajikia albida',
+    image: '/uploads/marlin.png',
     maxLength: 280, maxWeight: 82, depth: '0 – 150 m',
     habitat: ['pelagic'], techniques: ['trolling', 'livebait'], season: [7, 8, 9, 10],
     description: {
@@ -91,7 +92,7 @@ const SPECIES = [
     names: { fr: 'Marlin bleu', en: 'Blue marlin', ar: 'المرلين الأزرق', es: 'Marlín azul', it: 'Marlin azzurro' },
     scientific: 'Makaira nigricans',
     nickname: 'MARLIN',
-    image: '/uploads/marlin.png',
+    image: '/uploads/marlin-bleu.png',
     maxLength: 500, maxWeight: 820, depth: '0 – 200 m',
     habitat: ['pelagic'], techniques: ['trolling', 'livebait'], season: [7, 8, 9],
     description: {
@@ -167,7 +168,7 @@ const SPECIES = [
     names: { fr: 'Liche', en: 'Leerfish', ar: 'أولاح', es: 'Palometón', it: 'Leccia amia' },
     scientific: 'Lichia amia',
     nickname: 'AOULAH',
-    image: '/uploads/liche-aoulah.png',
+    image: '/uploads/liche-v2.png',
     maxLength: 200, maxWeight: 50, depth: '0 – 50 m',
     habitat: ['coastal', 'surf'], techniques: ['spinning', 'livebait', 'popping'], season: [],
     description: {
@@ -221,7 +222,7 @@ const SPECIES = [
   }),
   F({
     slug: 'bar', rarity: 'common', zone: 'maroc',
-    names: { fr: 'Bar (Loup)', en: 'European seabass', ar: 'القاروس', es: 'Lubina', it: 'Spigola' },
+    names: { fr: 'Loup Bar', en: 'European seabass', ar: 'القاروس', es: 'Lubina', it: 'Spigola' },
     nickname: 'DER3I',
     scientific: 'Dicentrarchus labrax',
     image: '/uploads/bar.png',
@@ -251,7 +252,9 @@ const SPECIES = [
   F({
     slug: 'dorade-royale', rarity: 'common', zone: 'maroc',
     names: { fr: 'Dorade royale', en: 'Gilthead seabream', ar: 'الدوراد', es: 'Dorada', it: 'Orata' },
+    nickname: 'DORADA',
     scientific: 'Sparus aurata',
+    image: '/uploads/dorada.png',
     maxLength: 70, maxWeight: 17, depth: '0 – 150 m',
     habitat: ['coastal'], techniques: ['bottom', 'spinning'], season: [],
     description: {
