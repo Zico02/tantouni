@@ -25,6 +25,8 @@ export interface FishArt {
 export type Habitat = 'pelagic' | 'reef' | 'coastal' | 'surf';
 export type Technique = 'jigging' | 'trolling' | 'livebait' | 'popping' | 'spinning' | 'bottom';
 export type Rarity = 'common' | 'prized' | 'legend';
+export type Sea = 'atlantique' | 'mediterranee' | 'mer-rouge' | 'mer-oman' | 'golfe' | 'indonesie';
+export const SEAS: Sea[] = ['atlantique', 'mediterranee', 'mer-rouge', 'mer-oman', 'golfe', 'indonesie'];
 
 export interface Fish {
   id: string;
@@ -47,11 +49,14 @@ export interface Fish {
   art: FishArt;
   rarity: Rarity;
   zone: 'maroc' | 'monde';
+  seas?: Sea[];
+  group?: 'shark';
 }
 
 export interface DayAvailability {
   blocked: boolean;
   weather?: boolean;
+  familyOk?: boolean;
   boatsLeft: number[];
   left: number;
 }
@@ -71,6 +76,7 @@ export interface Reservation {
   status: 'pending' | 'confirmed' | 'paid' | 'cancelled';
   createdAt: string;
   source?: 'site' | 'admin';
+  formula?: 'standard' | 'family';
   adminNotes?: string;
 }
 

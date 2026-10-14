@@ -163,7 +163,7 @@
   bottom: 2%;
   text-align: center;
   white-space: nowrap;
-  font-size: min(calc(118cqw / var(--len)), 72px);
+  font-size: min(calc(104cqw / var(--len)), 72px);
   line-height: 1.2;
   color: transparent;
   -webkit-text-stroke: 1.4px rgba(233, 246, 255, 0.22);
@@ -363,3 +363,13 @@
   .fm__stats { grid-template-columns: 1fr 1fr; }
   .fm__months span { font-size: 9px; }
 }
+
+/* ---------- seas + sharks filters ---------- */
+.col-seas { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding-top: 4px; padding-bottom: 4px; }
+.col-seas__label { font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-inline-end: 6px; }
+[dir='rtl'] .col-seas__label { letter-spacing: 0; }
+.col-chip { display: inline-flex; align-items: center; gap: 7px; padding: 9px 15px; border-radius: 99px; border: 1px solid var(--line); background: rgba(3, 24, 61, 0.7); color: var(--muted); font-size: 13.5px; font-weight: 700; transition: background 0.2s, color 0.2s, border-color 0.2s; backdrop-filter: blur(10px); }
+.col-chip:hover { color: var(--text); border-color: rgba(233, 246, 255, 0.3); }
+.col-chip.is-on { background: var(--cyan); color: var(--ink); border-color: var(--cyan); }
+.col-chip--shark { height: 48px; padding: 0 18px; }
+.col-chip--shark.is-on { background: var(--sun); border-color: var(--sun); }

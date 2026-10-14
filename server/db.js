@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { seedAchievements, seedFish } from './seed.js';
+import { SEAS_BY_SLUG } from './sharks.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = path.join(__dirname, 'data');
@@ -29,10 +30,24 @@ export function load() {
   } else {
     state = JSON.parse(fs.readFileSync(DB_FILE, 'utf8'));
     // migrations for databases created by older versions
+    let dirty = false;
     if (!state.achievements) {
       state.achievements = seedAchievements();
-      fs.writeFileSync(DB_FILE, JSON.stringify(state, null, 2));
+      dirty = true;
     }
+    // seas filter: give existing fish their seas, and add sharks that aren't on the board yet
+    const seeded = seedFish();
+    for (const f of state.fish) {
+      if (!f.seas) { f.seas = SEAS_BY_SLUG[f.slug] ?? []; dirty = true; }
+    }
+    let order = Math.max(-1, ...state.fish.map((f) => f.order ?? 0));
+    for (const f of seeded) {
+      if (f.group === 'shark' && !state.fish.some((x) => x.slug === f.slug)) {
+        state.fish.push({ ...f, order: ++order });
+        dirty = true;
+      }
+    }
+    if (dirty) fs.writeFileSync(DB_FILE, JSON.stringify(state, null, 2));
   }
   return state;
 }

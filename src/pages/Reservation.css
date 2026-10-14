@@ -62,7 +62,8 @@
 .book__summary dl { margin: 0; display: grid; gap: 8px; }
 .book__summary dl div { display: flex; justify-content: space-between; gap: 16px; font-size: 14.5px; }
 .book__summary dt { color: var(--muted); }
-.book__summary dd { margin: 0; font-weight: 700; text-align: end; text-transform: capitalize; }
+.book__summary dd { margin: 0; font-weight: 700; text-align: end; }
+.book__summary dd::first-letter { text-transform: uppercase; }
 .book__summary em { color: var(--sun); font-style: normal; font-weight: 600; text-transform: none; }
 .book__total { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 18px; border-radius: 16px; background: rgba(255, 200, 61, 0.1); border: 1px solid rgba(255, 200, 61, 0.3); }
 .book__total span { font-weight: 700; }
@@ -90,3 +91,15 @@
 .book__done-title span { font-family: 'Archivo', sans-serif; font-size: 1.25em; }
 
 .book__legend .bolt { width: 14px; height: 14px; }
+
+/* ---------- Family vs Family ---------- */
+.book__card.is-muted .book__people, .book__card.is-muted .book__sub, .book__card.is-muted .boats { opacity: 0.35; pointer-events: none; filter: grayscale(0.4); transition: opacity 0.3s; }
+.book__formula-back { justify-self: start; border: 0; background: none; color: var(--cyan); font-weight: 700; font-size: 14px; padding: 0; }
+.book__family { position: relative; overflow: hidden; border: 1px solid rgba(255, 200, 61, 0.28); background: linear-gradient(150deg, rgba(255, 200, 61, 0.1), rgba(4, 30, 74, 0.6) 45%); transition: border-color 0.3s, box-shadow 0.3s; }
+.book__family.is-on { border-color: var(--sun); box-shadow: 0 0 0 3px rgba(255, 200, 61, 0.18), 0 30px 60px -30px rgba(255, 200, 61, 0.45); }
+.book__family-title { margin: 0; font-size: clamp(30px, 4vw, 48px); }
+.book__family-text { margin: 0; color: #d4e5fa; max-width: 56ch; }
+.book__family-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+.book__family-row > div { display: grid; gap: 2px; }
+.book__family-price { font-size: 40px; color: var(--sun); line-height: 1; }
+.book__family-row small { color: var(--muted); font-weight: 600; }

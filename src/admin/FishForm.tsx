@@ -5,7 +5,7 @@ import { FISH_SHAPES, fishVisual } from '../lib/fishArt';
 import { scrollLock } from '../lib/motion';
 import { youtubeId } from '../lib/site';
 import { LANGS } from '../i18n/locales';
-import type { Fish, FishArt, Habitat, Lang, Technique } from '../lib/types';
+import { SEAS, type Fish, type FishArt, type Habitat, type Lang, type Sea, type Technique } from '../lib/types';
 import SwimmingFish from '../components/SwimmingFish';
 import CaughtStamp from '../components/CaughtStamp';
 
@@ -19,13 +19,14 @@ const PATTERNS: [keyof FishArt, string][] = [
   ['stripe', 'Bande latérale'], ['backStripes', 'Rayures dos'], ['bars', 'Barres verticales'], ['spots', 'Points'],
   ['blotches', 'Taches'], ['goldBand', 'Bandeau doré'], ['band', 'Bande oculaire'], ['wavyLine', 'Ligne ondulée'], ['longPec', 'Longues pectorales'], ['deep', 'Corps haut'],
 ];
+const SEA_FR: Record<Sea, string> = { atlantique: 'Atlantique (Maroc)', mediterranee: 'Méditerranée (Nador)', 'mer-rouge': 'Mer Rouge (Arabie saoudite)', 'mer-oman': "Mer d'Oman (Oman)", golfe: 'Golfe arabique (Dubaï)', indonesie: 'Indonésie' };
 const MONTHS = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
 
 const blank = (): Omit<Fish, 'id' | 'order'> => ({
   slug: '', names: { fr: '', en: '', ar: '', es: '', it: '' }, nickname: '', scientific: '',
   maxLength: null, maxWeight: null, depth: '', habitat: [], techniques: [], season: [],
   description: { fr: '', en: '' }, caught: false, catch: { date: '', weight: '', length: '', location: '', notes: '' },
-  youtube: '', image: '', rarity: 'common', zone: 'maroc',
+  youtube: '', image: '', rarity: 'common', zone: 'maroc', seas: ['atlantique'],
   art: { shape: 'tuna', back: '#13315c', belly: '#e6edf3', fin: '#1d4f91', accent: '#5aa0e6' },
 });
 
@@ -201,6 +202,14 @@ export default function FishForm({ fish, onClose, onSaved, onAuthError }: Props)
                 <div className="field"><label>Taille max. (cm)</label><input type="number" min="0" value={f.maxLength ?? ''} onChange={(e) => set('maxLength', num(e.target.value))} /></div>
                 <div className="field"><label>Poids max. (kg)</label><input type="number" min="0" step="0.1" value={f.maxWeight ?? ''} onChange={(e) => set('maxWeight', num(e.target.value))} /></div>
                 <div className="field"><label>Profondeur</label><input value={f.depth} onChange={(e) => set('depth', e.target.value)} placeholder="0 – 200 m" /></div>
+              </div>
+              <div className="adm-checks">
+                <b>Mers :</b>
+                {SEAS.map((x) => <label key={x}><input type="checkbox" checked={(f.seas ?? []).includes(x)} onChange={() => set('seas', toggleIn(f.seas ?? [], x))} />{SEA_FR[x]}</label>)}
+              </div>
+              <div className="adm-checks">
+                <b>Famille :</b>
+                <label><input type="checkbox" checked={f.group === 'shark'} onChange={(e) => set('group', e.target.checked ? 'shark' : undefined)} />Requin (apparaît dans le filtre « Requins »)</label>
               </div>
               <div className="adm-checks">
                 <b>Habitat :</b>

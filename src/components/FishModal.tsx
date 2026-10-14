@@ -117,7 +117,7 @@ export default function FishModal({ list, index, onClose, onNav }: Props) {
         <div className="fm__info" key={`i-${fish.id}`}>
           <div className="fm__chips">
             <span className={`rarity rarity--${fish.rarity}`}>{t(`collection.rarity.${fish.rarity}`)}</span>
-            <span className="chip">{t(`collection.zone.${fish.zone}`)}</span>
+            {fish.group === 'shark' && <span className="chip chip--sun">{t('collection.sharks')}</span>}
             <span className={`fcard__status ${fish.caught ? 'is-caught' : ''}`}>{fish.caught ? `✓ ${t('collection.badgeCaught')}` : t('collection.badgeTodo')}</span>
           </div>
           <h2 className="fm__name display">{fishName(fish, lang)}</h2>
@@ -136,6 +136,9 @@ export default function FishModal({ list, index, onClose, onNav }: Props) {
             <div><small>{t('fish.depth')}</small><b className="display">{fish.depth || t('fish.unknown')}</b></div>
           </div>
 
+          {(fish.seas ?? []).length > 0 && (
+            <div className="fm__row"><h4>{t('fish.seas')}</h4><div>{fish.seas!.map((x) => <span key={x} className="chip">{t(`collection.seas.${x}`)}</span>)}</div></div>
+          )}
           {fish.habitat.length > 0 && (
             <div className="fm__row"><h4>{t('fish.habitat')}</h4><div>{fish.habitat.map((h) => <span key={h} className="chip">{t(`habitat.${h}`)}</span>)}</div></div>
           )}

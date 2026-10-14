@@ -8,11 +8,10 @@ import FishModal from '../components/FishModal';
 import { useReveal } from '../lib/motion';
 import { fishName, useFish } from '../lib/useFish';
 import { currentLang } from '../i18n';
-import type { Rarity } from '../lib/types';
+import { SEAS, type Rarity, type Sea } from '../lib/types';
 import './Collection.css';
 
 type Filter = 'all' | 'caught' | 'todo';
-type Zone = 'all' | 'maroc' | 'monde';
 
 const norm = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 
@@ -24,7 +23,8 @@ export default function Collection() {
   const navigate = useNavigate();
   const ref = useRef<HTMLDivElement>(null);
   const [filter, setFilter] = useState<Filter>('all');
-  const [zone, setZone] = useState<Zone>('all');
+  const [sea, setSea] = useState<'all' | Sea>('all');
+  const [sharks, setSharks] = useState(false);
   const [q, setQ] = useState('');
   useReveal(ref, [i18n.resolvedLanguage]);
 
@@ -36,9 +36,10 @@ export default function Collection() {
     const nq = norm(q.trim());
     return all.filter((f) =>
       (filter === 'all' || (filter === 'caught' ? f.caught : !f.caught)) &&
-      (zone === 'all' || f.zone === zone) &&
+      (sea === 'all' || (f.seas ?? []).includes(sea)) &&
+      (!sharks || f.group === 'shark') &&
       (!nq || [...Object.values(f.names), f.scientific, f.nickname || ''].some((n) => norm(n).includes(nq))));
-  }, [all, filter, zone, q]);
+  }, [all, filter, sea, sharks, q]);
 
   // The modal browses the list currently on screen (or everything when deep-linked).
   const browse = slug && !list.some((f) => f.slug === slug) ? all : list;
@@ -87,19 +88,24 @@ export default function Collection() {
               </button>
             ))}
           </div>
-          <div className="seg seg--small">
-            {(['all', 'maroc', 'monde'] as const).map((k) => (
-              <button key={k} aria-pressed={zone === k} className={zone === k ? 'is-on' : ''} onClick={() => setZone(k)}>
-                {zone === k && <motion.span layoutId="zone" className="seg__pill" transition={{ type: 'spring', stiffness: 400, damping: 32 }} />}
-                <span>{t(`collection.zone.${k}`)}</span>
-              </button>
-            ))}
-          </div>
+          <button className={`col-chip col-chip--shark ${sharks ? 'is-on' : ''}`} onClick={() => setSharks((v) => !v)} aria-pressed={sharks}>
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden><path d="M2 14c3-1 6-1.5 9-1.2L14 6l1.5 7.3c2.6.6 4.8 1.6 6.5 2.7-2.4.2-4.7.7-7 1.6L14 20l-1.6-2.8C8.6 17.6 5 16.4 2 14z" /></svg>
+            {t('collection.sharks')}
+          </button>
           <label className="col-search">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" /></svg>
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder={t('collection.search')} />
           </label>
         </div>
+      </div>
+
+      <div className="container col-seas" role="group" aria-label={t('collection.seasLabel')}>
+        <span className="col-seas__label">{t('collection.seasLabel')}</span>
+        {(['all', ...SEAS] as const).map((k) => (
+          <button key={k} className={`col-chip ${sea === k ? 'is-on' : ''}`} onClick={() => setSea(k)} aria-pressed={sea === k}>
+            {t(`collection.seas.${k}`)}
+          </button>
+        ))}
       </div>
 
       <section className="container col-grid-wrap">

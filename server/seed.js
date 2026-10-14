@@ -1,3 +1,5 @@
+import { SEAS_BY_SLUG, SHARKS } from './sharks.js';
+
 // Starting species list for the "Tableau de chasse". Omar can tick, edit, add and
 // delete from the admin panel; this file only runs when the database is created.
 //
@@ -354,8 +356,10 @@ const SPECIES = [
 ];
 
 export function seedFish() {
+  // fish species first, then the sharks; each gets the seas where it lives
+  const all = [...SPECIES, ...SHARKS.map((x) => F(x))].map((x) => ({ seas: SEAS_BY_SLUG[x.slug] ?? x.seas ?? [], ...x }));
   const now = Date.now();
-  return SPECIES.map((s, i) => ({ id: `${s.slug}-${(now + i).toString(36)}`, order: i, ...s }));
+  return all.map((s, i) => ({ id: `${s.slug}-${(now + i).toString(36)}`, order: i, ...s }));
 }
 
 // ---------- Palmarès (achievements) ----------

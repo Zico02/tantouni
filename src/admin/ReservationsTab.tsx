@@ -23,11 +23,13 @@ const ERRORS: Record<string, string> = {
   bad_date: 'Date invalide.',
   bad_people: 'Nombre de personnes invalide (1 à 10).',
   not_enough_seats: 'Plus assez de places ce jour-là.',
+  family_unavailable: 'Family vs Family : les deux bateaux doivent être libres ce jour-là.',
 };
 
 // Booking taken by phone, WhatsApp or on the quay, entered by Omar himself.
 function NewReservation({ onClose, onCreated, onAuthError }: { onClose: () => void; onCreated: (r: Reservation) => void; onAuthError: (e: unknown) => void }) {
-  const [f, setF] = useState({ date: todayIso(), people: 1, name: '', phone: '', email: '', message: '', status: 'confirmed' as Reservation['status'] });
+  const [f, setF] = useState({ date: todayIso(), people: 1, name: '', phone: '', email: '', message: '', status: 'confirmed' as Reservation['status'], formula: 'standard' as 'standard' | 'family' });
+  const family = f.formula === 'family';
   const [day, setDay] = useState<DayAvailability | null>(null);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
@@ -44,12 +46,14 @@ function NewReservation({ onClose, onCreated, onAuthError }: { onClose: () => vo
   }, [f.date]);
 
   const seatsLeft = day ? day.boatsLeft.reduce((a, b) => a + b, 0) : CAP;
+  const familyBlocked = family && seatsLeft < CAP;
+  const total = family ? SITE.familyPrice : f.people * SITE.pricePerPerson;
   const submit = async (e: FormEvent) => {
     e.preventDefault();
     setBusy(true);
     setErr('');
     try {
-      onCreated(await api.createReservation(f));
+      onCreated(await api.createReservation({ ...f, people: family ? CAP : f.people }));
     } catch (e) {
       onAuthError(e);
       setErr(ERRORS[e instanceof ApiError ? e.message : ''] ?? "Impossible d'enregistrer la réservation.");
@@ -69,7 +73,7 @@ function NewReservation({ onClose, onCreated, onAuthError }: { onClose: () => vo
             <div className="field"><label>Date *</label><input type="date" required value={f.date} onChange={(e) => setF({ ...f, date: e.target.value })} /></div>
             <div className="field">
               <label>Pêcheurs *</label>
-              <select value={f.people} onChange={(e) => setF({ ...f, people: Number(e.target.value) })}>
+              <select value={family ? CAP : f.people} disabled={family} onChange={(e) => setF({ ...f, people: Number(e.target.value) })}>
                 {Array.from({ length: CAP }, (_, i) => <option key={i} value={i + 1} disabled={i + 1 > seatsLeft}>{i + 1}</option>)}
               </select>
             </div>
@@ -82,10 +86,15 @@ function NewReservation({ onClose, onCreated, onAuthError }: { onClose: () => vo
               </select>
             </div>
           </div>
-          <p className={`adm-newres__info ${seatsLeft < f.people ? 'is-bad' : ''}`}>
+          <label className={`adm-caught ${family ? 'is-on adm-caught--family' : ''}`}>
+            <input type="checkbox" checked={family} onChange={(e) => setF({ ...f, formula: e.target.checked ? 'family' : 'standard' })} />
+            <span>Family vs Family · les 2 bateaux privatisés · {dh(SITE.familyPrice)}</span>
+          </label>
+          <p className={`adm-newres__info ${(family ? familyBlocked : seatsLeft < f.people) ? 'is-bad' : ''}`}>
+            {familyBlocked && <b>Les deux bateaux doivent être entièrement libres. </b>}
             {day?.blocked && <b>{day.weather ? '⚡ Jour marqué « Mauvais temps ». ' : '⛔ Jour bloqué. '}</b>}
             {seatsLeft} place{seatsLeft > 1 ? 's' : ''} libre{seatsLeft > 1 ? 's' : ''} ce jour-là
-            {day && ` (Bateau 1 : ${day.boatsLeft[0]} · Bateau 2 : ${day.boatsLeft[1]})`} · Total : <b>{dh(f.people * SITE.pricePerPerson)}</b>
+            {day && ` (Bateau 1 : ${day.boatsLeft[0]} · Bateau 2 : ${day.boatsLeft[1]})`} · Total : <b>{dh(total)}</b>
           </p>
           <div className="adm-grid2">
             <div className="field"><label>Nom complet *</label><input required value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} /></div>
@@ -97,7 +106,7 @@ function NewReservation({ onClose, onCreated, onAuthError }: { onClose: () => vo
         <footer className="adm-modal__foot">
           {err && <p className="adm-err">{err}</p>}
           <button type="button" className="btn ghost" onClick={onClose}>Annuler</button>
-          <button className="btn" disabled={busy || seatsLeft < f.people}>{busy ? 'Enregistrement…' : 'Ajouter la réservation'}</button>
+          <button className="btn" disabled={busy || (family ? familyBlocked : seatsLeft < f.people)}>{busy ? 'Enregistrement…' : 'Ajouter la réservation'}</button>
         </footer>
       </motion.form>
     </motion.div>
@@ -245,7 +254,7 @@ export default function ReservationsTab({ onAuthError }: { onAuthError: (e: unkn
                   <div key={r.id} className={`adm-row is-${r.status}`}>
                     <div className="adm-row__who">
                       <b>{r.name}</b>
-                      <span className="adm-ref">{r.ref}{r.source === 'admin' && <span className="adm-manual">Ajoutée par l'admin</span>}</span>
+                      <span className="adm-ref">{r.ref}{r.formula === 'family' && <span className="adm-manual adm-family">Family vs Family</span>}{r.source === 'admin' && <span className="adm-manual">Ajoutée par l'admin</span>}</span>
                       {r.message && <p className="adm-row__msg">« {r.message} »</p>}
                     </div>
                     <div className="adm-row__contact">

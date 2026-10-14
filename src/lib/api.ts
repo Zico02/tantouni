@@ -41,8 +41,8 @@ export const api = {
   config: () => request<{ price: number; boats: number; seatsPerBoat: number; today: string }>('/api/config'),
   availability: (from: string, to: string) =>
     request<{ today: string; firstBookable: string; days: Record<string, DayAvailability> }>(`/api/availability?from=${from}&to=${to}`),
-  reserve: (body: { name: string; phone: string; email: string; message: string; date: string; people: number; lang: string }) =>
-    request<{ ref: string; date: string; people: number; total: number; allocation: { boat: number; seats: number }[] }>(
+  reserve: (body: { name: string; phone: string; email: string; message: string; date: string; people: number; lang: string; formula?: 'standard' | 'family' }) =>
+    request<{ ref: string; date: string; people: number; total: number; formula?: 'standard' | 'family'; allocation: { boat: number; seats: number }[] }>(
       '/api/reservations', { method: 'POST', body: json(body) }),
   fish: () => request<Fish[]>('/api/fish'),
   achievements: () => request<Achievement[]>('/api/achievements'),
@@ -53,7 +53,7 @@ export const api = {
 
   login: (password: string) => request<{ token: string }>('/api/admin/login', { method: 'POST', body: json({ password }) }),
   reservations: () => request<Reservation[]>('/api/admin/reservations', {}, true),
-  createReservation: (body: { name: string; phone: string; email: string; message: string; date: string; people: number; status: Reservation['status'] }) =>
+  createReservation: (body: { name: string; phone: string; email: string; message: string; date: string; people: number; status: Reservation['status']; formula?: 'standard' | 'family' }) =>
     request<Reservation>('/api/admin/reservations', { method: 'POST', body: json(body) }, true),
   updateReservation: (id: string, patch: Partial<Pick<Reservation, 'status' | 'adminNotes'>>) =>
     request<Reservation>(`/api/admin/reservations/${id}`, { method: 'PATCH', body: json(patch) }, true),

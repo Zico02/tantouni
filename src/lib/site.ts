@@ -4,6 +4,8 @@ export const SITE = {
   captain: 'Omar Pêche Vlog',
   port: 'Port de Mohammedia',
   pricePerPerson: 1000,
+  // "Family vs Family": both boats privatised for the day (must match FAMILY_PRICE in server/index.js)
+  familyPrice: 10000,
   currency: 'DH',
   boats: 2,
   seatsPerBoat: 5,

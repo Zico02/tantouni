@@ -16,6 +16,8 @@ const SECRET = process.env.ADMIN_SECRET || crypto.randomBytes(32).toString('hex'
 export const PRICE_PER_PERSON = 1000; // MAD
 export const BOATS = 2;
 export const SEATS_PER_BOAT = 5;
+// "Family vs Family": both boats privatised for one day, flat price.
+export const FAMILY_PRICE = 10000;
 const TOKEN_TTL_MS = 1000 * 60 * 60 * 12;
 // Boats leave at 7:00 (Casablanca time): today stays bookable until then.
 const DEPARTURE_HOUR = 7;
@@ -111,7 +113,7 @@ const clean = (v, max = 500) => (typeof v === 'string' ? v.trim().slice(0, max) 
 
 // ---------- public ----------
 app.get('/api/config', (_req, res) => {
-  res.json({ price: PRICE_PER_PERSON, boats: BOATS, seatsPerBoat: SEATS_PER_BOAT, today: todayCasa() });
+  res.json({ price: PRICE_PER_PERSON, familyPrice: FAMILY_PRICE, boats: BOATS, seatsPerBoat: SEATS_PER_BOAT, today: todayCasa() });
 });
 
 app.get('/api/availability', (req, res) => {
@@ -129,6 +131,7 @@ app.get('/api/availability', (req, res) => {
       weather: blocked?.type === 'weather',
       boatsLeft: loads.map((l) => SEATS_PER_BOAT - l),
       left: blocked ? 0 : loads.reduce((a, l) => a + (SEATS_PER_BOAT - l), 0),
+      familyOk: !blocked && loads.every((l) => l === 0),
     };
   }
   res.json({ today: todayCasa(), firstBookable: firstBookable(), days });
@@ -144,15 +147,23 @@ async function createReservation(body, { admin = false } = {}) {
   const email = clean(body.email, 160);
   const message = clean(body.message, 1000);
   const date = clean(body.date, 10);
-  const people = Number(body.people);
+  const family = body.formula === 'family';
+  const people = family ? BOATS * SEATS_PER_BOAT : Number(body.people);
 
   if (!name || !phone) return { error: 'missing_fields', code: 400 };
   if (!DATE_RE.test(date) || (!admin && date < firstBookable())) return { error: 'bad_date', code: 400 };
   if (!Number.isInteger(people) || people < 1 || people > BOATS * SEATS_PER_BOAT) return { error: 'bad_people', code: 400 };
   if (!admin && isBlocked(date)) return { error: 'day_blocked', code: 409 };
 
-  const allocation = allocate(date, people);
-  if (!allocation) return { error: 'not_enough_seats', code: 409 };
+  let allocation;
+  if (family) {
+    // both boats must be completely free that day
+    if (boatLoads(date).some((l) => l > 0)) return { error: 'family_unavailable', code: 409 };
+    allocation = Array.from({ length: BOATS }, (_, i) => ({ boat: i + 1, seats: SEATS_PER_BOAT }));
+  } else {
+    allocation = allocate(date, people);
+    if (!allocation) return { error: 'not_enough_seats', code: 409 };
+  }
 
   const reservation = {
     id: crypto.randomUUID(),
@@ -160,7 +171,8 @@ async function createReservation(body, { admin = false } = {}) {
     name, phone, email, message, date, people,
     lang: clean(body.lang, 5) || 'fr',
     allocation,
-    total: people * PRICE_PER_PERSON,
+    formula: family ? 'family' : 'standard',
+    total: family ? FAMILY_PRICE : people * PRICE_PER_PERSON,
     status: admin && STATUSES.includes(body.status) ? body.status : 'pending',
     source: admin ? 'admin' : 'site',
     createdAt: new Date().toISOString(),
@@ -173,7 +185,7 @@ async function createReservation(body, { admin = false } = {}) {
 app.post('/api/reservations', async (req, res) => {
   const { error, code, reservation: r } = await createReservation(req.body);
   if (error) return res.status(code).json({ error });
-  res.status(201).json({ ref: r.ref, date: r.date, people: r.people, total: r.total, allocation: r.allocation });
+  res.status(201).json({ ref: r.ref, date: r.date, people: r.people, total: r.total, formula: r.formula, allocation: r.allocation });
 });
 
 app.get('/api/fish', (_req, res) => {
@@ -253,7 +265,7 @@ app.delete('/api/admin/blocked/:date', async (req, res) => {
 });
 
 const FISH_FIELDS = ['slug', 'names', 'nickname', 'scientific', 'maxLength', 'maxWeight', 'depth', 'habitat', 'techniques',
-  'season', 'description', 'caught', 'catch', 'youtube', 'image', 'art', 'rarity', 'zone', 'order'];
+  'season', 'description', 'caught', 'catch', 'youtube', 'image', 'art', 'rarity', 'zone', 'order', 'seas', 'group'];
 
 function pickFish(body) {
   const out = {};

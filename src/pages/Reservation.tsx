@@ -28,10 +28,12 @@ export default function Reservation() {
   const [firstBookable, setFirstBookable] = useState('');
   const [date, setDate] = useState<string | null>(null);
   const [people, setPeople] = useState(2);
+  const [formula, setFormula] = useState<'standard' | 'family'>('standard');
+  const family = formula === 'family';
   const [form, setForm] = useState({ name: '', phone: '', email: '', message: '' });
   const [sending, setSending] = useState(false);
   const [error, setError] = useState('');
-  const [done, setDone] = useState<{ ref: string; date: string; people: number; total: number } | null>(null);
+  const [done, setDone] = useState<{ ref: string; date: string; people: number; total: number; formula?: 'standard' | 'family' } | null>(null);
 
   const load = useCallback(async () => {
     const { from, to } = monthRange(month);
@@ -48,8 +50,16 @@ export default function Reservation() {
   const day = date && days ? days[date] : undefined;
   const left = day ? day.left : CAP;
   const maxPeople = Math.max(1, left);
-  useEffect(() => { if (people > maxPeople) setPeople(maxPeople); }, [maxPeople, people]);
+  useEffect(() => { if (!family && people > maxPeople) setPeople(maxPeople); }, [family, maxPeople, people]);
   const mine = useMemo(() => (day ? allocate(day.boatsLeft, Math.min(people, day.left)) ?? [] : []), [day, people]);
+  const fullBoats = Array(SITE.boats).fill(SITE.seatsPerBoat);
+  const total = family ? SITE.familyPrice : people * SITE.pricePerPerson;
+  // a day already partly booked can't host Family vs Family: drop it when switching
+  const chooseFamily = (on: boolean) => {
+    setFormula(on ? 'family' : 'standard');
+    setError('');
+    if (on && day && !day.familyOk) setDate(null);
+  };
 
   const fmtDate = (d: string) =>
     new Intl.DateTimeFormat(locale, { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(d + 'T12:00:00'));
@@ -63,6 +73,7 @@ export default function Reservation() {
     if (a.blocked && a.weather) return { className: 'is-weather', disabled: true, content: <span className="cal__tag cal__tag--weather"><Bolt />{t('book.legend.weather')}</span>, title: t('book.legend.weather') };
     if (a.blocked) return { className: 'is-blocked', disabled: true, content: <span className="cal__tag">{t('book.legend.blocked')}</span>, title: t('book.legend.blocked') };
     if (a.left === 0) return { className: 'is-full', disabled: true, content: <span className="cal__tag">{t('book.legend.full')}</span> };
+    if (family && !a.familyOk) return { className: 'is-full', disabled: true, title: t('book.family.dayFull'), content: <span className="cal__tag">{t('book.family.dayFull')}</span> };
     return {
       className: a.left <= 3 ? 'is-few' : '',
       title: t('book.seatsLeft', { count: a.left }),
@@ -76,7 +87,7 @@ export default function Reservation() {
     setSending(true);
     setError('');
     try {
-      const r = await api.reserve({ ...form, date, people, lang });
+      const r = await api.reserve({ ...form, date, people: family ? SITE.boats * SITE.seatsPerBoat : people, lang, formula });
       setDone(r);
       setDate(null);
       setForm({ name: '', phone: '', email: '', message: '' });
@@ -85,7 +96,7 @@ export default function Reservation() {
     } catch (err) {
       const code = err instanceof ApiError ? err.message : 'generic';
       setError(t(`book.errors.${code}`, { defaultValue: t('book.errors.generic') }));
-      if (code === 'not_enough_seats' || code === 'day_blocked') load();
+      if (code === 'not_enough_seats' || code === 'day_blocked' || code === 'family_unavailable') load();
     } finally {
       setSending(false);
     }
@@ -111,7 +122,7 @@ export default function Reservation() {
                 <small>{t('book.success.ref')}</small>
                 <b className="display">{done.ref}</b>
               </div>
-              <p className="book__done-meta">{fmtDate(done.date)} · {done.people} × {money(SITE.pricePerPerson)} = <b>{money(done.total)}</b></p>
+              <p className="book__done-meta">{fmtDate(done.date)} · {done.formula === 'family' ? t('book.family.title') : `${done.people} × ${money(SITE.pricePerPerson)}`} = <b>{money(done.total)}</b></p>
               <div className="book__done-cta">
                 <button className="btn" onClick={() => setDone(null)}>{t('book.success.again')}</button>
                 <Link className="btn ghost" to="/tableau-de-chasse">{t('nav.collection')}</Link>
@@ -142,8 +153,9 @@ export default function Reservation() {
                 </ul>
               </div>
 
-              <div className="book__card glass" data-reveal>
+              <div className={`book__card glass ${family ? 'is-muted' : ''}`} data-reveal>
                 <h2 className="book__step"><span>2</span>{t('book.step2')}</h2>
+                {family && <button type="button" className="book__formula-back" onClick={() => chooseFamily(false)}>← {t('book.family.back')}</button>}
                 <div className="book__people">
                   <button type="button" className="stepper" onClick={() => setPeople((p) => Math.max(1, p - 1))} disabled={people <= 1} aria-label="-">−</button>
                   <motion.b key={people} className="display" initial={{ scale: 0.6, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>{people}</motion.b>
@@ -152,6 +164,22 @@ export default function Reservation() {
                 </div>
                 <h3 className="book__sub">{t('book.boatsPreview')}</h3>
                 <BoatSeats boatsLeft={day ? day.boatsLeft : Array(SITE.boats).fill(SITE.seatsPerBoat)} seatsPerBoat={SITE.seatsPerBoat} mine={day ? mine : [Math.min(people, SITE.seatsPerBoat), Math.max(0, people - SITE.seatsPerBoat)]} />
+              </div>
+
+              <div className={`book__card glass book__family ${family ? 'is-on' : ''}`} data-reveal>
+                <span className="kicker">{t('book.family.kicker')}</span>
+                <h2 className="display book__family-title">{t('book.family.title')}</h2>
+                <p className="book__family-text">{t('book.family.text')}</p>
+                <div className="book__family-row">
+                  <div>
+                    <b className="display book__family-price">{money(SITE.familyPrice)}</b>
+                    <small>{t('book.family.price')} · {t('book.family.people')}</small>
+                  </div>
+                  <button type="button" className={`btn ${family ? 'blue' : ''}`} onClick={() => chooseFamily(!family)} aria-pressed={family}>
+                    {family ? <><Check /> {t('book.family.chosen')}</> : t('book.family.choose')}
+                  </button>
+                </div>
+                <BoatSeats boatsLeft={fullBoats} seatsPerBoat={SITE.seatsPerBoat} mine={family ? fullBoats : [0, 0]} />
               </div>
             </div>
 
@@ -167,12 +195,13 @@ export default function Reservation() {
                   <h3>{t('book.summary.title')}</h3>
                   <dl>
                     <div><dt>{t('book.summary.date')}</dt><dd>{date ? fmtDate(date) : <em>{t('book.pickDate')}</em>}</dd></div>
-                    <div><dt>{t('book.summary.people')}</dt><dd>{people} × {money(SITE.pricePerPerson)}</dd></div>
-                    {date && day && <div><dt>{t('book.boatsPreview')}</dt><dd>{mine.map((n, i) => (n ? t('book.boat', { n: i + 1 }) + ` (${n})` : '')).filter(Boolean).join(' + ')}</dd></div>}
+                    <div><dt>{t('book.family.formula')}</dt><dd>{family ? t('book.family.title') : t('book.family.standard')}</dd></div>
+                    <div><dt>{t('book.summary.people')}</dt><dd>{family ? t('book.family.people') : `${people} × ${money(SITE.pricePerPerson)}`}</dd></div>
+                    {!family && date && day && <div><dt>{t('book.boatsPreview')}</dt><dd>{mine.map((n, i) => (n ? t('book.boat', { n: i + 1 }) + ` (${n})` : '')).filter(Boolean).join(' + ')}</dd></div>}
                   </dl>
                   <div className="book__total">
                     <span>{t('book.summary.total')}</span>
-                    <motion.b key={people} className="display" initial={{ y: -10, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>{money(people * SITE.pricePerPerson)}</motion.b>
+                    <motion.b key={total} className="display" initial={{ y: -10, opacity: 0 }} animate={{ y: 0, opacity: 1 }}>{money(total)}</motion.b>
                   </div>
                   <p className="book__note">{t('book.summary.note')}</p>
                 </div>
