@@ -1,10 +1,6 @@
 // Seas Omar fishes, and which species live there. Used by the catch-board filter.
-//   atlantique   - Moroccan Atlantic (Mohammedia, Rabat, Dakhla)
-//   mediterranee - Moroccan Mediterranean (Nador)
-//   mer-rouge    - Red Sea (Saudi Arabia)
-//   mer-oman     - Sea / Gulf of Oman (Jebel Sifah, Oman)
-//   golfe        - Arabian Gulf (Dubai)
-//   indonesie    - Indonesian seas (Indo-Pacific)
+// Shown by sea name only: Océan Atlantique, Mer Méditerranée, Mer Rouge,
+// Golfe d'Oman, Golfe Persique, Océan Indien (ids kept stable for existing data).
 export const SEAS = ['atlantique', 'mediterranee', 'mer-rouge', 'mer-oman', 'golfe', 'indonesie'];
 
 const A = 'atlantique', M = 'mediterranee', R = 'mer-rouge', O = 'mer-oman', G = 'golfe', I = 'indonesie';

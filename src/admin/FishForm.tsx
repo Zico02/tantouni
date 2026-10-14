@@ -19,7 +19,7 @@ const PATTERNS: [keyof FishArt, string][] = [
   ['stripe', 'Bande latérale'], ['backStripes', 'Rayures dos'], ['bars', 'Barres verticales'], ['spots', 'Points'],
   ['blotches', 'Taches'], ['goldBand', 'Bandeau doré'], ['band', 'Bande oculaire'], ['wavyLine', 'Ligne ondulée'], ['longPec', 'Longues pectorales'], ['deep', 'Corps haut'],
 ];
-const SEA_FR: Record<Sea, string> = { atlantique: 'Atlantique (Maroc)', mediterranee: 'Méditerranée (Nador)', 'mer-rouge': 'Mer Rouge (Arabie saoudite)', 'mer-oman': "Mer d'Oman (Oman)", golfe: 'Golfe arabique (Dubaï)', indonesie: 'Indonésie' };
+const SEA_FR: Record<Sea, string> = { atlantique: 'Océan Atlantique', mediterranee: 'Mer Méditerranée', 'mer-rouge': 'Mer Rouge', 'mer-oman': "Golfe d'Oman", golfe: 'Golfe Persique', indonesie: 'Océan Indien' };
 const MONTHS = ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'];
 
 const blank = (): Omit<Fish, 'id' | 'order'> => ({
