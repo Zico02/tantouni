@@ -228,6 +228,8 @@ const SPECIES = [
     slug: 'pagre', rarity: 'common', zone: 'maroc',
     names: { fr: 'Pagre', en: 'Red porgy', ar: 'البغروس', es: 'Pargo', it: 'Pagro' },
     scientific: 'Pagrus pagrus',
+    image: '/uploads/pagre.png',
+    caught: true,
     maxLength: 91, maxWeight: 7.7, depth: '10 – 250 m',
     habitat: ['reef'], techniques: ['bottom', 'jigging'], season: [],
     description: {
