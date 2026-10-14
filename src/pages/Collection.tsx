@@ -54,11 +54,11 @@ export default function Collection() {
       <DeepSea />
 
       <section className="col-hero container">
-        <span className="kicker" data-reveal>{t('collection.kicker')}</span>
-        <h1 className="col-hero__title display" data-reveal>{t('collection.title')}</h1>
-        <p className="lead" data-reveal>{t('collection.sub')}</p>
+        <span className="kicker">{t('collection.kicker')}</span>
+        <h1 className="col-hero__title display">{t('collection.title')}</h1>
+        <p className="lead">{t('collection.sub')}</p>
 
-        <div className="score glass" data-reveal>
+        <div className="score glass">
           <div className="score__main">
             <b className="display">{String(caught).padStart(2, '0')}</b>
             <span className="display">/{String(all.length).padStart(2, '0')}</span>
@@ -107,15 +107,18 @@ export default function Collection() {
         {!fish && !error && (
           <div className="col-grid">{Array.from({ length: 6 }, (_, i) => <div key={i} className="fcard fcard--skeleton" />)}</div>
         )}
-        <LayoutGroup>
-          <motion.div className="col-grid" layout>
-            <AnimatePresence mode="popLayout">
-              {list.map((f) => (
-                <FishCard key={f.id} fish={f} index={all.indexOf(f)} onOpen={() => navigate(`/tableau-de-chasse/${f.slug}`)} />
-              ))}
-            </AnimatePresence>
-          </motion.div>
-        </LayoutGroup>
+        {fish && (
+          <LayoutGroup>
+            <motion.div className="col-grid" layout>
+              {/* initial={false}: cards are simply there on entry; they only animate when filtering */}
+              <AnimatePresence mode="popLayout" initial={false}>
+                {list.map((f) => (
+                  <FishCard key={f.id} fish={f} index={all.indexOf(f)} onOpen={() => navigate(`/tableau-de-chasse/${f.slug}`)} />
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          </LayoutGroup>
+        )}
         {fish && list.length === 0 && <p className="col-empty">{t('collection.empty')}</p>}
       </section>
 

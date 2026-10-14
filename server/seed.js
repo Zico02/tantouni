@@ -90,6 +90,8 @@ const SPECIES = [
     slug: 'marlin-bleu', rarity: 'legend', zone: 'maroc',
     names: { fr: 'Marlin bleu', en: 'Blue marlin', ar: 'المرلين الأزرق', es: 'Marlín azul', it: 'Marlin azzurro' },
     scientific: 'Makaira nigricans',
+    nickname: 'MARLIN',
+    image: '/uploads/marlin.png',
     maxLength: 500, maxWeight: 820, depth: '0 – 200 m',
     habitat: ['pelagic'], techniques: ['trolling', 'livebait'], season: [7, 8, 9],
     description: {
@@ -162,13 +164,16 @@ const SPECIES = [
   }),
   F({
     slug: 'liche', rarity: 'prized', zone: 'maroc',
-    names: { fr: 'Liche amie', en: 'Leerfish', ar: 'اللّيش', es: 'Palometón', it: 'Leccia amia' },
+    names: { fr: 'Liche', en: 'Leerfish', ar: 'أولاح', es: 'Palometón', it: 'Leccia amia' },
     scientific: 'Lichia amia',
+    nickname: 'AOULAH',
+    image: '/uploads/liche-aoulah.png',
     maxLength: 200, maxWeight: 50, depth: '0 – 50 m',
     habitat: ['coastal', 'surf'], techniques: ['spinning', 'livebait', 'popping'], season: [],
     description: {
       fr: 'Un prédateur côtier capricieux et fou. Chasse en surface, rushs latéraux et sauts : elle rend dingue.',
       en: 'A moody, crazy coastal predator. Surface strikes, sideways runs and jumps: it drives anglers wild.',
+      ar: 'الأولاح، مفترس ساحلي متقلّب ومجنون: هجمات على السطح، اندفاعات جانبية وقفزات تُجنّن الصيادين.',
     },
     art: { shape: 'jack', back: '#4a5866', belly: '#eef0f1', fin: '#55606b', accent: '#2c3640', wavyLine: true },
   }),
@@ -176,6 +181,8 @@ const SPECIES = [
     slug: 'coryphene', rarity: 'prized', zone: 'maroc',
     names: { fr: 'Coryphène', en: 'Mahi-mahi', ar: 'الدورادو', es: 'Dorado', it: 'Lampuga' },
     scientific: 'Coryphaena hippurus',
+    nickname: 'MAHI-MAHI',
+    image: '/uploads/mahi-mahi.png',
     maxLength: 210, maxWeight: 40, depth: '0 – 85 m',
     habitat: ['pelagic'], techniques: ['trolling', 'spinning'], season: [7, 8, 9, 10],
     description: {
@@ -186,8 +193,10 @@ const SPECIES = [
   }),
   F({
     slug: 'merou', rarity: 'prized', zone: 'maroc',
-    names: { fr: 'Mérou brun', en: 'Dusky grouper', ar: 'الميرو', es: 'Mero', it: 'Cernia bruna' },
+    names: { fr: 'Grouper', en: 'Dusky grouper', ar: 'الميرو', es: 'Mero', it: 'Cernia bruna' },
+    nickname: 'MÉROU',
     scientific: 'Epinephelus marginatus',
+    image: '/uploads/merou.png',
     maxLength: 150, maxWeight: 60, depth: '8 – 300 m',
     habitat: ['reef'], techniques: ['jigging', 'livebait', 'bottom'], season: [],
     description: {
@@ -228,7 +237,8 @@ const SPECIES = [
     slug: 'pagre', rarity: 'common', zone: 'maroc',
     names: { fr: 'Pagre', en: 'Red porgy', ar: 'البغروس', es: 'Pargo', it: 'Pagro' },
     scientific: 'Pagrus pagrus',
-    image: '/uploads/pagre.png',
+    nickname: 'CHAMA',
+    image: '/uploads/chama.png',
     caught: true,
     maxLength: 91, maxWeight: 7.7, depth: '10 – 250 m',
     habitat: ['reef'], techniques: ['bottom', 'jigging'], season: [],
@@ -265,6 +275,7 @@ const SPECIES = [
   F({
     slug: 'tassergal', rarity: 'common', zone: 'maroc',
     names: { fr: 'Bluefish', en: 'Bluefish', ar: 'التاسرغال', es: 'Anjova', it: 'Pesce serra' },
+    nickname: 'TASSERGAL',
     scientific: 'Pomatomus saltatrix',
     image: '/uploads/tassergal.png',
     maxLength: 130, maxWeight: 14, depth: '0 – 200 m',
