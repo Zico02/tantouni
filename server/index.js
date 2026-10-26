@@ -265,7 +265,7 @@ app.delete('/api/admin/blocked/:date', async (req, res) => {
 });
 
 const FISH_FIELDS = ['slug', 'names', 'nickname', 'scientific', 'maxLength', 'maxWeight', 'depth', 'habitat', 'techniques',
-  'season', 'description', 'caught', 'catch', 'youtube', 'image', 'art', 'rarity', 'zone', 'order', 'seas', 'group'];
+  'season', 'description', 'caught', 'catch', 'youtube', 'image', 'art', 'rarity', 'zone', 'order', 'seas', 'group', 'bait'];
 
 function pickFish(body) {
   const out = {};

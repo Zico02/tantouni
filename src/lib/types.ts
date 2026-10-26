@@ -51,6 +51,8 @@ export interface Fish {
   zone: 'maroc' | 'monde';
   seas?: Sea[];
   group?: 'shark';
+  /** Used by Omar as live bait for the big predators. */
+  bait?: boolean;
 }
 
 export interface DayAvailability {

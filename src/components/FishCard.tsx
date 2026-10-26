@@ -58,6 +58,7 @@ export default function FishCard({ fish, index, onOpen }: { fish: Fish; index: n
         <div>
           <h3 className="display">{fishName(fish, lang)}</h3>
           <p className="fcard__sci">{fish.scientific}</p>
+          {fish.bait && <p className="bait-badge" title={t('collection.baitTip')}><span aria-hidden>🪝</span>{t('collection.bait')}</p>}
         </div>
         <span className={`fcard__status ${fish.caught ? 'is-caught' : ''}`}>
           {fish.caught ? (

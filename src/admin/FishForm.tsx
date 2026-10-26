@@ -209,6 +209,7 @@ export default function FishForm({ fish, onClose, onSaved, onAuthError }: Props)
               </div>
               <div className="adm-checks">
                 <b>Famille :</b>
+                <label><input type="checkbox" checked={Boolean(f.bait)} onChange={(e) => set('bait', e.target.checked)} />🪝 Appât vivant (badge « Le vif des géants »)</label>
                 <label><input type="checkbox" checked={f.group === 'shark'} onChange={(e) => set('group', e.target.checked ? 'shark' : undefined)} />Requin (apparaît dans le filtre « Requins »)</label>
               </div>
               <div className="adm-checks">

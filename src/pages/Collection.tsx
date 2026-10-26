@@ -25,6 +25,7 @@ export default function Collection() {
   const [filter, setFilter] = useState<Filter>('all');
   const [sea, setSea] = useState<'all' | Sea>('all');
   const [sharks, setSharks] = useState(false);
+  const [baits, setBaits] = useState(false);
   const [q, setQ] = useState('');
   useReveal(ref, [i18n.resolvedLanguage]);
 
@@ -38,8 +39,9 @@ export default function Collection() {
       (filter === 'all' || (filter === 'caught' ? f.caught : !f.caught)) &&
       (sea === 'all' || (f.seas ?? []).includes(sea)) &&
       (!sharks || f.group === 'shark') &&
+      (!baits || f.bait) &&
       (!nq || [...Object.values(f.names), f.scientific, f.nickname || ''].some((n) => norm(n).includes(nq))));
-  }, [all, filter, sea, sharks, q]);
+  }, [all, filter, sea, sharks, baits, q]);
 
   // The modal browses the list currently on screen (or everything when deep-linked).
   const browse = slug && !list.some((f) => f.slug === slug) ? all : list;
@@ -88,9 +90,14 @@ export default function Collection() {
               </button>
             ))}
           </div>
-          <button className={`col-chip col-chip--shark ${sharks ? 'is-on' : ''}`} onClick={() => setSharks((v) => !v)} aria-pressed={sharks}>
+          <button className={`col-chip col-chip--shark ${sharks ? 'is-on' : ''}`} onClick={() => { setSharks((v) => !v); setBaits(false); }} aria-pressed={sharks}>
             <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden><path d="M2 14c3-1 6-1.5 9-1.2L14 6l1.5 7.3c2.6.6 4.8 1.6 6.5 2.7-2.4.2-4.7.7-7 1.6L14 20l-1.6-2.8C8.6 17.6 5 16.4 2 14z" /></svg>
             {t('collection.sharks')}
+          </button>
+          {/* Sharks and baits are exclusive: no shark is a bait, so both on would show nothing. */}
+          <button className={`col-chip col-chip--shark col-chip--bait ${baits ? 'is-on' : ''}`} onClick={() => { setBaits((v) => !v); setSharks(false); }} aria-pressed={baits}>
+            <span className="col-chip__hook" aria-hidden>🪝</span>
+            {t('collection.baits')}
           </button>
           <label className="col-search">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" /></svg>

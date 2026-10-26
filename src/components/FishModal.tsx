@@ -116,6 +116,7 @@ export default function FishModal({ list, index, onClose, onNav }: Props) {
 
         <div className="fm__info" key={`i-${fish.id}`}>
           <div className="fm__chips">
+            {fish.bait && <span className="bait-badge" title={t('collection.baitTip')}><span aria-hidden>🪝</span>{t('collection.bait')}</span>}
             <span className={`rarity rarity--${fish.rarity}`}>{t(`collection.rarity.${fish.rarity}`)}</span>
             {fish.group === 'shark' && <span className="chip chip--sun">{t('collection.sharks')}</span>}
             <span className={`fcard__status ${fish.caught ? 'is-caught' : ''}`}>{fish.caught ? `✓ ${t('collection.badgeCaught')}` : t('collection.badgeTodo')}</span>

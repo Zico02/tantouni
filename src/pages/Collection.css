@@ -373,3 +373,18 @@
 .col-chip.is-on { background: var(--cyan); color: var(--ink); border-color: var(--cyan); }
 .col-chip--shark { height: 48px; padding: 0 18px; }
 .col-chip--shark.is-on { background: var(--sun); border-color: var(--sun); }
+
+/* live-bait badge (Chinchard, Maquereau…) */
+.bait-badge {
+  display: inline-flex; align-items: center; gap: 6px; width: fit-content;
+  margin: 8px 0 0; padding: 4px 10px 4px 8px; border-radius: 99px;
+  font-size: 11.5px; font-weight: 800; letter-spacing: 0.04em;
+  color: #9ff0c4; background: rgba(34, 197, 94, 0.12); border: 1px solid rgba(74, 222, 128, 0.35);
+}
+.bait-badge span { font-size: 13px; animation: bait-wiggle 2.4s ease-in-out infinite; transform-origin: 50% 0; }
+@keyframes bait-wiggle { 0%, 100% { rotate: -8deg; } 50% { rotate: 8deg; } }
+.fm__chips .bait-badge { margin: 0; }
+
+.col-chip--bait.is-on { background: #4ade80; border-color: #4ade80; color: var(--ink); }
+.col-chip__hook { font-size: 15px; display: inline-block; transform-origin: 50% 0; }
+.col-chip--bait:hover .col-chip__hook, .col-chip--bait.is-on .col-chip__hook { animation: bait-wiggle 1.2s ease-in-out infinite; }
