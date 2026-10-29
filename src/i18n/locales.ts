@@ -40,7 +40,7 @@ const fr = {
   },
   teaser: {
     kicker: 'Le tableau de chasse',
-    title: 'Chaque espèce capturée reçoit son X.',
+    title: 'Chaque espèce capturée reçoit son tampon.',
     text: "Omar coche une à une toutes les espèces qu'il a sorties de l'eau. Combien en manque-t-il ? Venez voir… ou venez l'aider.",
     cta: 'Ouvrir le tableau',
   },
@@ -81,8 +81,8 @@ const fr = {
   },
   collection: {
     kicker: 'Le tableau de chasse',
-    title: 'Toutes les espèces. Un X à la fois.',
-    sub: "Chaque poisson barré d'un X a été capturé par Omar. Cliquez sur une espèce pour découvrir sa fiche et la vidéo de la prise.",
+    title: 'Toutes les espèces. Un tampon à la fois.',
+    sub: "Chaque poisson marqué du tampon CAUGHT a été capturé par Omar. Cliquez sur une espèce pour découvrir sa fiche et la vidéo de la prise.",
     caught: 'capturées',
     species: 'espèces',
     filters: { all: 'Toutes', caught: 'Capturées', todo: 'À capturer' },
@@ -156,7 +156,7 @@ const en: Dict = {
   },
   teaser: {
     kicker: 'The catch board',
-    title: 'Every species caught gets its X.',
+    title: 'Every species caught gets its stamp.',
     text: 'Omar ticks off every species he has pulled out of the water. How many are missing? Come and see… or come and help.',
     cta: 'Open the board',
   },
@@ -197,8 +197,8 @@ const en: Dict = {
   },
   collection: {
     kicker: 'The catch board',
-    title: 'Every species. One X at a time.',
-    sub: 'Every fish crossed with an X has been caught by Omar. Click a species to see its profile and the video of the catch.',
+    title: 'Every species. One stamp at a time.',
+    sub: 'Every fish with the CAUGHT stamp has been caught by Omar. Click a species to see its profile and the video of the catch.',
     caught: 'caught',
     species: 'species',
     filters: { all: 'All', caught: 'Caught', todo: 'To catch' },
@@ -270,7 +270,7 @@ const ar: Dict = {
   },
   teaser: {
     kicker: 'لوحة الصيد',
-    title: 'كل نوع يُصطاد يحصل على علامة X.',
+    title: 'كل نوع يُصطاد يحصل على ختمه.',
     text: 'يشطب عمر واحدًا تلو الآخر كل الأنواع التي أخرجها من الماء. كم تبقّى؟ تعال وشاهد… أو تعال وساعده.',
     cta: 'افتح اللوحة',
   },
@@ -311,8 +311,8 @@ const ar: Dict = {
   },
   collection: {
     kicker: 'لوحة الصيد',
-    title: 'كل الأنواع. علامة X تلو الأخرى.',
-    sub: 'كل سمكة عليها علامة X اصطادها عمر. اضغط على أي نوع لاكتشاف بطاقته وفيديو الصيد.',
+    title: 'كل الأنواع. ختم تلو الآخر.',
+    sub: 'كل سمكة عليها ختم CAUGHT اصطادها عمر. اضغط على أي نوع لاكتشاف بطاقته وفيديو الصيد.',
     caught: 'تم صيدها',
     species: 'نوعًا',
     filters: { all: 'الكل', caught: 'تم صيدها', todo: 'للصيد' },
@@ -384,7 +384,7 @@ const es: Dict = {
   },
   teaser: {
     kicker: 'El tablón de capturas',
-    title: 'Cada especie capturada recibe su X.',
+    title: 'Cada especie capturada recibe su sello.',
     text: 'Omar tacha una a una todas las especies que ha sacado del agua. ¿Cuántas faltan? Ven a verlo… o ven a ayudarle.',
     cta: 'Abrir el tablón',
   },
@@ -425,8 +425,8 @@ const es: Dict = {
   },
   collection: {
     kicker: 'El tablón de capturas',
-    title: 'Todas las especies. Una X cada vez.',
-    sub: 'Cada pez tachado con una X ha sido capturado por Omar. Haz clic en una especie para ver su ficha y el vídeo de la captura.',
+    title: 'Todas las especies. Un sello cada vez.',
+    sub: 'Cada pez con el sello CAUGHT ha sido capturado por Omar. Haz clic en una especie para ver su ficha y el vídeo de la captura.',
     caught: 'capturadas',
     species: 'especies',
     filters: { all: 'Todas', caught: 'Capturadas', todo: 'Por capturar' },
@@ -498,7 +498,7 @@ const it: Dict = {
   },
   teaser: {
     kicker: 'La bacheca catture',
-    title: 'Ogni specie catturata riceve la sua X.',
+    title: 'Ogni specie catturata riceve il suo timbro.',
     text: "Omar spunta una per una tutte le specie che ha tirato fuori dall'acqua. Quante ne mancano? Vieni a vedere… o vieni ad aiutarlo.",
     cta: 'Apri la bacheca',
   },
@@ -539,8 +539,8 @@ const it: Dict = {
   },
   collection: {
     kicker: 'La bacheca catture',
-    title: 'Tutte le specie. Una X alla volta.',
-    sub: 'Ogni pesce barrato con una X è stato catturato da Omar. Clicca su una specie per scoprire la sua scheda e il video della cattura.',
+    title: 'Tutte le specie. Un timbro alla volta.',
+    sub: 'Ogni pesce con il timbro CAUGHT è stato catturato da Omar. Clicca su una specie per scoprire la sua scheda e il video della cattura.',
     caught: 'catturate',
     species: 'specie',
     filters: { all: 'Tutte', caught: 'Catturate', todo: 'Da catturare' },

@@ -354,3 +354,4 @@
 
 .adm-family { background: rgba(72, 200, 255, 0.16); color: var(--cyan); }
 .adm-caught--family { border-color: var(--cyan) !important; background: rgba(72, 200, 255, 0.1) !important; color: var(--cyan) !important; }
+.adm-login__card .logo__img { height: 80px; }

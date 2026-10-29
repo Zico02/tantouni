@@ -19,12 +19,9 @@
   align-items: center;
   gap: 24px;
 }
-.logo { display: flex; align-items: center; gap: 10px; color: var(--sun); }
-.logo__mark { width: 40px; height: 26px; transform: scaleX(-1); }
-[dir='rtl'] .logo__mark { transform: none; }
-.logo__text { display: grid; line-height: 1; }
-.logo__text b { font-size: 21px; color: var(--text); letter-spacing: 0.02em; }
-.logo__text small { font-size: 10.5px; color: var(--muted); letter-spacing: 0.18em; text-transform: uppercase; margin-top: 4px; }
+.logo { display: flex; align-items: center; flex: none; }
+.logo__img { height: 52px; width: auto; display: block; filter: drop-shadow(0 2px 8px rgba(0, 10, 40, 0.45)); transition: transform 0.3s; }
+.logo:hover .logo__img { transform: rotate(-3deg) scale(1.04); }
 
 .nav__links { display: flex; gap: 6px; margin-inline-start: auto; }
 .nav__links a {

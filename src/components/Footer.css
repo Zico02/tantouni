@@ -49,3 +49,4 @@
 @media (max-width: 760px) {
   .footer__grid { grid-template-columns: 1fr; }
 }
+.footer .logo__img { height: 92px; }

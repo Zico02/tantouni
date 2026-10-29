@@ -8,14 +8,7 @@ import './Nav.css';
 export function Logo() {
   return (
     <Link to="/" className="logo" aria-label="TANTOUNI - Omar Pêche Vlog">
-      <svg viewBox="0 0 64 40" className="logo__mark" aria-hidden>
-        <path d="M4 21c9-12 26-16 40-8l12-9-4 16 4 16-12-9c-14 8-31 4-40-6z" fill="currentColor" />
-        <circle cx="15" cy="19" r="2.6" fill="var(--abyss)" />
-      </svg>
-      <span className="logo__text">
-        <b className="display">TANTOUNI</b>
-        <small>Omar Pêche Vlog</small>
-      </span>
+      <img src="/img/logo-tantouni.webp" alt="TANTOUNI" className="logo__img" width="900" height="454" />
     </Link>
   );
 }

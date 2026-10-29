@@ -194,7 +194,6 @@ input, textarea, select { font: inherit; color: inherit; }
 
 /* Brand words keep the Latin display face in every language */
 [dir='rtl'] .hero__title,
-[dir='rtl'] .logo__text b,
 [dir='rtl'] .footer__giant,
 [dir='rtl'] .fcard__ghost,
 [dir='rtl'] .fm__ghost,
