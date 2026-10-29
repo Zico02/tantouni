@@ -18,10 +18,19 @@ const OceanScene = lazy(() => import('../components/OceanScene'));
 function Hero() {
   const { t } = useTranslation();
   const ref = useRef<HTMLElement>(null);
+  // "Thon & Marlin - la saison des géants." -> keep the glowing second half under the brush logo
+  const [, ...rest] = t('hero.tagline').split(/\s+[-–—]\s+/);
+  const tail = rest.join(' - ');
+  // first sentence on its own line
+  const [subA, subB] = t('hero.sub').split(/(?<=[.!?۔])\s+/, 2);
 
   useGSAP(
     () => {
-      gsap.from('.hero__content > *', { y: 24, opacity: 0, duration: 0.9, stagger: 0.08, ease: 'power3.out', delay: 0.15 });
+      const tl = gsap.timeline({ defaults: { ease: 'power4.out' }, delay: 0.15 });
+      tl.from('.hero__kicker', { y: 16, opacity: 0, duration: 0.8 })
+        .from('.hero__line > span', { y: 40, opacity: 0, filter: 'blur(14px)', duration: 1.3, stagger: 0.16, clearProps: 'filter' }, '-=0.5')
+        .from('.hero__wave path', { strokeDashoffset: 600, duration: 1.4, ease: 'power2.inOut' }, '-=0.7')
+        .from('.hero__sub, .hero__ctas, .hero__facts', { y: 20, opacity: 0, duration: 0.9, stagger: 0.1 }, '-=1.1');
     },
     { scope: ref },
   );
@@ -32,11 +41,21 @@ function Hero() {
         <Suspense fallback={null}><OceanScene /></Suspense>
       </div>
       <div className="hero__fade" />
+      {/* fish-finder sonar pulsing behind the title */}
+      <div className="hero__sonar" aria-hidden><i /><i /><i /></div>
       <div className="container hero__inner">
         <div className="hero__content">
-          <p className="hero__kicker kicker">{t('hero.kicker')}</p>
-          <h1 className="hero__title">{t('hero.tagline')}</h1>
-          <p className="hero__sub">{t('hero.sub')}</p>
+          <p className="hero__kicker">{t('hero.kicker')}</p>
+          <h1 className="hero__title">
+            <span className="hero__line hero__line--brand">
+              <span><img src="/img/omar-peche-vlog.webp" alt="Omar Pêche Vlog" width="718" height="190" /></span>
+            </span>
+            {tail && <span className="hero__line hero__line--glow"><span>{tail}</span></span>}
+          </h1>
+          <svg className="hero__wave" viewBox="0 0 300 16" preserveAspectRatio="none" aria-hidden>
+            <path d="M2 9 C 27 1, 52 1, 77 9 S 127 17, 152 9 S 202 1, 227 9 S 277 17, 298 9" />
+          </svg>
+          <p className="hero__sub">{subA}{subB && <><br />{subB}</>}</p>
           <div className="hero__ctas">
             <Link to="/reservation" className="btn">{t('hero.ctaBook')} <Arrow /></Link>
             <Link to="/tableau-de-chasse" className="btn ghost">{t('hero.ctaCollection')}</Link>
@@ -48,6 +67,7 @@ function Hero() {
           </ul>
         </div>
       </div>
+      <span className="hero__scroll" aria-hidden><i /></span>
     </section>
   );
 }

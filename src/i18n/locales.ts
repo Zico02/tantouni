@@ -2,7 +2,7 @@ const fr = {
   nav: { home: 'Accueil', book: 'Réserver', collection: 'Tableau de chasse', achievements: 'Palmarès', bookCta: 'Réserver une sortie' },
   palmares: { kicker: 'Palmarès', title: 'Trophées & exploits', sub: "Compétitions, podiums et grands moments : le parcours d'Omar au plus haut niveau, avec l'équipe du Maroc.", empty: 'De nouveaux trophées arrivent bientôt…', podiums: 'podiums', events: 'compétitions', photos: 'photos', video: 'Voir la vidéo', see: 'Voir le palmarès', close: 'Fermer' },
   hero: {
-    kicker: 'Omar Pêche Vlog · Mohammedia · Maroc',
+    kicker: 'Rabat · Mohammedia · Maroc',
     tagline: 'Thon & Marlin - la saison des géants.',
     sub: 'Embarquez avec Omar pour une journée de pêche au gros au large de Mohammedia. Jigging, traîne, pêche au vif… et peut-être votre premier TANTOUNI.',
     ctaBook: 'Réserver ma sortie',
@@ -118,7 +118,7 @@ const en: Dict = {
   nav: { home: 'Home', book: 'Book', collection: 'Catch board', achievements: 'Achievements', bookCta: 'Book a trip' },
   palmares: { kicker: 'Achievements', title: 'Trophies & feats', sub: "Competitions, podiums and big moments: Omar's journey at the highest level, with Team Morocco.", empty: 'New trophies coming soon…', podiums: 'podiums', events: 'competitions', photos: 'photos', video: 'Watch the video', see: 'See the achievements', close: 'Close' },
   hero: {
-    kicker: 'Omar Pêche Vlog · Mohammedia · Morocco',
+    kicker: 'Rabat · Mohammedia · Morocco',
     tagline: 'Tuna & Marlin - the season of giants.',
     sub: 'Head out with Omar for a day of big-game fishing off Mohammedia. Jigging, trolling, live bait… and maybe your first TANTOUNI.',
     ctaBook: 'Book my trip',
@@ -232,7 +232,7 @@ const ar: Dict = {
   nav: { home: 'الرئيسية', book: 'احجز', collection: 'لوحة الصيد', achievements: 'الإنجازات', bookCta: 'احجز رحلة' },
   palmares: { kicker: 'الإنجازات', title: 'الكؤوس والإنجازات', sub: 'منافسات ومنصات تتويج ولحظات كبيرة: مسيرة عمر في أعلى مستوى مع المنتخب المغربي.', empty: 'كؤوس جديدة قريبًا…', podiums: 'منصات تتويج', events: 'منافسات', photos: 'صور', video: 'شاهد الفيديو', see: 'شاهد الإنجازات', close: 'إغلاق' },
   hero: {
-    kicker: 'عمر بيش فلوغ · المحمدية · المغرب',
+    kicker: 'الرباط · المحمدية · المغرب',
     tagline: 'التونة والمرلين - موسم العمالقة.',
     sub: 'انطلق مع عمر في يوم صيد كبير قبالة سواحل المحمدية. جيغينغ، صيد بالجر، صيد بالطُّعم الحي… وربما أول «طنطوني» لك.',
     ctaBook: 'احجز رحلتي',
@@ -346,7 +346,7 @@ const es: Dict = {
   nav: { home: 'Inicio', book: 'Reservar', collection: 'Tablón de capturas', achievements: 'Palmarés', bookCta: 'Reservar salida' },
   palmares: { kicker: 'Palmarés', title: 'Trofeos y hazañas', sub: 'Competiciones, podios y grandes momentos: la trayectoria de Omar al más alto nivel, con el equipo de Marruecos.', empty: 'Pronto llegarán nuevos trofeos…', podiums: 'podios', events: 'competiciones', photos: 'fotos', video: 'Ver el vídeo', see: 'Ver el palmarés', close: 'Cerrar' },
   hero: {
-    kicker: 'Omar Pêche Vlog · Mohammedia · Marruecos',
+    kicker: 'Rabat · Mohammedia · Marruecos',
     tagline: 'Atún y marlín - la temporada de los gigantes.',
     sub: 'Embárcate con Omar para un día de pesca de altura frente a Mohammedia. Jigging, curricán, pesca con vivo… y quizá tu primer TANTOUNI.',
     ctaBook: 'Reservar mi salida',
@@ -460,7 +460,7 @@ const it: Dict = {
   nav: { home: 'Home', book: 'Prenota', collection: 'Bacheca catture', achievements: 'Palmarès', bookCta: 'Prenota un’uscita' },
   palmares: { kicker: 'Palmarès', title: 'Trofei e imprese', sub: 'Gare, podi e grandi momenti: il percorso di Omar ai massimi livelli, con la squadra del Marocco.', empty: 'Nuovi trofei in arrivo…', podiums: 'podi', events: 'gare', photos: 'foto', video: 'Guarda il video', see: 'Vedi il palmarès', close: 'Chiudi' },
   hero: {
-    kicker: 'Omar Pêche Vlog · Mohammedia · Marocco',
+    kicker: 'Rabat · Mohammedia · Marocco',
     tagline: 'Tonno e marlin - la stagione dei giganti.',
     sub: 'Imbarcati con Omar per una giornata di big game al largo di Mohammedia. Jigging, traina, pesca con il vivo… e forse il tuo primo TANTOUNI.',
     ctaBook: 'Prenota la mia uscita',
