@@ -1,8 +1,6 @@
-import { lazy, Suspense, useRef, type MouseEvent } from 'react';
+import { lazy, Suspense, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
-import HeroLens from '../components/HeroLens';
 import SwimmingFish from '../components/SwimmingFish';
 import BoatSeats from '../components/BoatSeats';
 import CaughtStamp from '../components/CaughtStamp';
@@ -23,20 +21,7 @@ function Hero() {
 
   useGSAP(
     () => {
-      const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
-      tl.from('.hero__lens', { y: 80, scale: 0.86, opacity: 0, duration: 1.8 })
-        .from('.hero__title span', { yPercent: 110, opacity: 0, stagger: 0.06, duration: 1.2 }, '-=1.3')
-        .from('.hero__tagline, .hero__kicker', { y: 20, opacity: 0, duration: 1 }, '-=0.9')
-        .from('.hero__sub, .hero__ctas', { y: 24, opacity: 0, stagger: 0.1, duration: 1 }, '-=0.8');
-
-      gsap.to('.hero__lens', {
-        scale: 1.35, y: -60, opacity: 0, ease: 'none',
-        scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom top', scrub: true },
-      });
-      gsap.to('.hero__content', {
-        y: 140, opacity: 0, ease: 'none',
-        scrollTrigger: { trigger: ref.current, start: '20% top', end: 'bottom top', scrub: true },
-      });
+      gsap.from('.hero__content > *', { y: 24, opacity: 0, duration: 0.9, stagger: 0.08, ease: 'power3.out', delay: 0.15 });
     },
     { scope: ref },
   );
@@ -47,44 +32,23 @@ function Hero() {
         <Suspense fallback={null}><OceanScene /></Suspense>
       </div>
       <div className="hero__fade" />
-      <div className="hero__inner">
-        <p className="hero__kicker kicker">{t('hero.kicker')}</p>
-        <div className="hero__lens"><HeroLens /></div>
+      <div className="container hero__inner">
         <div className="hero__content">
-          <h1 className="hero__title display" aria-label="TANTOUNI">
-            {'TANTOUNI'.split('').map((c, i) => <span key={i}>{c}</span>)}
-          </h1>
-          <p className="hero__tagline display">{t('hero.tagline')}</p>
+          <p className="hero__kicker kicker">{t('hero.kicker')}</p>
+          <h1 className="hero__title">{t('hero.tagline')}</h1>
           <p className="hero__sub">{t('hero.sub')}</p>
           <div className="hero__ctas">
             <Link to="/reservation" className="btn">{t('hero.ctaBook')} <Arrow /></Link>
             <Link to="/tableau-de-chasse" className="btn ghost">{t('hero.ctaCollection')}</Link>
           </div>
+          <ul className="hero__facts">
+            <li><b>100K</b> {t('captain.followers')}</li>
+            <li><b>{t('captain.igfaValue')}</b> {t('captain.igfa')}</li>
+            <li><b>{SITE.pricePerPerson} {SITE.currency}</b> {t('offer.perPerson')}</li>
+          </ul>
         </div>
       </div>
-      <div className="hero__scroll"><span />{t('hero.scroll')}</div>
     </section>
-  );
-}
-
-function Marquee() {
-  const { t } = useTranslation();
-  const words = t('marquee', { returnObjects: true }) as string[];
-  const row = [...words, ...words];
-  return (
-    <div className="marquee" aria-hidden>
-      <div className="marquee__track">
-        {[0, 1].map((k) => (
-          <div className="marquee__group" key={k}>
-            {row.map((w, i) => (
-              <span key={i} className={`display ${i % 2 ? 'outline-text' : ''}`}>
-                {w}<i>✦</i>
-              </span>
-            ))}
-          </div>
-        ))}
-      </div>
-    </div>
   );
 }
 
@@ -110,7 +74,7 @@ function Captain() {
       <div className="container captain__grid">
         <div>
           <span className="kicker" data-reveal>{t('captain.kicker')}</span>
-          <h2 className="h2 display" data-reveal>{t('captain.title')}</h2>
+          <h2 className="h2" data-reveal>{t('captain.title')}</h2>
           <p className="lead" data-reveal>{t('captain.text')}</p>
           <div className="captain__social" data-reveal>
             <Link to="/palmares" className="btn sm">🏆 {t('palmares.see')}</Link>
@@ -149,8 +113,8 @@ function Season() {
   const ref = useRef<HTMLElement>(null);
   useGSAP(
     () => {
-      gsap.fromTo('.season__img', { scale: 1.25, yPercent: -6 }, {
-        scale: 1, yPercent: 6, ease: 'none',
+      gsap.fromTo('.season__img', { yPercent: -4 }, {
+        yPercent: 4, ease: 'none',
         scrollTrigger: { trigger: ref.current, start: 'top bottom', end: 'bottom top', scrub: true },
       });
     },
@@ -162,32 +126,10 @@ function Season() {
       <div className="season__shade" />
       <div className="container season__text">
         <span className="kicker" data-reveal>{t('season.kicker')}</span>
-        <h2 className="h2 display" data-reveal>{t('season.title')}</h2>
+        <h2 className="h2" data-reveal>{t('season.title')}</h2>
         <p className="lead" data-reveal>{t('season.text')}</p>
       </div>
     </section>
-  );
-}
-
-function TiltCard({ children, className = '' }: { children: React.ReactNode; className?: string }) {
-  const x = useMotionValue(0.5);
-  const y = useMotionValue(0.5);
-  const rx = useSpring(useTransform(y, [0, 1], [8, -8]), { stiffness: 200, damping: 20 });
-  const ry = useSpring(useTransform(x, [0, 1], [-10, 10]), { stiffness: 200, damping: 20 });
-  const onMove = (e: MouseEvent<HTMLDivElement>) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    x.set((e.clientX - r.left) / r.width);
-    y.set((e.clientY - r.top) / r.height);
-  };
-  return (
-    <motion.div
-      className={`tilt ${className}`}
-      style={{ rotateX: rx, rotateY: ry, transformPerspective: 900 }}
-      onMouseMove={onMove}
-      onMouseLeave={() => { x.set(0.5); y.set(0.5); }}
-    >
-      {children}
-    </motion.div>
   );
 }
 
@@ -203,16 +145,15 @@ function Experience() {
     <section className="section experience">
       <div className="container">
         <span className="kicker" data-reveal>{t('experience.kicker')}</span>
-        <h2 className="h2 display" data-reveal>{t('experience.title')}</h2>
+        <h2 className="h2" data-reveal>{t('experience.title')}</h2>
         <div className="experience__grid">
           {(['jigging', 'trolling', 'livebait'] as const).map((k, i) => (
             <div key={k} data-reveal data-reveal-delay={i * 0.12}>
-              <TiltCard className="tech glass">
-                <span className="tech__num display outline-text">0{i + 1}</span>
+              <div className="tech glass">
                 <svg viewBox="0 0 24 24" className="tech__icon" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{techIcons[k]}</svg>
-                <h3 className="display">{t(`experience.${k}.t`)}</h3>
+                <h3>{t(`experience.${k}.t`)}</h3>
                 <p>{t(`experience.${k}.d`)}</p>
-              </TiltCard>
+              </div>
             </div>
           ))}
         </div>
@@ -229,7 +170,7 @@ function Offer() {
       <div className="container offer__grid">
         <div className="offer__card glass" data-reveal>
           <span className="kicker">{t('offer.kicker')}</span>
-          <h2 className="h2 display">{t('offer.title')}</h2>
+          <h2 className="h2">{t('offer.title')}</h2>
           <div className="offer__price">
             <b className="display">{SITE.pricePerPerson}</b>
             <span><em className="display">{SITE.currency}</em>{t('offer.perPerson')}</span>
@@ -261,7 +202,7 @@ function Teaser() {
       <div className="container teaser__grid">
         <div>
           <span className="kicker" data-reveal>{t('teaser.kicker')}</span>
-          <h2 className="h2 display" data-reveal>{t('teaser.title')}</h2>
+          <h2 className="h2" data-reveal>{t('teaser.title')}</h2>
           <p className="lead" data-reveal>{t('teaser.text')}</p>
           {fish && (
             <p className="teaser__count display" data-reveal>
@@ -294,7 +235,7 @@ function Videos() {
     <section className="section videos">
       <div className="container">
         <span className="kicker" data-reveal>{t('videos.kicker')}</span>
-        <h2 className="h2 display" data-reveal>{t('videos.title')}</h2>
+        <h2 className="h2" data-reveal>{t('videos.title')}</h2>
         <div className="videos__grid">
           {SITE.videos.map((v, i) => (
             <a key={v.id} href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noreferrer" className="video" data-reveal data-reveal-delay={(i % 3) * 0.1}>
@@ -319,7 +260,7 @@ function FinalCta() {
   return (
     <section className="section final">
       <div className="container final__inner">
-        <h2 className="display final__title" data-reveal>{t('cta.title')}</h2>
+        <h2 className="final__title" data-reveal>{t('cta.title')}</h2>
         <p className="lead" data-reveal>{t('cta.text')}</p>
         <Link to="/reservation" className="btn" data-reveal>{t('cta.button')} <Arrow /></Link>
       </div>
@@ -334,7 +275,6 @@ export default function Home() {
   return (
     <div ref={ref} className="home">
       <Hero />
-      <Marquee />
       <Captain />
       <Season />
       <Experience />
