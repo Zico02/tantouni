@@ -258,6 +258,52 @@ const SPECIES = [
     art: { shape: 'jack', back: '#4a5866', belly: '#eef0f1', fin: '#55606b', accent: '#2c3640', wavyLine: true },
   }),
   F({
+    "slug": "mafou",
+    "rarity": "prized",
+    "zone": "monde",
+    "names": {
+      "fr": "Mafou (Cobia)",
+      "en": "Cobia",
+      "ar": "الكوبيا",
+      "es": "Cobia",
+      "it": "Cobia"
+    },
+    "nickname": "COBIA",
+    "scientific": "Rachycentron canadum",
+    "maxLength": 200,
+    "maxWeight": 78,
+    "depth": "0 – 50 m",
+    "habitat": [
+      "pelagic",
+      "coastal"
+    ],
+    "techniques": [
+      "livebait",
+      "jigging"
+    ],
+    "season": [],
+    "seas": [
+      "atlantique",
+      "mer-rouge",
+      "mer-oman",
+      "golfe",
+      "indonesie"
+    ],
+    "description": {
+      "fr": "Silhouette de requin, bande blanche le long du flanc et une puissance redoutable. Le cobia suit souvent les raies et les objets flottants, et se méfie rarement d'un beau vif.",
+      "en": "Shark-like silhouette, a white stripe along the flank and formidable power. Cobia often follow rays and floating objects, and rarely refuse a good live bait.",
+      "ar": "هيئة تشبه القرش، شريط أبيض على طول الجانب وقوة هائلة. يتبع الكوبيا غالبًا أسماك الراي والأجسام العائمة، ونادرًا ما يرفض طعمًا حيًا جيدًا."
+    },
+    "art": {
+      "shape": "shark",
+      "back": "#3d3328",
+      "belly": "#e8e2d6",
+      "fin": "#2e271f",
+      "accent": "#f1ead9",
+      "band": true
+    }
+  }),
+  F({
     slug: 'badekhou', rarity: 'legend', zone: 'maroc',
     names: { fr: 'Dusky Grouper', en: 'Dusky grouper', ar: 'البادخو', es: 'Mero', it: 'Cernia bruna' },
     nickname: 'BADEKHOU',
@@ -288,6 +334,48 @@ const SPECIES = [
     art: { shape: 'grouper', back: '#5a3d2b', belly: '#c9a77e', fin: '#4a3020', accent: '#e6d0a8', blotches: true },
   }),
   F({
+    "slug": "saumonee-leopard",
+    "rarity": "legend",
+    "zone": "monde",
+    "names": {
+      "fr": "Saumonée léopard",
+      "en": "Coral trout",
+      "ar": "هامور المرجان",
+      "es": "Mero leopardo",
+      "it": "Cernia leopardo"
+    },
+    "nickname": "CORAL TROUT",
+    "scientific": "Plectropomus leopardus",
+    "maxLength": 120,
+    "maxWeight": 23.6,
+    "depth": "3 – 100 m",
+    "habitat": [
+      "reef"
+    ],
+    "techniques": [
+      "jigging",
+      "livebait",
+      "popping"
+    ],
+    "season": [],
+    "seas": [
+      "indonesie"
+    ],
+    "description": {
+      "fr": "Le joyau des récifs coralliens du Pacifique : robe rouge vif criblée de points bleus. Il attaque comme une flèche puis fonce dans le corail.",
+      "en": "The jewel of Pacific coral reefs: bright red coat peppered with blue dots. It strikes like an arrow, then bolts for the coral.",
+      "ar": "جوهرة الشعاب المرجانية في المحيط الهادئ: لون أحمر زاهٍ مرصع بنقاط زرقاء. يهاجم كالسهم ثم يندفع نحو المرجان."
+    },
+    "art": {
+      "shape": "grouper",
+      "back": "#c2412f",
+      "belly": "#e8846e",
+      "fin": "#a8341f",
+      "accent": "#5ab4f0",
+      "spots": true
+    }
+  }),
+  F({
     slug: 'denti', rarity: 'prized', zone: 'maroc',
     names: { fr: 'Denti', en: 'Common dentex', ar: 'الدنتي', es: 'Dentón', it: 'Dentice' },
     nickname: 'DENTEX',
@@ -300,6 +388,87 @@ const SPECIES = [
       en: 'The fanged predator with pink sheen and blue spots. One of the most sought-after fish on light jigs.',
     },
     art: { shape: 'bream', back: '#8d5b78', belly: '#efd7d9', fin: '#9d6a7c', accent: '#5aa7e8', spots: true },
+  }),
+  F({
+    "slug": "gros-dente-rose",
+    "rarity": "prized",
+    "zone": "maroc",
+    "names": {
+      "fr": "Gros denté rose",
+      "en": "Pink dentex",
+      "ar": "الدنتي الوردي",
+      "es": "Sama de pluma",
+      "it": "Dentice gibboso"
+    },
+    "nickname": "SAMA",
+    "scientific": "Dentex gibbosus",
+    "maxLength": 106,
+    "maxWeight": null,
+    "depth": "20 – 220 m",
+    "habitat": [
+      "reef"
+    ],
+    "techniques": [
+      "jigging",
+      "livebait"
+    ],
+    "season": [],
+    "seas": [
+      "atlantique",
+      "mediterranee"
+    ],
+    "description": {
+      "fr": "Le grand denté rose : le mâle adulte porte une bosse bien marquée sur le front, les jeunes arborent de longs filaments sur la dorsale. Un carnassier des fonds rocheux, puissant au jig comme au vif.",
+      "en": "The big pink dentex: adult males carry a pronounced hump on the forehead, juveniles have long filaments on the dorsal fin. A rocky-bottom predator that fights hard on jigs and live bait.",
+      "ar": "الدنتي الوردي الكبير: يحمل الذكر البالغ حدبة واضحة على الجبهة، وللصغار خيوط طويلة على الزعنفة الظهرية. مفترس القيعان الصخرية، قوي على الجيغ والطعم الحي."
+    },
+    "art": {
+      "shape": "bream",
+      "back": "#b0605a",
+      "belly": "#f2d6cf",
+      "fin": "#c07466",
+      "accent": "#e0a090"
+    }
+  }),
+  F({
+    "slug": "dente-tache-rouge",
+    "rarity": "prized",
+    "zone": "maroc",
+    "names": {
+      "fr": "Denté à tache rouge",
+      "en": "Canary dentex",
+      "ar": "الدنتي الكناري",
+      "es": "Chacarona",
+      "it": "Dentice delle Canarie"
+    },
+    "nickname": "CHACARONA",
+    "scientific": "Dentex canariensis",
+    "maxLength": null,
+    "maxWeight": null,
+    "depth": "15 – 200 m",
+    "habitat": [
+      "reef"
+    ],
+    "techniques": [
+      "jigging",
+      "bottom"
+    ],
+    "season": [],
+    "seas": [
+      "atlantique"
+    ],
+    "description": {
+      "fr": "Le denté de l'Atlantique africain, robe argentée et petite tache rouge à la base de la dorsale. On le croise du Maroc jusqu'au Golfe de Guinée.",
+      "en": "The dentex of the African Atlantic, silvery with a small red spot at the base of the dorsal fin. Found from Morocco down to the Gulf of Guinea.",
+      "ar": "دنتي الأطلسي الإفريقي، فضي اللون مع بقعة حمراء صغيرة عند قاعدة الزعنفة الظهرية. يوجد من المغرب حتى خليج غينيا."
+    },
+    "art": {
+      "shape": "bream",
+      "back": "#b9b3b6",
+      "belly": "#f4f1f0",
+      "fin": "#dcc6c6",
+      "accent": "#d33a3a"
+    }
   }),
   F({
     slug: 'pageot-royal', rarity: 'prized', zone: 'maroc',
@@ -318,6 +487,49 @@ const SPECIES = [
     art: { shape: 'bream', back: '#c2412f', belly: '#f6d9cf', fin: '#d4553e', accent: '#7fbcef' },
   }),
   F({
+    "slug": "pageot-commun",
+    "rarity": "common",
+    "zone": "maroc",
+    "names": {
+      "fr": "Pageot commun",
+      "en": "Common pandora",
+      "ar": "الباجو الشائع",
+      "es": "Breca",
+      "it": "Pagello fragolino"
+    },
+    "nickname": "BRECA",
+    "scientific": "Pagellus erythrinus",
+    "maxLength": 60,
+    "maxWeight": null,
+    "depth": "20 – 300 m",
+    "habitat": [
+      "reef",
+      "coastal"
+    ],
+    "techniques": [
+      "bottom",
+      "jigging"
+    ],
+    "season": [],
+    "seas": [
+      "atlantique",
+      "mediterranee"
+    ],
+    "description": {
+      "fr": "Le petit cousin rose des pagres, sans gros crocs, avec de fines taches bleutées sur le dos. Très présent sur les côtes marocaines, il mord volontiers au fond et au petit jig.",
+      "en": "The small pink cousin of the porgies, without big fangs and with fine bluish dots on the back. Very common on Moroccan coasts, it bites readily on bottom rigs and small jigs.",
+      "ar": "القريب الوردي الصغير للبغروس، بلا أنياب كبيرة ومع نقاط زرقاء دقيقة على الظهر. منتشر جدًا على السواحل المغربية ويلتقط الطعم بسهولة في القاع وعلى الجيغ الصغير."
+    },
+    "art": {
+      "shape": "bream",
+      "back": "#d58a86",
+      "belly": "#f8e3df",
+      "fin": "#e2a09a",
+      "accent": "#7fbcef",
+      "spots": true
+    }
+  }),
+  F({
     slug: 'pagre', rarity: 'common', zone: 'maroc',
     names: { fr: 'Pagre', en: 'Red porgy', ar: 'البغروس', es: 'Pargo', it: 'Pagro' },
     scientific: 'Pagrus pagrus',
@@ -331,6 +543,46 @@ const SPECIES = [
       en: 'Silvery-pink robe, strong jaws. A treat on rocky grounds.',
     },
     art: { shape: 'bream', back: '#c75b5b', belly: '#f8e1df', fin: '#d77c7c', accent: '#7fbcef', spots: true },
+  }),
+  F({
+    "slug": "vivaneau-cubera",
+    "rarity": "legend",
+    "zone": "monde",
+    "names": {
+      "fr": "Vivaneau cubera",
+      "en": "Cubera snapper",
+      "ar": "النهاش الكوبيري",
+      "es": "Pargo cubera",
+      "it": "Lutiano cubera"
+    },
+    "nickname": "CUBERA",
+    "scientific": "Lutjanus cyanopterus",
+    "maxLength": 160,
+    "maxWeight": 57,
+    "depth": "18 – 55 m",
+    "habitat": [
+      "reef"
+    ],
+    "techniques": [
+      "livebait",
+      "jigging"
+    ],
+    "season": [],
+    "seas": [
+      "atlantique"
+    ],
+    "description": {
+      "fr": "Le plus grand des vivaneaux, des Caraïbes au Brésil. Des crocs impressionnants et une force brute : sur les épaves, le combat se gagne dès les premiers mètres.",
+      "en": "The biggest of the snappers, from the Caribbean to Brazil. Impressive fangs and raw power: over wrecks, the fight is won in the first metres.",
+      "ar": "أكبر أسماك النهاش، من الكاريبي إلى البرازيل. أنياب مخيفة وقوة هائلة: فوق الحطام تُحسم المعركة في الأمتار الأولى."
+    },
+    "art": {
+      "shape": "bass",
+      "back": "#6b4a45",
+      "belly": "#d9b4a6",
+      "fin": "#5a3c37",
+      "accent": "#c96d5a"
+    }
   }),
   F({
     slug: 'barracuda', rarity: 'common', zone: 'maroc',
@@ -373,6 +625,50 @@ const SPECIES = [
       en: 'One of the fastest fish in the world. The reel screams from the first second.',
     },
     art: { shape: 'wahoo', back: '#173d73', belly: '#dfe8f1', fin: '#1d4d8a', accent: '#5aa0e6', bars: true },
+  }),
+  F({
+    "slug": "thazard-blanc",
+    "rarity": "prized",
+    "zone": "maroc",
+    "names": {
+      "fr": "Thazard blanc",
+      "en": "West African Spanish mackerel",
+      "ar": "الكنعد الأبيض",
+      "es": "Carite lusitánico",
+      "it": "Sgombro reale africano"
+    },
+    "nickname": "THAZARD",
+    "scientific": "Scomberomorus tritor",
+    "maxLength": 100,
+    "maxWeight": 6,
+    "depth": "0 – 40 m",
+    "habitat": [
+      "pelagic",
+      "coastal"
+    ],
+    "techniques": [
+      "trolling",
+      "livebait",
+      "spinning"
+    ],
+    "season": [],
+    "seas": [
+      "atlantique",
+      "mediterranee"
+    ],
+    "description": {
+      "fr": "Le « Spanish mackerel » de l'Atlantique africain : corps fuselé, taches dorées et dents tranchantes comme des rasoirs. Rapide et nerveux à la traîne.",
+      "en": "The Spanish mackerel of the African Atlantic: torpedo body, golden spots and razor-sharp teeth. Fast and nervous on the troll.",
+      "ar": "الكنعد الإسباني للأطلسي الإفريقي: جسم انسيابي وبقع ذهبية وأسنان حادة كالشفرات. سريع وعصبي على الجر."
+    },
+    "art": {
+      "shape": "wahoo",
+      "back": "#2f5f8f",
+      "belly": "#eaf0f5",
+      "fin": "#2a5a85",
+      "accent": "#d8b24a",
+      "spots": true
+    }
   }),
   F({
     slug: 'bar', rarity: 'common', zone: 'maroc',
