@@ -7,7 +7,7 @@ import type { Achievement, Lang } from '../lib/types';
 import { frDate } from './Admin';
 
 const blank = (): Achievement => ({
-  id: '', date: '', place: null, award: {}, title: {}, location: '', organizer: '', description: {}, photos: [], video: '',
+  id: '', date: '', place: null, award: {}, title: {}, location: '', organizer: '', description: {}, photos: [], video: '', trophies: [],
 });
 
 function AchForm({ item, onClose, onSaved, onAuthError }: { item: Achievement | null; onClose: () => void; onSaved: (a: Achievement) => void; onAuthError: (e: unknown) => void }) {
@@ -29,6 +29,20 @@ function AchForm({ item, onClose, onSaved, onAuthError }: { item: Achievement | 
       try {
         const { url } = await api.upload(f);
         setA((p) => ({ ...p, photos: [...p.photos, url] }));
+      } catch (e) { onAuthError(e); setErr("Une photo n'a pas pu être envoyée (PNG/JPG/WebP, 10 Mo max)."); }
+      setUploading((n) => n - 1);
+    }
+  };
+  const trophies = a.trophies ?? [];
+  const setTrophies = (list: NonNullable<Achievement['trophies']>) => set('trophies', list);
+  const uploadTrophies = async (files: FileList | null) => {
+    if (!files?.length) return;
+    const list = [...files];
+    setUploading(list.length);
+    for (const f of list) {
+      try {
+        const { url } = await api.upload(f);
+        setA((p) => ({ ...p, trophies: [...(p.trophies ?? []), { image: url, label: {} }] }));
       } catch (e) { onAuthError(e); setErr("Une photo n'a pas pu être envoyée (PNG/JPG/WebP, 10 Mo max)."); }
       setUploading((n) => n - 1);
     }
@@ -111,6 +125,33 @@ function AchForm({ item, onClose, onSaved, onAuthError }: { item: Achievement | 
                 <label className="adm-photo adm-photo--add">
                   {uploading ? `Envoi… (${uploading})` : '+ Ajouter des photos'}
                   <input type="file" multiple accept="image/png,image/jpeg,image/webp,image/avif" hidden onChange={(e) => upload(e.target.files)} />
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset className="adm-fs">
+              <legend>🏆 Trophées ({trophies.length})</legend>
+              <p className="adm-hint">Une photo par trophée, avec le texte de la plaque (langue choisie dans « Textes » : {lang.toUpperCase()}).</p>
+              <div className="adm-photos">
+                {trophies.map((tr, i) => (
+                  <div key={tr.image} className="adm-photo adm-photo--trophy">
+                    <img src={tr.image} alt="" />
+                    <input
+                      dir={lang === 'ar' ? 'rtl' : 'ltr'}
+                      value={tr.label[lang] || ''}
+                      placeholder={tr.label.fr || '2ᵉ place par équipe'}
+                      onChange={(e) => setTrophies(trophies.map((x, k) => (k === i ? { ...x, label: { ...x.label, [lang]: e.target.value } } : x)))}
+                    />
+                    <div>
+                      <button type="button" onClick={() => { const l = [...trophies]; [l[i - 1], l[i]] = [l[i], l[i - 1]]; setTrophies(l); }} disabled={i === 0}>←</button>
+                      <button type="button" onClick={() => { const l = [...trophies]; [l[i + 1], l[i]] = [l[i], l[i + 1]]; setTrophies(l); }} disabled={i === trophies.length - 1}>→</button>
+                      <button type="button" onClick={() => setTrophies(trophies.filter((x) => x !== tr))}>🗑</button>
+                    </div>
+                  </div>
+                ))}
+                <label className="adm-photo adm-photo--add">
+                  {uploading ? `Envoi… (${uploading})` : '+ Ajouter des trophées'}
+                  <input type="file" multiple accept="image/png,image/jpeg,image/webp,image/avif" hidden onChange={(e) => uploadTrophies(e.target.files)} />
                 </label>
               </div>
             </fieldset>

@@ -99,4 +99,11 @@ export interface Achievement {
   description: Partial<Record<Lang, string>>;
   photos: string[];
   video?: string;
+  /** The physical trophies won at this competition. */
+  trophies?: Trophy[];
+}
+
+export interface Trophy {
+  image: string;
+  label: Partial<Record<Lang, string>>;
 }

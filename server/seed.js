@@ -642,10 +642,11 @@ export function seedAchievements() {
         '/uploads/jebel-sifah-albacore.jpg',
         '/uploads/jebel-sifah-affiche.jpg',
       ],
+      trophies: [{"image": "/uploads/trophee-jebel-sifah-equipe.webp", "label": {"fr": "2ᵉ place par équipe", "en": "2nd Place Team", "ar": "المركز الثاني للفرق", "es": "2.º puesto por equipos", "it": "2° posto a squadre"}}, {"image": "/uploads/trophee-jebel-sifah-top-angler.webp", "label": {"fr": "2ᵉ meilleur pêcheur", "en": "2nd Top Angler", "ar": "ثاني أفضل صياد", "es": "2.º mejor pescador", "it": "2° miglior pescatore"}}, {"image": "/uploads/trophee-jebel-sifah-biggest-catch.webp", "label": {"fr": "2ᵉ plus grosse prise", "en": "2nd Biggest Catch", "ar": "ثاني أكبر صيد", "es": "2.ª captura más grande", "it": "2ª cattura più grande"}}],
     },
     {
       "id": "jig-tanger",
-      "date": "",
+      "date": "2022-04",
       "place": 3,
       "award": {
         "fr": "3ᵉ place sur 17 bateaux",
@@ -654,15 +655,9 @@ export function seedAchievements() {
         "es": "3.er puesto de 17 barcos",
         "it": "3° posto su 17 barche"
       },
-      "title": {
-        "fr": "Compétition jig",
-        "en": "Jigging competition",
-        "ar": "مسابقة الجيغ",
-        "es": "Competición de jigging",
-        "it": "Gara di jigging"
-      },
-      "location": "Tanger, Maroc",
-      "organizer": "Royal Yacht Club Tanger",
+      "title": {"fr": "Compétition par équipes de pêche libre verticale en bateau", "en": "Team Vertical Jigging Boat Competition", "ar": "مسابقة الفرق للصيد العمودي الحر بالقارب", "es": "Competición por equipos de pesca vertical libre en barco", "it": "Gara a squadre di pesca verticale libera in barca"},
+      "location": "Cap Spartel · Tanger Med, Maroc",
+      "organizer": "Royal Yacht Club Tanger · 1ʳᵉ édition",
       "description": {
         "fr": "Face à 17 bateaux engagés au large de Tanger, Omar décroche la 3ᵉ place de cette compétition de jigging organisée au Royal Yacht Club Tanger. Une journée de jig vertical intense, conclue sur le podium avec le trophée en main. TANTOUNI !",
         "en": "Up against 17 boats off Tangier, Omar took 3rd place in this jigging competition hosted by the Royal Yacht Club Tanger. An intense day of vertical jigging, finished on the podium with the trophy in hand. TANTOUNI!",
@@ -673,6 +668,7 @@ export function seedAchievements() {
         "/uploads/jig-tanger-trophee.jpg",
         "/uploads/jig-tanger-mer.jpg"
       ],
+      "trophies": [{"image": "/uploads/trophee-tanger-jig-3e.webp", "label": {"fr": "3ᵉ prix", "en": "3rd prize", "ar": "الجائزة الثالثة", "es": "3.er premio", "it": "3° premio"}}],
       "video": ""
     }
   ];

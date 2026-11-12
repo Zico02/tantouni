@@ -5,7 +5,7 @@ import { api } from '../lib/api';
 import { scrollLock, useReveal } from '../lib/motion';
 import { youtubeId } from '../lib/site';
 import { currentLang } from '../i18n';
-import type { Achievement, Lang } from '../lib/types';
+import type { Achievement, Lang, Trophy } from '../lib/types';
 import './Achievements.css';
 
 const pick = (o: Partial<Record<Lang, string>>, lang: Lang) => o?.[lang] || o?.fr || o?.en || '';
@@ -71,19 +71,45 @@ function Lightbox({ photos, index, title, onClose, onNav }: { photos: string[]; 
   );
 }
 
+function Trophies({ list, place, onOpen }: { list: Trophy[]; place: number | null; onOpen: (k: number) => void }) {
+  const { t } = useTranslation();
+  const lang = currentLang();
+  const tier = place === 1 ? 'gold' : place === 2 ? 'silver' : place === 3 ? 'bronze' : 'blue';
+  return (
+    <div className={`trophies trophies--${tier}`}>
+      <h3 className="trophies__title" data-reveal><span aria-hidden>🏆</span>{t('palmares.trophies')}</h3>
+      <div className={`trophies__shelf n${Math.min(list.length, 4)}`}>
+        {list.map((tr, k) => (
+          <button key={tr.image} className="trophy" onClick={() => onOpen(k)} data-reveal data-reveal-delay={k * 0.1}>
+            <span className="trophy__img"><img src={tr.image} alt={pick(tr.label, lang)} loading="lazy" /></span>
+            <span className="trophy__plate">{pick(tr.label, lang)}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Entry({ a, i }: { a: Achievement; i: number }) {
   const { t } = useTranslation();
   const lang = currentLang();
   const locale = lang === 'ar' ? 'ar-MA' : lang;
   const ref = useRef<HTMLElement>(null);
   const [open, setOpen] = useState<number | null>(null);
+  const [openTrophy, setOpenTrophy] = useState<number | null>(null);
+  const trophies = a.trophies ?? [];
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
   const y = useTransform(scrollYProgress, [0, 1], [60, -60]);
   const title = pick(a.title, lang);
-  const date = a.date ? new Intl.DateTimeFormat(locale, { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date(a.date + 'T12:00:00')) : '';
+  // "YYYY-MM" = only the month is known
+  const monthOnly = a.date.length === 7;
+  const date = a.date
+    ? new Intl.DateTimeFormat(locale, monthOnly ? { month: 'long', year: 'numeric' } : { day: 'numeric', month: 'long', year: 'numeric' }).format(new Date((monthOnly ? a.date + '-01' : a.date) + 'T12:00:00'))
+    : '';
   const yt = a.video ? youtubeId(a.video) : '';
 
   return (
+    <div className="ach-wrap">
     <article className={`ach ${i % 2 ? 'ach--rev' : ''}`} ref={ref}>
       <div className="ach__info" data-reveal>
         <div className="ach__top">
@@ -117,6 +143,13 @@ function Entry({ a, i }: { a: Achievement; i: number }) {
         {open !== null && <Lightbox photos={a.photos} index={open} title={title} onClose={() => setOpen(null)} onNav={setOpen} />}
       </AnimatePresence>
     </article>
+    {trophies.length > 0 && <Trophies list={trophies} place={a.place} onOpen={setOpenTrophy} />}
+    <AnimatePresence>
+      {openTrophy !== null && (
+        <Lightbox photos={trophies.map((x) => x.image)} index={openTrophy} title={pick(trophies[openTrophy].label, lang)} onClose={() => setOpenTrophy(null)} onNav={setOpenTrophy} />
+      )}
+    </AnimatePresence>
+    </div>
   );
 }
 
