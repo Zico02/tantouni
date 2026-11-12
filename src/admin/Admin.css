@@ -358,3 +358,5 @@
 
 .adm-photo--trophy:first-child { outline: 0; }
 .adm-photo--trophy input { position: absolute; top: 6px; left: 6px; width: calc(100% - 12px); box-sizing: border-box; font-size: 12px; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line, rgba(255,255,255,.15)); background: rgba(0,0,0,.25); color: inherit; }
+.adm-date-label { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.adm-date-label span { white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; font-weight: 500; font-size: 12px; text-transform: none; letter-spacing: 0; opacity: 0.85; cursor: pointer; }

@@ -79,7 +79,16 @@ function AchForm({ item, onClose, onSaved, onAuthError }: { item: Achievement | 
             <fieldset className="adm-fs">
               <legend>Compétition</legend>
               <div className="adm-grid3">
-                <div className="field"><label>Date</label><input type="date" value={a.date} onChange={(e) => set('date', e.target.value)} /></div>
+                <div className="field">
+                  <label className="adm-date-label">
+                    Date
+                    {/* "YYYY-MM" when only the month is known: the site then shows "avril 2022" */}
+                    <span><input type="checkbox" checked={a.date.length === 7} onChange={(e) => set('date', e.target.checked ? (a.date || new Date().toISOString()).slice(0, 7) : a.date ? `${a.date}-01` : '')} /> Mois seulement</span>
+                  </label>
+                  {a.date.length === 7
+                    ? <input type="month" value={a.date} onChange={(e) => set('date', e.target.value)} />
+                    : <input type="date" value={a.date} onChange={(e) => set('date', e.target.value)} />}
+                </div>
                 <div className="field">
                   <label>Classement</label>
                   <select value={a.place ?? ''} onChange={(e) => set('place', e.target.value ? Number(e.target.value) : null)}>
