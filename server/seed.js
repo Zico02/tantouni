@@ -258,6 +258,36 @@ const SPECIES = [
     art: { shape: 'jack', back: '#4a5866', belly: '#eef0f1', fin: '#55606b', accent: '#2c3640', wavyLine: true },
   }),
   F({
+    slug: 'merou', rarity: 'prized', zone: 'maroc',
+    names: { fr: 'Grouper', en: 'Dusky grouper', ar: 'الميرو', es: 'Mero', it: 'Cernia bruna' },
+    nickname: 'MÉROU',
+    scientific: 'Epinephelus marginatus',
+    image: '/uploads/merou.png',
+    maxLength: 150, maxWeight: 60, depth: '8 – 300 m',
+    habitat: ['reef'], techniques: ['jigging', 'livebait', 'bottom'], season: [],
+    description: {
+      fr: 'Le seigneur des roches. Une fois piqué, il fonce dans son trou : le combat se gagne dans les premiers mètres.',
+      en: 'Lord of the rocks. Once hooked it charges for its hole: the fight is won in the first metres.',
+    },
+    art: { shape: 'grouper', back: '#5a3d2b', belly: '#c9a77e', fin: '#4a3020', accent: '#e6d0a8', blotches: true },
+  }),
+  F({
+    slug: 'badekhou', rarity: 'legend', zone: 'maroc',
+    names: { fr: 'Dusky Grouper', en: 'Dusky grouper', ar: 'البادخو', es: 'Mero', it: 'Cernia bruna' },
+    nickname: 'BADEKHOU',
+    scientific: 'Epinephelus marginatus',
+    image: '/uploads/badekhou.png',
+    maxLength: 150, maxWeight: 60, depth: '8 – 300 m',
+    habitat: ['reef'], techniques: ['jigging', 'livebait', 'bottom'], season: [],
+    seas: ['atlantique', 'mediterranee'],
+    description: {
+      fr: "Le « Badekhou », géant des roches marocaines à la robe marbrée de brun et d'or. Une fois piqué, il fonce dans son trou : tout se joue dans les premiers mètres.",
+      en: 'The "Badekhou", giant of the Moroccan rocks with a brown-and-gold marbled coat. Once hooked it bolts for its hole: everything is decided in the first metres.',
+      ar: 'البادخو، عملاق الصخور المغربية بلونه البني المرقط بالذهبي. عندما يعلق يندفع نحو جحره: كل شيء يُحسم في الأمتار الأولى.',
+    },
+    art: { shape: 'grouper', back: '#5a3d2b', belly: '#c9a77e', fin: '#4a3020', accent: '#e6d0a8', blotches: true },
+  }),
+  F({
     "slug": "mafou",
     "rarity": "prized",
     "zone": "monde",
@@ -270,6 +300,7 @@ const SPECIES = [
     },
     "nickname": "COBIA",
     "scientific": "Rachycentron canadum",
+    "image": "/uploads/mafou.webp",
     "maxLength": 200,
     "maxWeight": 78,
     "depth": "0 – 50 m",
@@ -304,36 +335,6 @@ const SPECIES = [
     }
   }),
   F({
-    slug: 'badekhou', rarity: 'legend', zone: 'maroc',
-    names: { fr: 'Dusky Grouper', en: 'Dusky grouper', ar: 'البادخو', es: 'Mero', it: 'Cernia bruna' },
-    nickname: 'BADEKHOU',
-    scientific: 'Epinephelus marginatus',
-    image: '/uploads/badekhou.png',
-    maxLength: 150, maxWeight: 60, depth: '8 – 300 m',
-    habitat: ['reef'], techniques: ['jigging', 'livebait', 'bottom'], season: [],
-    seas: ['atlantique', 'mediterranee'],
-    description: {
-      fr: "Le « Badekhou », géant des roches marocaines à la robe marbrée de brun et d'or. Une fois piqué, il fonce dans son trou : tout se joue dans les premiers mètres.",
-      en: 'The "Badekhou", giant of the Moroccan rocks with a brown-and-gold marbled coat. Once hooked it bolts for its hole: everything is decided in the first metres.',
-      ar: 'البادخو، عملاق الصخور المغربية بلونه البني المرقط بالذهبي. عندما يعلق يندفع نحو جحره: كل شيء يُحسم في الأمتار الأولى.',
-    },
-    art: { shape: 'grouper', back: '#5a3d2b', belly: '#c9a77e', fin: '#4a3020', accent: '#e6d0a8', blotches: true },
-  }),
-  F({
-    slug: 'merou', rarity: 'prized', zone: 'maroc',
-    names: { fr: 'Grouper', en: 'Dusky grouper', ar: 'الميرو', es: 'Mero', it: 'Cernia bruna' },
-    nickname: 'MÉROU',
-    scientific: 'Epinephelus marginatus',
-    image: '/uploads/merou.png',
-    maxLength: 150, maxWeight: 60, depth: '8 – 300 m',
-    habitat: ['reef'], techniques: ['jigging', 'livebait', 'bottom'], season: [],
-    description: {
-      fr: 'Le seigneur des roches. Une fois piqué, il fonce dans son trou : le combat se gagne dans les premiers mètres.',
-      en: 'Lord of the rocks. Once hooked it charges for its hole: the fight is won in the first metres.',
-    },
-    art: { shape: 'grouper', back: '#5a3d2b', belly: '#c9a77e', fin: '#4a3020', accent: '#e6d0a8', blotches: true },
-  }),
-  F({
     "slug": "saumonee-leopard",
     "rarity": "legend",
     "zone": "monde",
@@ -346,6 +347,7 @@ const SPECIES = [
     },
     "nickname": "CORAL TROUT",
     "scientific": "Plectropomus leopardus",
+    "image": "/uploads/saumonee-leopard.webp",
     "maxLength": 120,
     "maxWeight": 23.6,
     "depth": "3 – 100 m",
@@ -402,6 +404,7 @@ const SPECIES = [
     },
     "nickname": "SAMA",
     "scientific": "Dentex gibbosus",
+    "image": "/uploads/gros-dente-rose-v2.webp",
     "maxLength": 106,
     "maxWeight": null,
     "depth": "20 – 220 m",
@@ -443,6 +446,7 @@ const SPECIES = [
     },
     "nickname": "CHACARONA",
     "scientific": "Dentex canariensis",
+    "image": "/uploads/dente-tache-rouge-v2.webp",
     "maxLength": null,
     "maxWeight": null,
     "depth": "15 – 200 m",
@@ -487,6 +491,50 @@ const SPECIES = [
     art: { shape: 'bream', back: '#c2412f', belly: '#f6d9cf', fin: '#d4553e', accent: '#7fbcef' },
   }),
   F({
+    "slug": "catalineta",
+    "rarity": "common",
+    "zone": "maroc",
+    "names": {
+      "fr": "Catalineta",
+      "en": "Redbanded seabream (juvenile)",
+      "ar": "الكاتالينيتا",
+      "es": "Catalineta",
+      "it": "Pagro reale (giovane)"
+    },
+    "nickname": "CATALINETA",
+    "scientific": "Pagrus auriga",
+    "image": "/uploads/catalineta.webp",
+    "maxLength": null,
+    "maxWeight": null,
+    "depth": "5 – 80 m",
+    "habitat": [
+      "reef",
+      "coastal"
+    ],
+    "techniques": [
+      "bottom",
+      "jigging"
+    ],
+    "season": [],
+    "seas": [
+      "atlantique",
+      "mediterranee"
+    ],
+    "description": {
+      "fr": "Le jeune Pageot royal : de larges bandes rouges sur une robe argentée et de longs filaments sur la dorsale. En grandissant, les bandes s'estompent et il devient le Pageot royal.",
+      "en": "The young redbanded seabream: wide red bands on a silver body and long filaments on the dorsal fin. As it grows the bands fade and it becomes the adult redbanded seabream.",
+      "ar": "صغير البغروس الملكي: أشرطة حمراء عريضة على جسم فضي وخيوط طويلة على الزعنفة الظهرية. مع النمو تتلاشى الأشرطة ويصبح بغروسًا ملكيًا."
+    },
+    "art": {
+      "shape": "bream",
+      "back": "#e0552e",
+      "belly": "#f4eeea",
+      "fin": "#ec6a3c",
+      "accent": "#ffffff",
+      "bars": true
+    }
+  }),
+  F({
     "slug": "pageot-commun",
     "rarity": "common",
     "zone": "maroc",
@@ -499,6 +547,7 @@ const SPECIES = [
     },
     "nickname": "BRECA",
     "scientific": "Pagellus erythrinus",
+    "image": "/uploads/pageot-commun-v2.webp",
     "maxLength": 60,
     "maxWeight": null,
     "depth": "20 – 300 m",
@@ -557,6 +606,7 @@ const SPECIES = [
     },
     "nickname": "CUBERA",
     "scientific": "Lutjanus cyanopterus",
+    "image": "/uploads/vivaneau-cubera.webp",
     "maxLength": 160,
     "maxWeight": 57,
     "depth": "18 – 55 m",
@@ -585,18 +635,48 @@ const SPECIES = [
     }
   }),
   F({
-    slug: 'barracuda', rarity: 'common', zone: 'maroc',
-    names: { fr: 'Barracuda', en: 'Barracuda', ar: 'الباراكودا', es: 'Barracuda', it: 'Barracuda' },
-    nickname: 'BARRACUDA',
-    scientific: 'Sphyraena viridensis',
-    image: '/uploads/barracuda.png',
-    maxLength: 130, maxWeight: 12, depth: '0 – 100 m',
-    habitat: ['coastal', 'reef'], techniques: ['spinning', 'trolling'], season: [],
-    description: {
-      fr: 'Le fusil de la mer : long, rapide et armé de dents tranchantes. Attaques éclair sur les leurres.',
-      en: 'The rifle of the sea: long, fast and armed with razor teeth. Lightning strikes on lures.',
+    "slug": "thazard-atlantique",
+    "rarity": "prized",
+    "zone": "monde",
+    "names": {
+      "fr": "Spanish Mackerel",
+      "en": "Atlantic Spanish mackerel",
+      "ar": "الكنعد الأطلسي",
+      "es": "Carite atlántico",
+      "it": "Sgombro reale atlantico"
     },
-    art: { shape: 'barracuda', back: '#3d5468', belly: '#e9eef2', fin: '#4a6176', accent: '#26394b', bars: true },
+    "nickname": "SPANISH MACKEREL",
+    "scientific": "Scomberomorus maculatus",
+    "image": "/uploads/thazard-atlantique.webp",
+    "maxLength": 91,
+    "maxWeight": 5.9,
+    "depth": "10 – 35 m",
+    "habitat": [
+      "pelagic",
+      "coastal"
+    ],
+    "techniques": [
+      "trolling",
+      "spinning",
+      "livebait"
+    ],
+    "season": [],
+    "seas": [
+      "atlantique"
+    ],
+    "description": {
+      "fr": "Le « Spanish mackerel » de l'Atlantique ouest : flancs argentés semés de taches dorées, dents acérées et départs fulgurants. Un régal à la traîne légère et au lancer.",
+      "en": "The Spanish mackerel of the western Atlantic: silver flanks dotted with golden spots, sharp teeth and blistering runs. Great fun on light trolling and casting gear.",
+      "ar": "الكنعد الإسباني لغرب الأطلسي: جوانب فضية مرصعة ببقع ذهبية وأسنان حادة وانطلاقات خاطفة. ممتع جدًا على الجر الخفيف والرمي."
+    },
+    "art": {
+      "shape": "wahoo",
+      "back": "#3a6f6a",
+      "belly": "#eef2f4",
+      "fin": "#3a5a55",
+      "accent": "#d9a53a",
+      "spots": true
+    }
   }),
   F({
     slug: 'tassergal', rarity: 'common', zone: 'maroc',
@@ -627,6 +707,20 @@ const SPECIES = [
     art: { shape: 'wahoo', back: '#173d73', belly: '#dfe8f1', fin: '#1d4d8a', accent: '#5aa0e6', bars: true },
   }),
   F({
+    slug: 'barracuda', rarity: 'common', zone: 'maroc',
+    names: { fr: 'Barracuda', en: 'Barracuda', ar: 'الباراكودا', es: 'Barracuda', it: 'Barracuda' },
+    nickname: 'BARRACUDA',
+    scientific: 'Sphyraena viridensis',
+    image: '/uploads/barracuda.png',
+    maxLength: 130, maxWeight: 12, depth: '0 – 100 m',
+    habitat: ['coastal', 'reef'], techniques: ['spinning', 'trolling'], season: [],
+    description: {
+      fr: 'Le fusil de la mer : long, rapide et armé de dents tranchantes. Attaques éclair sur les leurres.',
+      en: 'The rifle of the sea: long, fast and armed with razor teeth. Lightning strikes on lures.',
+    },
+    art: { shape: 'barracuda', back: '#3d5468', belly: '#e9eef2', fin: '#4a6176', accent: '#26394b', bars: true },
+  }),
+  F({
     "slug": "thazard-blanc",
     "rarity": "prized",
     "zone": "maroc",
@@ -639,6 +733,7 @@ const SPECIES = [
     },
     "nickname": "THAZARD",
     "scientific": "Scomberomorus tritor",
+    "image": "/uploads/thazard-blanc.webp",
     "maxLength": 100,
     "maxWeight": 6,
     "depth": "0 – 40 m",
