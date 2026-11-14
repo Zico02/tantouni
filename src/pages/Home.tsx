@@ -142,8 +142,10 @@ function Season() {
   );
   return (
     <section className="season" ref={ref}>
-      <img className="season__img" src="/img/season-of-giants.webp" alt="Tuna & marlin - the season of giants" />
-      <div className="season__shade" />
+      <div className="season__media">
+        <img className="season__img" src="/img/season-of-giants.webp" alt="Tuna & marlin - the season of giants" />
+        <div className="season__shade" />
+      </div>
       <div className="container season__text">
         <span className="kicker" data-reveal>{t('season.kicker')}</span>
         <h2 className="h2" data-reveal>{t('season.title')}</h2>

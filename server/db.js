@@ -18,6 +18,7 @@ function initial() {
     fish: seedFish(),
     achievements: seedAchievements(),
     products: seedProducts(),
+    shopVersion: 2,
     orders: [],
   };
 }
@@ -40,6 +41,19 @@ export function load() {
     }
     if (!state.products) { state.products = seedProducts(); dirty = true; }
     if (!state.orders) { state.orders = []; dirty = true; }
+    // shop v2 (one time): new order (hoodies, balaclavas, bob, cap), new prices, cap photo without the label
+    if ((state.shopVersion ?? 1) < 2) {
+      const ORDER = ['hoodie-bleu-ciel', 'hoodie-gris-perle', 'hoodie-noir', 'hoodie-mahi-mahi', 'cagoule-noire', 'cagoule-camo-nuit', 'cagoule-python', 'cagoule-camo-urbain', 'bob-cache-cou', 'casquette-trucker'];
+      for (const p of state.products) {
+        const i = ORDER.indexOf(p.slug);
+        if (i >= 0) p.order = i;
+        if (p.slug === 'hoodie-bleu-ciel') p.price = 350;
+        if (p.slug === 'casquette-trucker') p.price = 75;
+        p.images = (p.images ?? []).map((u) => (u === '/uploads/shop/casquette-trucker.webp' ? '/uploads/shop/casquette-trucker-v2.webp' : u));
+      }
+      state.shopVersion = 2;
+      dirty = true;
+    }
     // seas filter: give existing fish their seas, and add sharks that aren't on the board yet
     const seeded = seedFish();
     for (const f of state.fish) {

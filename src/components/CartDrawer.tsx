@@ -7,6 +7,7 @@ import { scrollLock } from '../lib/motion';
 import { currentLang } from '../i18n';
 import { loadProducts, money, pickText } from '../lib/useProducts';
 import type { Product } from '../lib/types';
+import { PerkIcon } from './PerkIcon';
 import './CartDrawer.css';
 
 type Step = 'cart' | 'form' | 'done';
@@ -52,8 +53,10 @@ export default function CartDrawer() {
   const rows = lines
     .map((l, i) => ({ l, i, p: products.find((p) => p.id === l.id) }))
     .filter((r): r is { l: typeof r.l; i: number; p: Product } => Boolean(r.p));
-  const total = rows.reduce((s, r) => s + r.p.price * r.l.qty, 0);
-  const count = rows.reduce((s, r) => s + r.l.qty, 0);
+  // a product can sell out while it sits in a cart: show it, but leave it out of the order
+  const buyable = rows.filter((r) => !r.p.soldOut);
+  const total = buyable.reduce((s, r) => s + r.p.price * r.l.qty, 0);
+  const count = buyable.reduce((s, r) => s + r.l.qty, 0);
 
   const close = () => {
     cart.close();
@@ -64,7 +67,7 @@ export default function CartDrawer() {
     setBusy(true);
     setErr('');
     try {
-      const r = await api.order({ ...form, lang, items: rows.map(({ l }) => ({ id: l.id, size: l.size, qty: l.qty })) });
+      const r = await api.order({ ...form, lang, items: buyable.map(({ l }) => ({ id: l.id, size: l.size, qty: l.qty })) });
       setDone(r);
       setStep('done');
       cart.clear();
@@ -96,17 +99,18 @@ export default function CartDrawer() {
                 <div className="drawer__body">
                   {rows.length === 0 ? (
                     <div className="drawer__empty">
-                      <span aria-hidden>🛍️</span>
+                      <span className="drawer__empty-ic"><PerkIcon i={3} size={30} /></span>
                       <p>{t('shop.empty')}</p>
                       <button className="btn ghost sm" onClick={close}>{t('shop.keepShopping')}</button>
                     </div>
                   ) : (
                     <ul className="cline-list">
                       {rows.map(({ l, i, p }) => (
-                        <li key={`${l.id}-${l.size}`} className="cline">
+                        <li key={`${l.id}-${l.size}`} className={`cline${p.soldOut ? ' is-out' : ''}`}>
                           <div className={`cline__img cline__img--${p.fit}`}>{p.images[0] && <img src={p.images[0]} alt="" style={p.fit === 'cover' && p.focus ? { objectPosition: p.focus } : undefined} />}</div>
                           <div className="cline__info">
                             <b>{pickText(p.name, lang)}</b>
+                            {p.soldOut && <em className="cline__out">{t('shop.soldOut')}</em>}
                             <span>{t('shop.size')} : {l.size === 'TU' || !l.size ? t('shop.oneSize') : l.size}</span>
                             <div className="cline__row">
                               <div className="qty qty--sm">
@@ -126,8 +130,8 @@ export default function CartDrawer() {
                 {rows.length > 0 && (
                   <footer className="drawer__foot">
                     <div className="drawer__total"><span>{t('shop.subtotal')}</span><b>{money(total, lang)}</b></div>
-                    <p className="drawer__cod">💵 {t('shop.cod')}</p>
-                    <button className="btn drawer__cta" onClick={() => setStep('form')}>{t('shop.checkout')} →</button>
+                    <p className="drawer__cod"><PerkIcon i={1} size={18} />{t('shop.cod')}</p>
+                    <button className="btn drawer__cta" onClick={() => setStep('form')} disabled={buyable.length === 0}>{t('shop.checkout')} →</button>
                   </footer>
                 )}
               </>
@@ -146,8 +150,8 @@ export default function CartDrawer() {
                 </div>
                 <footer className="drawer__foot">
                   <div className="drawer__total"><span>{t('shop.subtotal')}</span><b>{money(total, lang)}</b></div>
-                  <p className="drawer__cod">💵 {t('shop.cod')}</p>
-                  <button className="btn drawer__cta" disabled={busy || rows.length === 0}>{busy ? t('shop.sending') : t('shop.submit')}</button>
+                  <p className="drawer__cod"><PerkIcon i={1} size={18} />{t('shop.cod')}</p>
+                  <button className="btn drawer__cta" disabled={busy || buyable.length === 0}>{busy ? t('shop.sending') : t('shop.submit')}</button>
                 </footer>
               </form>
             )}

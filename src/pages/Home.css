@@ -146,16 +146,12 @@
 .stat--gold b { color: var(--sun); }
 
 /* ---------- season ---------- */
-.season {
-  position: relative;
-  min-height: min(72vh, 640px);
-  overflow: hidden;
-  display: flex;
-  align-items: flex-end;
-}
-.season__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 40%; will-change: transform; }
-.season__shade { position: absolute; inset: 0; background: linear-gradient(180deg, var(--abyss) 0%, transparent 25%, transparent 45%, rgba(1, 10, 28, 0.92) 85%, var(--abyss)); }
-.season__text { position: relative; padding-bottom: clamp(50px, 8vw, 110px); }
+.season { position: relative; }
+/* the photo stands alone; the text sits below it, not on top */
+.season__media { position: relative; height: min(72vh, 640px); overflow: hidden; }
+.season__img { position: absolute; left: 0; top: -6%; width: 100%; height: 112%; object-fit: cover; object-position: 50% 40%; will-change: transform; }
+.season__shade { position: absolute; inset: 0; background: linear-gradient(180deg, var(--abyss) 0%, transparent 22%, transparent 72%, var(--abyss) 100%); }
+.season__text { position: relative; padding-top: clamp(8px, 1.5vw, 20px); padding-bottom: clamp(50px, 8vw, 110px); }
 
 /* ---------- experience ---------- */
 .experience__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 50px; }

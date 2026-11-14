@@ -4,11 +4,13 @@ import { AnimatePresence, motion } from 'motion/react';
 import { scrollLock, useReveal } from '../lib/motion';
 import { currentLang } from '../i18n';
 import { cart } from '../lib/cart';
+import { PerkIcon } from '../components/PerkIcon';
 import { money, pickText, useProducts } from '../lib/useProducts';
 import type { Product, ProductCategory } from '../lib/types';
 import './Shop.css';
 
-const CATS: ProductCategory[] = ['hoodie', 'hat', 'cap', 'balaclava'];
+const CATS: ProductCategory[] = ['hoodie', 'balaclava', 'hat', 'cap'];
+
 
 function Media({ p, big = false }: { p: Product; big?: boolean }) {
   const lang = currentLang();
@@ -31,15 +33,13 @@ function Media({ p, big = false }: { p: Product; big?: boolean }) {
 function Card({ p, i, onOpen }: { p: Product; i: number; onOpen: () => void }) {
   const { t } = useTranslation();
   const lang = currentLang();
-  const [added, setAdded] = useState(false);
+  const [added, setAdded] = useState('');
   const badge = pickText(p.badge, lang);
   const oneSize = p.sizes.length <= 1;
-  const quick = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (!oneSize) return onOpen();
-    cart.add(p.id, p.sizes[0] || '');
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1400);
+  const add = (size: string) => {
+    cart.add(p.id, size);
+    setAdded(size || '-');
+    setTimeout(() => setAdded(''), 1600);
   };
   return (
     <article className={`pcard${p.soldOut ? ' is-out' : ''}`} data-reveal data-reveal-delay={(i % 4) * 0.06}>
@@ -48,10 +48,33 @@ function Card({ p, i, onOpen }: { p: Product; i: number; onOpen: () => void }) {
         <Media p={p} />
         {badge && !p.soldOut && <span className="pcard__badge">{badge}</span>}
         {p.soldOut && <span className="pcard__badge pcard__badge--out">{t('shop.soldOut')}</span>}
-        {!p.soldOut && (
-          <button className={`pcard__quick${added ? ' is-added' : ''}`} onClick={quick}>
-            {added ? t('shop.added') : oneSize ? `+ ${t('shop.add')}` : `${t('shop.chooseSize')} →`}
+        {!p.soldOut && oneSize && (
+          <button className={`pcard__quick${added ? ' is-added' : ''}`} onClick={(e) => { e.stopPropagation(); add(p.sizes[0] || ''); }}>
+            {added ? t('shop.added') : `+ ${t('shop.add')}`}
           </button>
+        )}
+        {!p.soldOut && !oneSize && (
+          <>
+            {/* mouse: hover the card, pick a size, it goes straight to the cart */}
+            <div className={`pcard__pick${added ? ' is-added' : ''}`} onClick={(e) => e.stopPropagation()}>
+              {added ? (
+                <span className="pcard__pick-done">{t('shop.added')} · {added}</span>
+              ) : (
+                <>
+                  <span className="pcard__pick-label">{t('shop.chooseSize')}</span>
+                  <div className="pcard__pick-sizes">
+                    {p.sizes.map((s) => (
+                      <button key={s} onClick={() => add(s)} aria-label={`${t('shop.add')} · ${t('shop.size')} ${s}`}>{s}</button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+            {/* touch screens: no hover, so "+" opens the product view with the sizes */}
+            <button className="pcard__quick pcard__quick--touch" onClick={(e) => { e.stopPropagation(); onOpen(); }} aria-label={t('shop.chooseSize')}>
+              {t('shop.chooseSize')}
+            </button>
+          </>
         )}
       </div>
       <div className="pcard__body">
@@ -145,9 +168,7 @@ function Quickview({ p, onClose }: { p: Product; onClose: () => void }) {
             {p.soldOut ? t('shop.soldOut') : `${t('shop.add')} · ${money(p.price * qty, lang)}`}
           </button>
           <ul className="qv__perks">
-            <li>🚚 {t('shop.perk1')}</li>
-            <li>💵 {t('shop.perk2')}</li>
-            <li>📞 {t('shop.perk3')}</li>
+            {[1, 2, 3].map((n) => <li key={n}><PerkIcon i={n - 1} size={18} />{t(`shop.perk${n}`)}</li>)}
           </ul>
         </div>
       </motion.div>
@@ -173,15 +194,16 @@ export default function Shop() {
       <div className="shop__bg" aria-hidden><span className="display">TANTOUNI</span></div>
 
       <section className="container shop__head">
-        <div>
-          <span className="kicker" data-reveal>{t('shop.kicker')}</span>
-          <h1 className="display shop__title" data-reveal>{t('shop.title')}</h1>
-          <p className="lead" data-reveal>{t('shop.sub')}</p>
-        </div>
-        <ul className="shop__perks" data-reveal>
-          <li><span aria-hidden>🚚</span>{t('shop.perk1')}</li>
-          <li><span aria-hidden>💵</span>{t('shop.perk2')}</li>
-          <li><span aria-hidden>📞</span>{t('shop.perk3')}</li>
+        <span className="kicker" data-reveal>{t('shop.kicker')}</span>
+        <h1 className="display shop__title" data-reveal>{t('shop.title')}</h1>
+        <p className="lead" data-reveal>{t('shop.sub')}</p>
+        <ul className="shop__trust" data-reveal>
+          {[1, 2, 3].map((n) => (
+            <li key={n}>
+              <span className="shop__trust-ic"><PerkIcon i={n - 1} /></span>
+              <span><b>{t(`shop.perk${n}T`)}</b><small>{t(`shop.perk${n}S`)}</small></span>
+            </li>
+          ))}
         </ul>
       </section>
 

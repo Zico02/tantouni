@@ -1,5 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import ShopStats from './ShopStats';
 import { api } from '../lib/api';
 import { scrollLock } from '../lib/motion';
 import { LANGS } from '../i18n/locales';
@@ -156,7 +158,10 @@ function ProductForm({ item, onClose, onSaved, onAuthError }: { item: Product | 
 }
 
 export default function ShopTab({ onAuthError }: { onAuthError: (e: unknown) => void }) {
-  const [view, setView] = useState<'orders' | 'products'>('orders');
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const view = pathname.endsWith('/statistiques') ? 'stats' : pathname.endsWith('/produits') ? 'products' : 'orders';
+  const setView = (v: 'orders' | 'products' | 'stats') => navigate(v === 'orders' ? '/admin/boutique' : v === 'products' ? '/admin/boutique/produits' : '/admin/boutique/statistiques');
   const [orders, setOrders] = useState<Order[] | null>(null);
   const [products, setProducts] = useState<Product[] | null>(null);
   const [editing, setEditing] = useState<Product | 'new' | null>(null);
@@ -177,7 +182,12 @@ export default function ShopTab({ onAuthError }: { onAuthError: (e: unknown) => 
     if (!confirm(`Supprimer « ${p.name.fr} » de la boutique ?`)) return;
     try { await api.deleteProduct(p.id); setProducts((l) => l!.filter((x) => x.id !== p.id)); } catch (e) { onAuthError(e); }
   };
-  const moveProduct = async (i: number, d: -1 | 1) => {
+  const toggleStock = async (p: Product) => {
+    setProducts((l) => l!.map((x) => (x.id === p.id ? { ...x, soldOut: !p.soldOut } : x)));
+    try { await api.updateProduct(p.id, { soldOut: !p.soldOut }); }
+    catch (e) { setProducts((l) => l!.map((x) => (x.id === p.id ? { ...x, soldOut: p.soldOut } : x))); onAuthError(e); }
+  };
+    const moveProduct = async (i: number, d: -1 | 1) => {
     const l = [...(products ?? [])];
     const j = i + d;
     if (j < 0 || j >= l.length) return;
@@ -193,6 +203,8 @@ export default function ShopTab({ onAuthError }: { onAuthError: (e: unknown) => 
 
   const live = (orders ?? []).filter((o) => o.status !== 'cancelled');
   const fresh = live.filter((o) => o.status === 'new').length;
+  const delivered = live.filter((o) => o.status === 'delivered');
+  const pending = live.filter((o) => o.status !== 'delivered');
 
   return (
     <div className="adm-page">
@@ -207,7 +219,10 @@ export default function ShopTab({ onAuthError }: { onAuthError: (e: unknown) => 
       <div className="adm-stats">
         <div className="adm-stat adm-stat--warn"><small>Nouvelles commandes</small><b>{fresh}</b></div>
         <div className="adm-stat"><small>Commandes (hors annulées)</small><b>{live.length}</b></div>
-        <div className="adm-stat adm-stat--gold"><small>Chiffre d'affaires</small><b>{dh(live.reduce((s, o) => s + o.total, 0))}</b></div>
+        <div className="adm-stat adm-stat--gold" title="Seules les commandes livrées comptent">
+          <small>Chiffre d'affaires (livrées)</small><b>{dh(delivered.reduce((s, o) => s + o.total, 0))}</b>
+          <em className="adm-stat__note">{delivered.length} livrée(s) · {dh(pending.reduce((s, o) => s + o.total, 0))} en cours</em>
+        </div>
         <div className="adm-stat"><small>Produits en vente</small><b>{(products ?? []).filter((p) => !p.soldOut).length}</b></div>
       </div>
 
@@ -215,6 +230,7 @@ export default function ShopTab({ onAuthError }: { onAuthError: (e: unknown) => 
         <div className="adm-seg">
           <button className={view === 'orders' ? 'is-on' : ''} onClick={() => setView('orders')}>Commandes{fresh ? ` (${fresh})` : ''}</button>
           <button className={view === 'products' ? 'is-on' : ''} onClick={() => setView('products')}>Produits</button>
+          <button className={view === 'stats' ? 'is-on' : ''} onClick={() => setView('stats')}>Statistiques</button>
         </div>
       </div>
 
@@ -231,7 +247,7 @@ export default function ShopTab({ onAuthError }: { onAuthError: (e: unknown) => 
                   <small className="adm-order__addr">{o.city} - {o.address}</small>
                   {o.note && <p className="adm-row__msg">« {o.note} »</p>}
                 </div>
-                <div className="adm-row__contact">
+                <div className="adm-order__contact">
                   <span className="adm-phone">{o.phone}</span>
                   <div className="adm-row__btns adm-row__btns--h">
                     <a href={wa(o.phone)} target="_blank" rel="noreferrer" className="adm-cbtn adm-cbtn--wa" title={`WhatsApp ${o.phone}`} aria-label="WhatsApp">
@@ -261,6 +277,8 @@ export default function ShopTab({ onAuthError }: { onAuthError: (e: unknown) => 
         </>
       )}
 
+      {view === 'stats' && <ShopStats orders={orders} products={products} />}
+
       {view === 'products' && (
         <div className="adm-fish">
           {!products && <p className="adm-muted">Chargement…</p>}
@@ -272,6 +290,11 @@ export default function ShopTab({ onAuthError }: { onAuthError: (e: unknown) => 
                 <small>{CATS[p.category]} · {p.sizes.includes('TU') ? 'Taille unique' : p.sizes.join(' ')}{p.soldOut ? ' · Épuisé' : ''}</small>
               </div>
               <b className="adm-row__total">{dh(p.price)}</b>
+              <label className="adm-switch" title="Marquer en rupture de stock">
+                <input type="checkbox" checked={p.soldOut} onChange={() => toggleStock(p)} />
+                <span className="adm-switch__track"><span /></span>
+                <em>{p.soldOut ? 'Épuisé' : 'En stock'}</em>
+              </label>
               <div className="adm-fishrow__actions">
                 <button className="adm-icon-btn" onClick={() => moveProduct(i, -1)} disabled={i === 0} title="Monter">↑</button>
                 <button className="adm-icon-btn" onClick={() => moveProduct(i, 1)} disabled={i === products.length - 1} title="Descendre">↓</button>
