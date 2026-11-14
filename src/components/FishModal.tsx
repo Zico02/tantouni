@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import CaughtStamp from './CaughtStamp';
 import { ghostWord } from './FishCard';
 import { fishVisual } from '../lib/fishArt';
-import { fishDescription, fishName } from '../lib/useFish';
+import { fishDescription, fishName, fishRange } from '../lib/useFish';
 import { scrollLock } from '../lib/motion';
 import { SITE, youtubeId } from '../lib/site';
 import { currentLang } from '../i18n';
@@ -130,6 +130,14 @@ export default function FishModal({ list, index, onClose, onNav }: Props) {
           </ul>
 
           {fishDescription(fish, lang) && <p className="fm__desc">{fishDescription(fish, lang)}</p>}
+          {fishRange(fish, lang) && (
+            <p className="fm__range">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z" /><circle cx="12" cy="9.5" r="2.5" />
+              </svg>
+              <span><b>{t('fish.range')}</b>{fishRange(fish, lang)}</span>
+            </p>
+          )}
 
           <div className="fm__stats">
             <div><small>{t('fish.maxLength')}</small><b className="display">{fmt(fish.maxLength, 'cm')}</b></div>

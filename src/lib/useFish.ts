@@ -23,5 +23,7 @@ export function useFish() {
 }
 
 export const fishName = (f: Fish, lang: Lang) => f.names[lang] || f.names.fr;
+export const fishRange = (f: Fish, lang: Lang) =>
+  f.range?.[lang] || (lang === 'fr' ? '' : f.range?.en) || f.range?.fr || '';
 export const fishDescription = (f: Fish, lang: Lang) =>
   f.description[lang] || (lang === 'fr' ? '' : f.description.en) || f.description.fr || '';

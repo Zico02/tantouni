@@ -198,6 +198,10 @@ export default function FishForm({ fish, onClose, onSaved, onAuthError }: Props)
                 <label>Description ({LANGS.find((l) => l.code === descLang)!.label}) - si vide, le français/anglais est affiché</label>
                 <textarea dir={descLang === 'ar' ? 'rtl' : 'ltr'} value={f.description[descLang] || ''} onChange={(e) => set('description', { ...f.description, [descLang]: e.target.value })} />
               </div>
+              <div className="field">
+                <label>Où le trouver ({LANGS.find((l) => l.code === descLang)!.label}) - une phrase courte</label>
+                <input dir={descLang === 'ar' ? 'rtl' : 'ltr'} value={f.range?.[descLang] || ''} onChange={(e) => set('range', { ...(f.range ?? {}), [descLang]: e.target.value })} placeholder="Eaux froides de l'Atlantique Nord : Norvège, Islande." />
+              </div>
               <div className="adm-grid3">
                 <div className="field"><label>Taille max. (cm)</label><input type="number" min="0" value={f.maxLength ?? ''} onChange={(e) => set('maxLength', num(e.target.value))} /></div>
                 <div className="field"><label>Poids max. (kg)</label><input type="number" min="0" step="0.1" value={f.maxWeight ?? ''} onChange={(e) => set('maxWeight', num(e.target.value))} /></div>

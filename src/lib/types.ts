@@ -42,6 +42,8 @@ export interface Fish {
   techniques: Technique[];
   season: number[];
   description: Partial<Record<Lang, string>>;
+  /** Where it lives, one short line ("Où le trouver"). */
+  range?: Partial<Record<Lang, string>>;
   caught: boolean;
   catch: { date: string; weight: string; length: string; location: string; notes: string };
   youtube: string;

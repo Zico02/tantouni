@@ -1,4 +1,5 @@
 import { SEAS_BY_SLUG, SHARKS } from './sharks.js';
+import { RANGES } from './ranges.js';
 
 // Starting species list for the "Tableau de chasse". Omar can tick, edit, add and
 // delete from the admin panel; this file only runs when the database is created.
@@ -679,6 +680,49 @@ const SPECIES = [
     }
   }),
   F({
+    "slug": "thazard-royal",
+    "rarity": "prized",
+    "zone": "monde",
+    "names": {
+      "fr": "Thazard royal",
+      "en": "King mackerel",
+      "ar": "الكنعد الملكي",
+      "es": "Carite lucio",
+      "it": "Sgombro reale"
+    },
+    "nickname": "KING MACKEREL",
+    "scientific": "Scomberomorus cavalla",
+    "maxLength": 184,
+    "maxWeight": 45,
+    "depth": "5 – 140 m",
+    "habitat": [
+      "pelagic",
+      "coastal"
+    ],
+    "techniques": [
+      "trolling",
+      "livebait",
+      "spinning"
+    ],
+    "season": [],
+    "seas": [
+      "atlantique"
+    ],
+    "description": {
+      "fr": "Le plus grand des thazards : un corps fuselé gris acier, des dents tranchantes comme des rasoirs et des départs foudroyants. Il attaque les appâts vivants et les leurres traînés en surface, souvent par un saut spectaculaire.",
+      "en": "The biggest of the Spanish mackerels: a steel-grey torpedo body, razor-sharp teeth and blistering runs. It hits live baits and trolled lures near the surface, often with a spectacular leap.",
+      "ar": "أكبر أسماك الكنعد: جسم انسيابي رمادي فولاذي وأسنان حادة كالشفرات وانطلاقات خاطفة. يهاجم الطعم الحي والطعوم المجرورة قرب السطح، غالبًا بقفزة مذهلة."
+    },
+    "image": "/uploads/thazard-royal.webp",
+    "art": {
+      "shape": "wahoo",
+      "back": "#3b5f86",
+      "belly": "#e3e8ee",
+      "fin": "#4a5d72",
+      "accent": "#9db3c8"
+    }
+  }),
+  F({
     slug: 'tassergal', rarity: 'common', zone: 'maroc',
     names: { fr: 'Bluefish', en: 'Bluefish', ar: 'التاسرغال', es: 'Anjova', it: 'Pesce serra' },
     nickname: 'TASSERGAL',
@@ -916,6 +960,44 @@ const SPECIES = [
     art: {"shape": "bream", "back": "#8a7a5e", "belly": "#c4b38f", "fin": "#7a6b51", "accent": "#4b4232", "deep": true, "spots": true},
   }),
   F({
+    "slug": "fletan-geant",
+    "rarity": "legend",
+    "zone": "monde",
+    "names": {
+      "fr": "Flétan géant",
+      "en": "Giant Atlantic halibut",
+      "ar": "الهلبوت العملاق",
+      "es": "Fletán gigante",
+      "it": "Ippoglosso gigante"
+    },
+    "nickname": "GIANT HALIBUT",
+    "scientific": "Hippoglossus hippoglossus / H. stenolepis",
+    "maxLength": 470,
+    "maxWeight": 320,
+    "depth": "50 – 2000 m",
+    "habitat": [],
+    "techniques": [
+      "bottom",
+      "jigging",
+      "livebait"
+    ],
+    "season": [],
+    "seas": [
+      "atlantique"
+    ],
+    "description": {"fr": "Le géant des poissons plats : jusqu'à 4,7 m et plus de 300 kg. Il chasse sur le fond, les deux yeux sur la face sombre, et livre des combats interminables à la verticale.", "en": "The giant of the flatfish: up to 4.7 m and over 300 kg. It hunts on the bottom with both eyes on its dark side, and fights endlessly straight down.", "ar": "عملاق الأسماك المسطحة: يصل طوله إلى 4.7 م ووزنه إلى أكثر من 300 كغ. يصطاد في القاع وعيناه على جانبه الداكن، ويخوض معارك طويلة نحو العمق."},
+    "image": "/uploads/fletan-atlantique.webp",
+    "art": {
+      "shape": "bream",
+      "back": "#6b6a3e",
+      "belly": "#e8e4d6",
+      "fin": "#5c5a35",
+      "accent": "#3c3b25",
+      "deep": true,
+      "spots": true
+    }
+  }),
+  F({
     slug: "grondin-perlon",
     rarity: "common",
     zone: "maroc",
@@ -934,18 +1016,51 @@ const SPECIES = [
     art: {"shape": "bass", "back": "#8a4b2c", "belly": "#efe2d6", "fin": "#e07a3c", "accent": "#1d1d1d", "spots": true},
   }),
   F({
-    slug: 'carangue-points-bleus', rarity: 'prized', zone: 'monde',
-    names: { fr: 'Carangue à points bleus', en: 'Bluefin trevally', ar: 'الكراكس ذو الزعانف الزرقاء', es: 'Jurel aleta azul', it: 'Carango pinna blu' },
-    nickname: 'BLUEFIN TREVALLY',
-    scientific: 'Caranx melampygus',
-    image: '/uploads/bluefin-trevally.png',
-    maxLength: 117, maxWeight: 44, depth: '0 – 190 m',
-    habitat: ['reef', 'coastal'], techniques: ['popping', 'jigging', 'spinning'], season: [],
-    description: {
-      fr: 'Le chasseur électrique des récifs, constellé de points noirs et aux nageoires bleutées. Il attaque les leurres de surface en meute et tire très fort dans les patates de corail.',
-      en: 'The electric hunter of the reefs, speckled with black dots and blue-tinged fins. It hits surface lures in packs and pulls hard for the coral heads.',
+    "slug": "carangue-gros-yeux",
+    "rarity": "prized",
+    "zone": "monde",
+    "names": {
+      "fr": "Carangue à gros yeux",
+      "en": "Bigeye trevally",
+      "ar": "الكارانكس كبير العينين",
+      "es": "Jurel ojón",
+      "it": "Carango occhiogrosso"
     },
-    art: { shape: 'jack', back: '#5c6a4c', belly: '#d9dde0', fin: '#3c6fb5', accent: '#1d2125', spots: true },
+    "nickname": "BIGEYE TREVALLY",
+    "scientific": "Caranx sexfasciatus",
+    "maxLength": 120,
+    "maxWeight": 18,
+    "depth": "0 – 150 m",
+    "habitat": [
+      "reef",
+      "pelagic"
+    ],
+    "techniques": [
+      "popping",
+      "jigging",
+      "spinning",
+      "livebait"
+    ],
+    "season": [],
+    "seas": [
+      "mer-rouge",
+      "mer-oman",
+      "golfe",
+      "indonesie"
+    ],
+    "description": {
+      "fr": "Reconnaissable à son gros œil doré, elle forme de grands bancs tournoyants le long des tombants le jour et chasse surtout à l'aube et la nuit. Puissante et têtue au popper comme au jig.",
+      "en": "Easy to spot by its big golden eye, it forms huge milling schools along drop-offs by day and hunts mostly at dawn and at night. Powerful and stubborn on poppers and jigs.",
+      "ar": "يُعرف بعينه الذهبية الكبيرة، ويشكل أسرابًا ضخمة تدور حول الجروف نهارًا ويصطاد غالبًا عند الفجر وليلًا. قوي وعنيد على البوبر والجيغ."
+    },
+    "image": "/uploads/carangue-gros-yeux.webp",
+    "art": {
+      "shape": "jack",
+      "back": "#3f6b7c",
+      "belly": "#e6ecee",
+      "fin": "#8a7a4a",
+      "accent": "#f2b31b"
+    }
   }),
   F({
     slug: 'carangue-gt', rarity: 'legend', zone: 'monde',
@@ -960,6 +1075,67 @@ const SPECIES = [
       en: 'The bulldozer of the reef. It explodes on poppers and does anything to break you off in the coral.',
     },
     art: { shape: 'jack', back: '#3b4048', belly: '#cfd4da', fin: '#23272d', accent: '#5c6470', deep: true },
+  }),
+  F({
+    "slug": "carangue-ferdau",
+    "rarity": "prized",
+    "zone": "monde",
+    "names": {
+      "fr": "Carangue ferdau",
+      "en": "Barred trevally",
+      "ar": "الكارانكس المخطط",
+      "es": "Jurel ferdau",
+      "it": "Carangide ferdau"
+    },
+    "nickname": "BARRED TREVALLY",
+    "scientific": "Carangoides ferdau",
+    "maxLength": 70,
+    "maxWeight": 8,
+    "depth": "1 – 60 m",
+    "habitat": [
+      "reef",
+      "coastal"
+    ],
+    "techniques": [
+      "popping",
+      "jigging",
+      "spinning"
+    ],
+    "season": [],
+    "seas": [
+      "mer-rouge",
+      "mer-oman",
+      "golfe",
+      "indonesie"
+    ],
+    "description": {
+      "fr": "Carangue argentée reconnaissable à ses barres verticales sombres. Elle patrouille en petits groupes le long des récifs et des plages, et attaque les poppers et petits jigs avec énergie.",
+      "en": "A silvery trevally easy to spot by its dark vertical bars. It patrols reefs and beaches in small groups and hits poppers and small jigs hard.",
+      "ar": "كارانكس فضي يُعرف بخطوطه العمودية الداكنة. يجوب الشعاب والشواطئ في مجموعات صغيرة ويهاجم البوبر والجيغ الصغير بقوة."
+    },
+    "image": "/uploads/carangue-ferdau.webp",
+    "art": {
+      "shape": "jack",
+      "back": "#9aa7b2",
+      "belly": "#eef2f5",
+      "fin": "#b9b9a0",
+      "accent": "#3f4650",
+      "bars": true
+    }
+  }),
+  F({
+    slug: 'carangue-points-bleus', rarity: 'prized', zone: 'monde',
+    names: { fr: 'Carangue à points bleus', en: 'Bluefin trevally', ar: 'الكراكس ذو الزعانف الزرقاء', es: 'Jurel aleta azul', it: 'Carango pinna blu' },
+    nickname: 'BLUEFIN TREVALLY',
+    scientific: 'Caranx melampygus',
+    image: '/uploads/bluefin-trevally.png',
+    maxLength: 117, maxWeight: 44, depth: '0 – 190 m',
+    habitat: ['reef', 'coastal'], techniques: ['popping', 'jigging', 'spinning'], season: [],
+    description: {
+      fr: 'Le chasseur électrique des récifs, constellé de points noirs et aux nageoires bleutées. Il attaque les leurres de surface en meute et tire très fort dans les patates de corail.',
+      en: 'The electric hunter of the reefs, speckled with black dots and blue-tinged fins. It hits surface lures in packs and pulls hard for the coral heads.',
+    },
+    art: { shape: 'jack', back: '#5c6a4c', belly: '#d9dde0', fin: '#3c6fb5', accent: '#1d2125', spots: true },
   }),
   F({
     slug: "rascasse",
@@ -998,7 +1174,7 @@ const SPECIES = [
 
 export function seedFish() {
   // fish species first, then the sharks; each gets the seas where it lives
-  const all = [...SPECIES, ...SHARKS.map((x) => F(x))].map((x) => ({ seas: SEAS_BY_SLUG[x.slug] ?? x.seas ?? [], ...x }));
+  const all = [...SPECIES, ...SHARKS.map((x) => F(x))].map((x) => ({ seas: SEAS_BY_SLUG[x.slug] ?? x.seas ?? [], range: RANGES[x.slug] ?? {}, ...x }));
   const now = Date.now();
   return all.map((s, i) => ({ id: `${s.slug}-${(now + i).toString(36)}`, order: i, ...s }));
 }

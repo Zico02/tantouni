@@ -49,7 +49,6 @@ export function seedProducts() {
     }),
     P({
       slug: 'hoodie-mahi-mahi', category: 'hoodie', price: 379, fit: 'cover',
-      badge: { fr: 'Édition Mahi', en: 'Mahi edition', ar: 'إصدار ماهي', es: 'Edición Mahi', it: 'Edizione Mahi' },
       name: { fr: 'Hoodie technique Mahi-Mahi', en: 'Mahi-Mahi Performance Hoodie', ar: 'هودي تقني ماهي ماهي', es: 'Sudadera técnica Mahi-Mahi', it: 'Felpa tecnica Mahi-Mahi' },
       description: HOODIE_PRINT_DESC, images: ['/uploads/shop/hoodie-mahi.webp'], sizes: APPAREL_SIZES,
     }),
@@ -74,7 +73,7 @@ export function seedProducts() {
       description: BALACLAVA_DESC, images: ['/uploads/shop/cagoule-4.webp'], sizes: ONE_SIZE,
     }),
     P({
-      slug: 'bob-cache-cou', category: 'hat', price: 199,
+      slug: 'bob-cache-cou', category: 'hat', price: 250,
       name: { fr: 'Bob de pêche avec cache-cou', en: 'Fishing bucket hat with neck flap', ar: 'قبعة صيد مع واقي الرقبة', es: 'Gorro de pesca con cubrenuca', it: 'Cappello da pesca con paranuca' },
       description: {
         fr: 'Bob à large bord avec cache-cou amovible et cordon de serrage : la protection complète contre le soleil en mer. Logo TANTOUNI brodé.',
@@ -86,7 +85,7 @@ export function seedProducts() {
       images: ['/uploads/shop/bob-noir.webp'], sizes: ONE_SIZE,
     }),
     P({
-      slug: 'casquette-trucker', category: 'cap', price: 75,
+      slug: 'casquette-trucker', category: 'cap', price: 150,
       name: { fr: 'Casquette trucker Noir / Gris', en: 'Black / Grey Trucker Cap', ar: 'قبعة تراكر أسود / رمادي', es: 'Gorra trucker Negra / Gris', it: 'Cappellino trucker Nero / Grigio' },
       description: {
         fr: 'Casquette trucker à visière incurvée, filet respirant à l’arrière et fermeture réglable. Logo TANTOUNI brodé en relief.',

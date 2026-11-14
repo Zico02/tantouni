@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { seedAchievements, seedFish } from './seed.js';
 import { SEAS_BY_SLUG } from './sharks.js';
 import { seedProducts } from './shop.js';
+import { RANGES } from './ranges.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = path.join(__dirname, 'data');
@@ -18,7 +19,7 @@ function initial() {
     fish: seedFish(),
     achievements: seedAchievements(),
     products: seedProducts(),
-    shopVersion: 2,
+    shopVersion: 4,
     orders: [],
   };
 }
@@ -54,10 +55,28 @@ export function load() {
       state.shopVersion = 2;
       dirty = true;
     }
+    // shop v3 (one time): no "Édition Mahi" badge on the Mahi-Mahi hoodie
+    if (state.shopVersion < 3) {
+      const mahi = state.products.find((p) => p.slug === 'hoodie-mahi-mahi');
+      if (mahi?.badge?.fr === 'Édition Mahi') mahi.badge = {};
+      state.shopVersion = 3;
+      dirty = true;
+    }
+    // shop v4 (one time): bob 250 DH, cap 150 DH (only if still at the previous price)
+    if (state.shopVersion < 4) {
+      for (const p of state.products) {
+        if (p.slug === 'bob-cache-cou' && p.price === 199) p.price = 250;
+        if (p.slug === 'casquette-trucker' && p.price === 75) p.price = 150;
+      }
+      state.shopVersion = 4;
+      dirty = true;
+    }
     // seas filter: give existing fish their seas, and add sharks that aren't on the board yet
     const seeded = seedFish();
     for (const f of state.fish) {
       if (!f.seas) { f.seas = SEAS_BY_SLUG[f.slug] ?? []; dirty = true; }
+      // "Où le trouver": fill it once for fish that don't have one yet
+      if (!f.range) { f.range = RANGES[f.slug] ?? {}; dirty = true; }
     }
     let order = Math.max(-1, ...state.fish.map((f) => f.order ?? 0));
     for (const f of seeded) {

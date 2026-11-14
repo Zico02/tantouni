@@ -102,6 +102,7 @@ const fr = {
     depth: 'Profondeur',
   },
   fish: {
+    range: "Où le trouver",
     seas: 'Mers',
     maxLength: 'Taille max.', maxWeight: 'Poids max.', depth: 'Profondeur', habitat: 'Habitat', techniques: 'Techniques',
     season: 'Meilleure saison', yearRound: "Toute l'année", record: "La prise d'Omar", date: 'Date', weight: 'Poids',
@@ -219,6 +220,7 @@ const en: Dict = {
     depth: 'Depth',
   },
   fish: {
+    range: 'Where it lives',
     seas: 'Seas',
     maxLength: 'Max. length', maxWeight: 'Max. weight', depth: 'Depth', habitat: 'Habitat', techniques: 'Techniques',
     season: 'Best season', yearRound: 'All year', record: "Omar's catch", date: 'Date', weight: 'Weight',
@@ -334,6 +336,7 @@ const ar: Dict = {
     depth: 'العمق',
   },
   fish: {
+    range: 'أين يعيش',
     seas: 'البحار',
     maxLength: 'أقصى طول', maxWeight: 'أقصى وزن', depth: 'العمق', habitat: 'الموطن', techniques: 'التقنيات',
     season: 'أفضل موسم', yearRound: 'طوال السنة', record: 'صيدة عمر', date: 'التاريخ', weight: 'الوزن',
@@ -449,6 +452,7 @@ const es: Dict = {
     depth: 'Profundidad',
   },
   fish: {
+    range: 'Dónde vive',
     seas: 'Mares',
     maxLength: 'Talla máx.', maxWeight: 'Peso máx.', depth: 'Profundidad', habitat: 'Hábitat', techniques: 'Técnicas',
     season: 'Mejor temporada', yearRound: 'Todo el año', record: 'La captura de Omar', date: 'Fecha', weight: 'Peso',
@@ -564,6 +568,7 @@ const it: Dict = {
     depth: 'Profondità',
   },
   fish: {
+    range: 'Dove vive',
     seas: 'Mari',
     maxLength: 'Lunghezza max.', maxWeight: 'Peso max.', depth: 'Profondità', habitat: 'Habitat', techniques: 'Tecniche',
     season: 'Stagione migliore', yearRound: "Tutto l'anno", record: 'La cattura di Omar', date: 'Data', weight: 'Peso',
