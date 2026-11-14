@@ -2,12 +2,14 @@ import { lazy, Suspense, useEffect } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import Nav from './components/Nav';
 import Footer from './components/Footer';
+import CartDrawer from './components/CartDrawer';
 import { ScrollTrigger, scrollToTop, useSmoothScroll } from './lib/motion';
 
 const Home = lazy(() => import('./pages/Home'));
 const Collection = lazy(() => import('./pages/Collection'));
 const Reservation = lazy(() => import('./pages/Reservation'));
 const Achievements = lazy(() => import('./pages/Achievements'));
+const Shop = lazy(() => import('./pages/Shop'));
 const Admin = lazy(() => import('./admin/Admin'));
 
 export default function App() {
@@ -33,12 +35,14 @@ export default function App() {
             <Route path="/tableau-de-chasse/:slug" element={<Collection />} />
             <Route path="/reservation" element={<Reservation />} />
             <Route path="/palmares" element={<Achievements />} />
+            <Route path="/boutique" element={<Shop />} />
             <Route path="/admin/*" element={<Admin />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </Suspense>
       </main>
       {!isAdmin && <Footer />}
+      {!isAdmin && <CartDrawer />}
     </>
   );
 }

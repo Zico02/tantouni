@@ -8,6 +8,7 @@ import AvailabilityTab from './AvailabilityTab';
 import FishTab from './FishTab';
 import AchievementsTab from './AchievementsTab';
 import AnalyticsTab from './AnalyticsTab';
+import ShopTab from './ShopTab';
 import './Admin.css';
 
 // Captain's area. Kept in French on purpose: it's Omar's tool, not a public page.
@@ -68,6 +69,7 @@ export default function Admin() {
           <NavLink to="/admin/disponibilites"><Icon d="M4 5h16v15H4zM4 10h16M9 3v4M15 3v4" />Disponibilités</NavLink>
           <NavLink to="/admin/poissons"><Icon d="M3 12c4-6 11-7 16-3l3-3-1 6 1 6-3-3c-5 4-12 3-16-3z" />Tableau de chasse</NavLink>
           <NavLink to="/admin/palmares"><Icon d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4" />Palmarès</NavLink>
+          <NavLink to="/admin/boutique"><Icon d="M6 7h12l-1 13H7L6 7zM9 7a3 3 0 0 1 6 0" />Boutique</NavLink>
         </nav>
         <div className="adm__foot">
           <Link to="/" className="btn ghost sm">Voir le site ↗</Link>
@@ -82,6 +84,7 @@ export default function Admin() {
           <Route path="disponibilites" element={<AvailabilityTab onAuthError={onAuthError} />} />
           <Route path="poissons" element={<FishTab onAuthError={onAuthError} />} />
           <Route path="palmares" element={<AchievementsTab onAuthError={onAuthError} />} />
+          <Route path="boutique" element={<ShopTab onAuthError={onAuthError} />} />
           <Route path="*" element={<Navigate to="reservations" replace />} />
         </Routes>
       </section>

@@ -24,9 +24,11 @@ export function useSmoothScroll() {
   }, []);
 }
 
+// Counted, so two overlays (e.g. product view closing as the cart opens) don't unlock each other.
+let locks = 0;
 export const scrollLock = {
-  lock: () => { lenis?.stop(); document.documentElement.style.overflow = 'hidden'; },
-  unlock: () => { lenis?.start(); document.documentElement.style.overflow = ''; },
+  lock: () => { if (locks++ === 0) { lenis?.stop(); document.documentElement.style.overflow = 'hidden'; } },
+  unlock: () => { if (locks > 0 && --locks === 0) { lenis?.start(); document.documentElement.style.overflow = ''; } },
 };
 
 export function scrollToTop() {

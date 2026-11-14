@@ -197,6 +197,47 @@ app.get('/api/achievements', (_req, res) => {
   res.json([...db().achievements].sort(byDateDesc));
 });
 
+// ---------- shop ----------
+app.get('/api/products', (_req, res) => {
+  res.json([...db().products].sort((a, b) => a.order - b.order));
+});
+
+const ORDER_STATUSES = ['new', 'confirmed', 'shipped', 'delivered', 'cancelled'];
+
+// Prices always come from the catalog, never from the browser.
+app.post('/api/orders', async (req, res) => {
+  const name = clean(req.body.name, 120);
+  const phone = clean(req.body.phone, 40);
+  const city = clean(req.body.city, 80);
+  const address = clean(req.body.address, 300);
+  const note = clean(req.body.note, 1000);
+  if (!name || !phone || !city || !address) return res.status(400).json({ error: 'missing_fields' });
+  const raw = Array.isArray(req.body.items) ? req.body.items.slice(0, 30) : [];
+  const items = [];
+  for (const it of raw) {
+    const p = db().products.find((x) => x.id === it?.id);
+    const qty = Number(it?.qty);
+    if (!p || p.soldOut || !Number.isInteger(qty) || qty < 1 || qty > 20) return res.status(400).json({ error: 'bad_items' });
+    const size = clean(it.size, 10);
+    if (p.sizes?.length && !p.sizes.includes(size)) return res.status(400).json({ error: 'bad_items' });
+    items.push({ productId: p.id, name: p.name?.fr || p.slug, size, qty, price: p.price, image: p.images?.[0] || '' });
+  }
+  if (!items.length) return res.status(400).json({ error: 'bad_items' });
+  const order = {
+    id: crypto.randomUUID(),
+    ref: 'TSH-' + crypto.randomBytes(3).toString('hex').toUpperCase(),
+    name, phone, city, address, note,
+    lang: clean(req.body.lang, 5) || 'fr',
+    items,
+    total: items.reduce((s, i) => s + i.price * i.qty, 0),
+    status: 'new',
+    createdAt: new Date().toISOString(),
+  };
+  db().orders.push(order);
+  await save();
+  res.status(201).json({ ref: order.ref, total: order.total });
+});
+
 // ---------- admin ----------
 app.post('/api/admin/login', (req, res) => {
   const pw = String(req.body.password || '');
@@ -334,6 +375,64 @@ app.delete('/api/admin/achievements/:id', async (req, res) => {
   const before = db().achievements.length;
   db().achievements = db().achievements.filter((x) => x.id !== req.params.id);
   if (db().achievements.length === before) return res.status(404).json({ error: 'not_found' });
+  await save();
+  res.status(204).end();
+});
+
+const PRODUCT_FIELDS = ['slug', 'category', 'name', 'description', 'price', 'oldPrice', 'images', 'sizes', 'badge', 'soldOut', 'fit', 'focus', 'order'];
+const pickProduct = (body) => Object.fromEntries(PRODUCT_FIELDS.filter((k) => k in body).map((k) => [k, body[k]]));
+
+app.post('/api/admin/products', async (req, res) => {
+  const data = pickProduct(req.body);
+  if (!data.name?.fr) return res.status(400).json({ error: 'missing_name' });
+  const slug = String(data.slug || data.name.fr).toLowerCase().normalize('NFD').replace(/[^\w]+/g, '-').replace(/^-|-$/g, '');
+  const p = {
+    category: 'hoodie', description: {}, price: 0, oldPrice: null, images: [], sizes: [], badge: {}, soldOut: false, fit: 'contain',
+    ...data,
+    slug,
+    id: `${slug}-${Date.now().toString(36)}`,
+    order: data.order ?? Math.max(-1, ...db().products.map((x) => x.order)) + 1,
+  };
+  db().products.push(p);
+  await save();
+  res.status(201).json(p);
+});
+
+app.put('/api/admin/products/:id', async (req, res) => {
+  const p = db().products.find((x) => x.id === req.params.id);
+  if (!p) return res.status(404).json({ error: 'not_found' });
+  Object.assign(p, pickProduct(req.body));
+  await save();
+  res.json(p);
+});
+
+app.delete('/api/admin/products/:id', async (req, res) => {
+  const before = db().products.length;
+  db().products = db().products.filter((x) => x.id !== req.params.id);
+  if (db().products.length === before) return res.status(404).json({ error: 'not_found' });
+  await save();
+  res.status(204).end();
+});
+
+app.get('/api/admin/orders', (_req, res) => {
+  res.json([...db().orders].sort((a, b) => b.createdAt.localeCompare(a.createdAt)));
+});
+
+app.patch('/api/admin/orders/:id', async (req, res) => {
+  const o = db().orders.find((x) => x.id === req.params.id);
+  if (!o) return res.status(404).json({ error: 'not_found' });
+  const { status, adminNotes } = req.body;
+  if (status && !ORDER_STATUSES.includes(status)) return res.status(400).json({ error: 'bad_status' });
+  if (status) o.status = status;
+  if (typeof adminNotes === 'string') o.adminNotes = clean(adminNotes, 1000);
+  await save();
+  res.json(o);
+});
+
+app.delete('/api/admin/orders/:id', async (req, res) => {
+  const before = db().orders.length;
+  db().orders = db().orders.filter((x) => x.id !== req.params.id);
+  if (db().orders.length === before) return res.status(404).json({ error: 'not_found' });
   await save();
   res.status(204).end();
 });

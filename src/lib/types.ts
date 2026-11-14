@@ -109,3 +109,44 @@ export interface Trophy {
   image: string;
   label: Partial<Record<Lang, string>>;
 }
+
+export type ProductCategory = 'hoodie' | 'hat' | 'cap' | 'balaclava';
+
+export interface Product {
+  id: string;
+  slug: string;
+  order: number;
+  category: ProductCategory;
+  name: Partial<Record<Lang, string>>;
+  description: Partial<Record<Lang, string>>;
+  /** DH */
+  price: number;
+  oldPrice: number | null;
+  images: string[];
+  /** 'TU' = one size */
+  sizes: string[];
+  badge: Partial<Record<Lang, string>>;
+  soldOut: boolean;
+  /** 'cover' for photos, 'contain' for cut-outs on the studio background */
+  fit: 'cover' | 'contain';
+  /** object-position for cover photos, e.g. '50% 30%' */
+  focus?: string;
+}
+
+export type OrderStatus = 'new' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
+
+export interface Order {
+  id: string;
+  ref: string;
+  name: string;
+  phone: string;
+  city: string;
+  address: string;
+  note: string;
+  lang: string;
+  items: { productId: string; name: string; size: string; qty: number; price: number; image: string }[];
+  total: number;
+  status: OrderStatus;
+  adminNotes?: string;
+  createdAt: string;
+}

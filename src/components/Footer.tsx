@@ -28,6 +28,7 @@ export default function Footer() {
           <Link to="/reservation">{t('nav.book')}</Link>
           <Link to="/tableau-de-chasse">{t('nav.collection')}</Link>
           <Link to="/palmares">{t('nav.achievements')}</Link>
+          <Link to="/boutique">{t('nav.shop')}</Link>
           <Link to="/admin">{t('footer.admin')}</Link>
         </nav>
         <div>

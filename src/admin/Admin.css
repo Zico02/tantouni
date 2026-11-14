@@ -360,3 +360,31 @@
 .adm-photo--trophy input { position: absolute; top: 6px; left: 6px; width: calc(100% - 12px); box-sizing: border-box; font-size: 12px; padding: 6px 8px; border-radius: 8px; border: 1px solid var(--line, rgba(255,255,255,.15)); background: rgba(0,0,0,.25); color: inherit; }
 .adm-date-label { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
 .adm-date-label span { white-space: nowrap; display: inline-flex; align-items: center; gap: 5px; font-weight: 500; font-size: 12px; text-transform: none; letter-spacing: 0; opacity: 0.85; cursor: pointer; }
+
+/* ---------- shop ---------- */
+.adm-orders { display: grid; gap: 10px; }
+.adm-order {
+  display: grid; grid-template-columns: 1.3fr 1fr 1.5fr 0.6fr 130px 40px; gap: 14px; align-items: center;
+  padding: 14px 18px; border-radius: 16px; border: 1px solid var(--line); background: rgba(6, 48, 110, 0.2); font-size: 14px;
+}
+.adm-order.is-new { border-color: rgba(255, 179, 71, 0.45); box-shadow: inset 3px 0 0 #ffb347; }
+.adm-order.is-delivered { background: rgba(34, 197, 94, 0.08); box-shadow: inset 3px 0 0 #22c55e; }
+.adm-order.is-cancelled { opacity: 0.45; }
+.adm-order__addr { color: var(--muted); font-size: 12.5px; }
+.adm-order__items { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.adm-order__items li { display: flex; align-items: center; gap: 8px; font-size: 13px; }
+.adm-order__items img { width: 32px; height: 32px; object-fit: cover; border-radius: 8px; background: #eef2f6; }
+.adm-row__btns--h { display: flex; }
+.adm-status.is-new { color: #ffb347; border-color: rgba(255, 179, 71, 0.4); }
+.adm-status.is-shipped { color: #c4a5ff; border-color: rgba(160, 120, 255, 0.5); }
+.adm-status.is-delivered { color: #4ade80; border-color: rgba(74, 222, 128, 0.55); background: rgba(34, 197, 94, 0.15); }
+.adm-prod { grid-template-columns: 64px 1fr auto auto; }
+.adm-prod.is-out { opacity: 0.55; }
+.adm-prod__img { width: 64px; height: 64px; border-radius: 12px; overflow: hidden; display: grid; place-items: center; background: #0b1424; }
+.adm-prod__img--contain { background: #eef2f6; }
+.adm-prod__img img { width: 100%; height: 100%; object-fit: cover; }
+.adm-prod__img--contain img { object-fit: contain; padding: 4px; }
+@media (max-width: 1100px) {
+  .adm-order { grid-template-columns: 1fr 1fr; }
+  .adm-order__items { grid-column: 1 / -1; }
+}

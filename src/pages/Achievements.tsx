@@ -82,7 +82,7 @@ function Champion({ a, list }: { a: Achievement; list: Trophy[] }) {
         {Array.from({ length: 10 }, (_, k) => <i key={k} className="champ__spark" style={{ left: `${6 + k * 9.3}%`, top: `${12 + ((k * 37) % 76)}%`, animationDelay: `${-k * 0.37}s` }} />)}
       </div>
       <figure className="champ__photo">
-        <img src={a.champion} alt={`Omar · ${pick(a.title, lang)}`} loading="lazy" />
+        <img src={a.champion} alt={`Omar · ${pick(a.title, lang)}`} decoding="async" />
         <span className="champ__podium" aria-hidden />
       </figure>
       <div className="champ__text">

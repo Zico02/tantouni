@@ -5,6 +5,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { seedAchievements, seedFish } from './seed.js';
 import { SEAS_BY_SLUG } from './sharks.js';
+import { seedProducts } from './shop.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const DATA_DIR = path.join(__dirname, 'data');
@@ -16,6 +17,8 @@ function initial() {
     blockedDays: [], // [{ date: 'YYYY-MM-DD', reason }]
     fish: seedFish(),
     achievements: seedAchievements(),
+    products: seedProducts(),
+    orders: [],
   };
 }
 
@@ -35,6 +38,8 @@ export function load() {
       state.achievements = seedAchievements();
       dirty = true;
     }
+    if (!state.products) { state.products = seedProducts(); dirty = true; }
+    if (!state.orders) { state.orders = []; dirty = true; }
     // seas filter: give existing fish their seas, and add sharks that aren't on the board yet
     const seeded = seedFish();
     for (const f of state.fish) {

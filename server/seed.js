@@ -1061,6 +1061,7 @@ export function seedAchievements() {
         "/uploads/jig-tanger-mer.jpg"
       ],
       "trophies": [{"image": "/uploads/trophee-tanger-jig-3e.webp", "label": {"fr": "3ᵉ prix", "en": "3rd prize", "ar": "الجائزة الثالثة", "es": "3.er premio", "it": "3° premio"}}],
+      "champion": "/uploads/jig-tanger-champion.webp",
       "video": ""
     }
   ];

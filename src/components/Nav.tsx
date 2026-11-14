@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { AnimatePresence, motion } from 'motion/react';
 import { LANGS } from '../i18n/locales';
 import './Nav.css';
+import { CartButton } from './CartDrawer';
 
 export function Logo() {
   return (
@@ -82,6 +83,7 @@ export default function Nav() {
       <NavLink to="/reservation">{t('nav.book')}</NavLink>
       <NavLink to="/tableau-de-chasse">{t('nav.collection')}</NavLink>
       <NavLink to="/palmares">{t('nav.achievements')}</NavLink>
+      <NavLink to="/boutique">{t('nav.shop')}</NavLink>
     </>
   );
 
@@ -91,6 +93,7 @@ export default function Nav() {
         <Logo />
         <nav className="nav__links">{links}</nav>
         <div className="nav__actions">
+          <CartButton />
           <LangSwitcher />
           <Link to="/reservation" className="btn sm nav__cta">{t('nav.bookCta')}</Link>
           <button className={`nav__burger ${menu ? 'is-open' : ''}`} onClick={() => setMenu((m) => !m)} aria-label="Menu" aria-expanded={menu}>

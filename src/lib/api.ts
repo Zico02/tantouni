@@ -1,4 +1,4 @@
-import type { Achievement, BlockedDay, DayAvailability, Fish, Reservation } from './types';
+import type { Achievement, BlockedDay, DayAvailability, Fish, Order, Product, Reservation } from './types';
 
 const TOKEN_KEY = 'tantoni-admin-token';
 
@@ -50,6 +50,17 @@ export const api = {
   updateAchievement: (id: string, a: Partial<Achievement>) =>
     request<Achievement>(`/api/admin/achievements/${id}`, { method: 'PUT', body: json(a) }, true),
   deleteAchievement: (id: string) => request<void>(`/api/admin/achievements/${id}`, { method: 'DELETE' }, true),
+
+  products: () => request<Product[]>('/api/products'),
+  order: (body: { name: string; phone: string; city: string; address: string; note: string; lang: string; items: { id: string; size: string; qty: number }[] }) =>
+    request<{ ref: string; total: number }>('/api/orders', { method: 'POST', body: json(body) }),
+  createProduct: (p: Partial<Product>) => request<Product>('/api/admin/products', { method: 'POST', body: json(p) }, true),
+  updateProduct: (id: string, p: Partial<Product>) => request<Product>(`/api/admin/products/${id}`, { method: 'PUT', body: json(p) }, true),
+  deleteProduct: (id: string) => request<void>(`/api/admin/products/${id}`, { method: 'DELETE' }, true),
+  orders: () => request<Order[]>('/api/admin/orders', {}, true),
+  updateOrder: (id: string, patch: Partial<Pick<Order, 'status' | 'adminNotes'>>) =>
+    request<Order>(`/api/admin/orders/${id}`, { method: 'PATCH', body: json(patch) }, true),
+  deleteOrder: (id: string) => request<void>(`/api/admin/orders/${id}`, { method: 'DELETE' }, true),
 
   login: (password: string) => request<{ token: string }>('/api/admin/login', { method: 'POST', body: json({ password }) }),
   reservations: () => request<Reservation[]>('/api/admin/reservations', {}, true),

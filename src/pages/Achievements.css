@@ -113,7 +113,7 @@
 [dir='rtl'] .trophies__title::after { background: linear-gradient(270deg, rgba(var(--glow), 0.4), transparent); }
 .trophies__title span { font-size: 18px; letter-spacing: 0; }
 .trophies__shelf { display: grid; gap: clamp(14px, 2vw, 24px); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
-.trophies__shelf.n1 { grid-template-columns: minmax(220px, 340px); }
+.trophies__shelf.n1 { grid-template-columns: minmax(220px, 420px); justify-content: center; }
 @media (min-width: 701px) { .trophies__shelf.n4 { grid-template-columns: repeat(4, 1fr); } }
 
 /* ---------- champion banner: cut-out of Omar with his trophies ---------- */
@@ -149,7 +149,7 @@
 }
 .champ__photo { position: relative; margin: clamp(-90px, -7vw, -56px) 0 0; display: flex; justify-content: center; }
 .champ__photo img {
-  position: relative; z-index: 1; display: block; width: 100%; max-width: 520px; height: auto;
+  position: relative; z-index: 1; display: block; width: auto; max-width: min(100%, 520px); height: auto; max-height: 600px;
   filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 30px rgba(var(--glow), 0.25));
   animation: champ-float 6s ease-in-out infinite;
 }
@@ -183,7 +183,7 @@
 @keyframes champ-shine { to { background-position: -250% 0; } }
 @media (max-width: 760px) {
   .champ { grid-template-columns: 1fr; text-align: center; padding: 0 18px; }
-  .champ__photo img { max-width: 360px; }
+  .champ__photo img { max-width: min(100%, 360px); max-height: 460px; }
   .champ__rays, .champ__halo { left: 50%; top: 32%; }
   .champ__text { padding: 0 0 28px; }
   .champ__list { justify-content: center; }
