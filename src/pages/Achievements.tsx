@@ -71,13 +71,42 @@ function Lightbox({ photos, index, title, onClose, onNav }: { photos: string[]; 
   );
 }
 
-function Trophies({ list, place, onOpen }: { list: Trophy[]; place: number | null; onOpen: (k: number) => void }) {
+function Champion({ a, list }: { a: Achievement; list: Trophy[] }) {
+  const { t } = useTranslation();
+  const lang = currentLang();
+  return (
+    <div className="champ" data-reveal>
+      <div className="champ__stage" aria-hidden>
+        <span className="champ__rays" />
+        <span className="champ__halo" />
+        {Array.from({ length: 10 }, (_, k) => <i key={k} className="champ__spark" style={{ left: `${6 + k * 9.3}%`, top: `${12 + ((k * 37) % 76)}%`, animationDelay: `${-k * 0.37}s` }} />)}
+      </div>
+      <figure className="champ__photo">
+        <img src={a.champion} alt={`Omar · ${pick(a.title, lang)}`} loading="lazy" />
+        <span className="champ__podium" aria-hidden />
+      </figure>
+      <div className="champ__text">
+        <p className="champ__kicker">👑 {pick(a.award, lang)}</p>
+        <p className="champ__word display" aria-hidden>{t('palmares.champion')}</p>
+        <p className="champ__sub">{t('palmares.champSub')}</p>
+        {list.length > 0 && (
+          <ul className="champ__list">
+            {list.map((tr) => <li key={tr.image}>🏆 {pick(tr.label, lang)}</li>)}
+          </ul>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function Trophies({ a, list, place, onOpen }: { a: Achievement; list: Trophy[]; place: number | null; onOpen: (k: number) => void }) {
   const { t } = useTranslation();
   const lang = currentLang();
   const tier = place === 1 ? 'gold' : place === 2 ? 'silver' : place === 3 ? 'bronze' : 'blue';
   return (
     <div className={`trophies trophies--${tier}`}>
       <h3 className="trophies__title" data-reveal><span aria-hidden>🏆</span>{t('palmares.trophies')}</h3>
+      {a.champion && <Champion a={a} list={list} />}
       <div className={`trophies__shelf n${Math.min(list.length, 4)}`}>
         {list.map((tr, k) => (
           <button key={tr.image} className="trophy" onClick={() => onOpen(k)} data-reveal data-reveal-delay={k * 0.1}>
@@ -143,7 +172,7 @@ function Entry({ a, i }: { a: Achievement; i: number }) {
         {open !== null && <Lightbox photos={a.photos} index={open} title={title} onClose={() => setOpen(null)} onNav={setOpen} />}
       </AnimatePresence>
     </article>
-    {trophies.length > 0 && <Trophies list={trophies} place={a.place} onOpen={setOpenTrophy} />}
+    {(trophies.length > 0 || a.champion) && <Trophies a={a} list={trophies} place={a.place} onOpen={setOpenTrophy} />}
     <AnimatePresence>
       {openTrophy !== null && (
         <Lightbox photos={trophies.map((x) => x.image)} index={openTrophy} title={pick(trophies[openTrophy].label, lang)} onClose={() => setOpenTrophy(null)} onNav={setOpenTrophy} />

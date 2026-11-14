@@ -112,8 +112,86 @@
 .trophies__title::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(var(--glow), 0.4), transparent); }
 [dir='rtl'] .trophies__title::after { background: linear-gradient(270deg, rgba(var(--glow), 0.4), transparent); }
 .trophies__title span { font-size: 18px; letter-spacing: 0; }
-.trophies__shelf { display: grid; gap: clamp(14px, 2vw, 24px); grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+.trophies__shelf { display: grid; gap: clamp(14px, 2vw, 24px); grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
 .trophies__shelf.n1 { grid-template-columns: minmax(220px, 340px); }
+@media (min-width: 701px) { .trophies__shelf.n4 { grid-template-columns: repeat(4, 1fr); } }
+
+/* ---------- champion banner: cut-out of Omar with his trophies ---------- */
+.champ {
+  position: relative; isolation: isolate;
+  display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center;
+  gap: clamp(16px, 3vw, 40px);
+  margin: clamp(56px, 7vw, 90px) 0 clamp(28px, 4vw, 44px);
+  padding: 0 clamp(18px, 4vw, 56px);
+  border-radius: 32px;
+  border: 1px solid rgba(var(--glow), 0.28);
+  background:
+    radial-gradient(120% 90% at 28% 60%, rgba(var(--glow), 0.16), transparent 60%),
+    linear-gradient(160deg, #0d1626 0%, #070b14 100%);
+  box-shadow: 0 40px 90px -50px rgba(var(--glow), 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.champ__stage { position: absolute; inset: 0; z-index: -1; overflow: hidden; border-radius: inherit; pointer-events: none; }
+.champ__rays {
+  position: absolute; left: 28%; top: 62%; width: 170%; aspect-ratio: 1; translate: -50% -50%;
+  background: repeating-conic-gradient(from 0deg, rgba(var(--glow), 0.13) 0deg 5deg, transparent 5deg 15deg);
+  -webkit-mask: radial-gradient(circle, #000 0%, transparent 55%); mask: radial-gradient(circle, #000 0%, transparent 55%);
+  animation: champ-spin 60s linear infinite;
+}
+.champ__halo {
+  position: absolute; left: 28%; top: 60%; width: 62%; aspect-ratio: 1; translate: -50% -50%; border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--glow), 0.45), rgba(var(--glow), 0.08) 45%, transparent 70%);
+  filter: blur(10px); animation: champ-pulse 4s ease-in-out infinite;
+}
+.champ__spark {
+  position: absolute; width: 4px; height: 4px; border-radius: 50%; background: #fff;
+  box-shadow: 0 0 10px 2px rgba(var(--glow), 0.9);
+  opacity: 0; animation: champ-twinkle 3.2s ease-in-out infinite;
+}
+.champ__photo { position: relative; margin: clamp(-90px, -7vw, -56px) 0 0; display: flex; justify-content: center; }
+.champ__photo img {
+  position: relative; z-index: 1; display: block; width: 100%; max-width: 520px; height: auto;
+  filter: drop-shadow(0 30px 40px rgba(0, 0, 0, 0.55)) drop-shadow(0 0 30px rgba(var(--glow), 0.25));
+  animation: champ-float 6s ease-in-out infinite;
+}
+.champ__podium {
+  position: absolute; bottom: -2px; left: 50%; translate: -50% 0; width: 78%; height: 34px; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(var(--glow), 0.55), transparent); filter: blur(6px);
+}
+.champ__text { padding: clamp(24px, 4vw, 48px) 0; container-type: inline-size; min-width: 0; }
+.champ__kicker {
+  display: inline-flex; align-items: center; gap: 8px; margin: 0 0 6px;
+  padding: 7px 14px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+  color: rgb(var(--glow)); background: rgba(var(--glow), 0.1); border: 1px solid rgba(var(--glow), 0.35);
+}
+.champ__word {
+  margin: 0; line-height: 0.9; text-transform: uppercase; font-size: clamp(38px, 13.4cqi, 110px); letter-spacing: -0.01em;
+  background: linear-gradient(100deg, rgb(var(--glow)) 0%, #fff 22%, rgb(var(--glow)) 40%, rgba(var(--glow), 0.7) 60%, #fff 78%, rgb(var(--glow)) 100%);
+  background-size: 250% 100%; -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 6px 24px rgba(var(--glow), 0.35));
+  animation: champ-shine 6s linear infinite;
+}
+.champ__sub { margin: 10px 0 18px; color: var(--muted); font-size: clamp(15px, 1.4vw, 18px); }
+.champ__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.champ__list li {
+  padding: 8px 14px; border-radius: 12px; font-size: 14px; font-weight: 700; color: var(--text);
+  background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(var(--glow), 0.22);
+}
+@keyframes champ-spin { to { rotate: 360deg; } }
+@keyframes champ-pulse { 50% { opacity: 0.65; scale: 0.94; } }
+@keyframes champ-float { 50% { translate: 0 -10px; } }
+@keyframes champ-twinkle { 0%, 100% { opacity: 0; scale: 0.4; } 50% { opacity: 1; scale: 1; } }
+@keyframes champ-shine { to { background-position: -250% 0; } }
+@media (max-width: 760px) {
+  .champ { grid-template-columns: 1fr; text-align: center; padding: 0 18px; }
+  .champ__photo img { max-width: 360px; }
+  .champ__rays, .champ__halo { left: 50%; top: 32%; }
+  .champ__text { padding: 0 0 28px; }
+  .champ__list { justify-content: center; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .champ__rays, .champ__halo, .champ__spark, .champ__photo img, .champ__word { animation: none; }
+  .champ__spark { opacity: 0.6; }
+}
 .trophy {
   all: unset; box-sizing: border-box; cursor: pointer;
   display: flex; flex-direction: column;

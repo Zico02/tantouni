@@ -101,6 +101,8 @@ export interface Achievement {
   video?: string;
   /** The physical trophies won at this competition. */
   trophies?: Trophy[];
+  /** Cut-out photo of Omar with his trophies, shown as a champion banner. */
+  champion?: string;
 }
 
 export interface Trophy {

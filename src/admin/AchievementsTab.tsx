@@ -7,7 +7,7 @@ import type { Achievement, Lang } from '../lib/types';
 import { frDate } from './Admin';
 
 const blank = (): Achievement => ({
-  id: '', date: '', place: null, award: {}, title: {}, location: '', organizer: '', description: {}, photos: [], video: '', trophies: [],
+  id: '', date: '', place: null, award: {}, title: {}, location: '', organizer: '', description: {}, photos: [], video: '', trophies: [], champion: '',
 });
 
 function AchForm({ item, onClose, onSaved, onAuthError }: { item: Achievement | null; onClose: () => void; onSaved: (a: Achievement) => void; onAuthError: (e: unknown) => void }) {
@@ -46,6 +46,16 @@ function AchForm({ item, onClose, onSaved, onAuthError }: { item: Achievement | 
       } catch (e) { onAuthError(e); setErr("Une photo n'a pas pu être envoyée (PNG/JPG/WebP, 10 Mo max)."); }
       setUploading((n) => n - 1);
     }
+  };
+  const uploadChampion = async (files: FileList | null) => {
+    const f = files?.[0];
+    if (!f) return;
+    setUploading(1);
+    try {
+      const { url } = await api.upload(f);
+      setA((p) => ({ ...p, champion: url }));
+    } catch (e) { onAuthError(e); setErr("La photo n'a pas pu être envoyée (PNG/JPG/WebP, 10 Mo max)."); }
+    setUploading(0);
   };
   const move = (i: number, d: -1 | 1) => {
     const j = i + d;
@@ -161,6 +171,23 @@ function AchForm({ item, onClose, onSaved, onAuthError }: { item: Achievement | 
                 <label className="adm-photo adm-photo--add">
                   {uploading ? `Envoi… (${uploading})` : '+ Ajouter des trophées'}
                   <input type="file" multiple accept="image/png,image/jpeg,image/webp,image/avif" hidden onChange={(e) => uploadTrophies(e.target.files)} />
+                </label>
+              </div>
+            </fieldset>
+
+            <fieldset className="adm-fs">
+              <legend>👑 Photo champion</legend>
+              <p className="adm-hint">Photo détourée (PNG/WebP transparent) d'Omar avec ses trophées, affichée en grand au-dessus des trophées.</p>
+              <div className="adm-photos">
+                {a.champion && (
+                  <div className="adm-photo adm-photo--trophy">
+                    <img src={a.champion} alt="" style={{ objectFit: 'contain' }} />
+                    <div><button type="button" onClick={() => set('champion', '')}>🗑</button></div>
+                  </div>
+                )}
+                <label className="adm-photo adm-photo--add">
+                  {uploading ? 'Envoi…' : a.champion ? '↻ Remplacer' : '+ Ajouter la photo'}
+                  <input type="file" accept="image/png,image/webp,image/jpeg,image/avif" hidden onChange={(e) => uploadChampion(e.target.files)} />
                 </label>
               </div>
             </fieldset>

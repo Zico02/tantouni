@@ -310,7 +310,7 @@ app.delete('/api/admin/fish/:id', async (req, res) => {
   res.status(204).end();
 });
 
-const ACH_FIELDS = ['date', 'place', 'award', 'title', 'location', 'organizer', 'description', 'photos', 'video', 'trophies'];
+const ACH_FIELDS = ['date', 'place', 'award', 'title', 'location', 'organizer', 'description', 'photos', 'video', 'trophies', 'champion'];
 const pickAch = (body) => Object.fromEntries(ACH_FIELDS.filter((k) => k in body).map((k) => [k, body[k]]));
 
 app.post('/api/admin/achievements', async (req, res) => {

@@ -1,6 +1,6 @@
 const fr = {
   nav: { home: 'Accueil', book: 'Réserver', collection: 'Tableau de chasse', achievements: 'Palmarès', bookCta: 'Réserver une sortie' },
-  palmares: { trophies: 'Les trophées', kicker: 'Palmarès', title: 'Trophées & exploits', sub: "Compétitions, podiums et grands moments : le parcours d'Omar au plus haut niveau, avec l'équipe du Maroc.", empty: 'De nouveaux trophées arrivent bientôt…', podiums: 'podiums', events: 'compétitions', photos: 'photos', video: 'Voir la vidéo', see: 'Voir le palmarès', close: 'Fermer' },
+  palmares: { trophies: 'Les trophées', champion: 'Champion', champSub: 'Sur le podium avec ses trophées', kicker: 'Palmarès', title: 'Trophées & exploits', sub: "Compétitions, podiums et grands moments : le parcours d'Omar au plus haut niveau, avec l'équipe du Maroc.", empty: 'De nouveaux trophées arrivent bientôt…', podiums: 'podiums', events: 'compétitions', photos: 'photos', video: 'Voir la vidéo', see: 'Voir le palmarès', close: 'Fermer' },
   hero: {
     kicker: 'Rabat · Mohammedia · Maroc',
     tagline: 'Thon & Marlin - la saison des géants.',
@@ -116,7 +116,7 @@ type Dict = typeof fr;
 
 const en: Dict = {
   nav: { home: 'Home', book: 'Book', collection: 'Catch board', achievements: 'Achievements', bookCta: 'Book a trip' },
-  palmares: { trophies: 'The trophies', kicker: 'Achievements', title: 'Trophies & feats', sub: "Competitions, podiums and big moments: Omar's journey at the highest level, with Team Morocco.", empty: 'New trophies coming soon…', podiums: 'podiums', events: 'competitions', photos: 'photos', video: 'Watch the video', see: 'See the achievements', close: 'Close' },
+  palmares: { trophies: 'The trophies', champion: 'Champion', champSub: 'On the podium with his trophies', kicker: 'Achievements', title: 'Trophies & feats', sub: "Competitions, podiums and big moments: Omar's journey at the highest level, with Team Morocco.", empty: 'New trophies coming soon…', podiums: 'podiums', events: 'competitions', photos: 'photos', video: 'Watch the video', see: 'See the achievements', close: 'Close' },
   hero: {
     kicker: 'Rabat · Mohammedia · Morocco',
     tagline: 'Tuna & Marlin - the season of giants.',
@@ -230,7 +230,7 @@ const en: Dict = {
 
 const ar: Dict = {
   nav: { home: 'الرئيسية', book: 'احجز', collection: 'لوحة الصيد', achievements: 'الإنجازات', bookCta: 'احجز رحلة' },
-  palmares: { trophies: 'الكؤوس', kicker: 'الإنجازات', title: 'الكؤوس والإنجازات', sub: 'منافسات ومنصات تتويج ولحظات كبيرة: مسيرة عمر في أعلى مستوى مع المنتخب المغربي.', empty: 'كؤوس جديدة قريبًا…', podiums: 'منصات تتويج', events: 'منافسات', photos: 'صور', video: 'شاهد الفيديو', see: 'شاهد الإنجازات', close: 'إغلاق' },
+  palmares: { trophies: 'الكؤوس', champion: 'البطل', champSub: 'على منصة التتويج مع كؤوسه', kicker: 'الإنجازات', title: 'الكؤوس والإنجازات', sub: 'منافسات ومنصات تتويج ولحظات كبيرة: مسيرة عمر في أعلى مستوى مع المنتخب المغربي.', empty: 'كؤوس جديدة قريبًا…', podiums: 'منصات تتويج', events: 'منافسات', photos: 'صور', video: 'شاهد الفيديو', see: 'شاهد الإنجازات', close: 'إغلاق' },
   hero: {
     kicker: 'الرباط · المحمدية · المغرب',
     tagline: 'التونة والمرلين - موسم العمالقة.',
@@ -344,7 +344,7 @@ const ar: Dict = {
 
 const es: Dict = {
   nav: { home: 'Inicio', book: 'Reservar', collection: 'Tablón de capturas', achievements: 'Palmarés', bookCta: 'Reservar salida' },
-  palmares: { trophies: 'Los trofeos', kicker: 'Palmarés', title: 'Trofeos y hazañas', sub: 'Competiciones, podios y grandes momentos: la trayectoria de Omar al más alto nivel, con el equipo de Marruecos.', empty: 'Pronto llegarán nuevos trofeos…', podiums: 'podios', events: 'competiciones', photos: 'fotos', video: 'Ver el vídeo', see: 'Ver el palmarés', close: 'Cerrar' },
+  palmares: { trophies: 'Los trofeos', champion: 'Campeón', champSub: 'En el podio con sus trofeos', kicker: 'Palmarés', title: 'Trofeos y hazañas', sub: 'Competiciones, podios y grandes momentos: la trayectoria de Omar al más alto nivel, con el equipo de Marruecos.', empty: 'Pronto llegarán nuevos trofeos…', podiums: 'podios', events: 'competiciones', photos: 'fotos', video: 'Ver el vídeo', see: 'Ver el palmarés', close: 'Cerrar' },
   hero: {
     kicker: 'Rabat · Mohammedia · Marruecos',
     tagline: 'Atún y marlín - la temporada de los gigantes.',
@@ -458,7 +458,7 @@ const es: Dict = {
 
 const it: Dict = {
   nav: { home: 'Home', book: 'Prenota', collection: 'Bacheca catture', achievements: 'Palmarès', bookCta: 'Prenota un’uscita' },
-  palmares: { trophies: 'I trofei', kicker: 'Palmarès', title: 'Trofei e imprese', sub: 'Gare, podi e grandi momenti: il percorso di Omar ai massimi livelli, con la squadra del Marocco.', empty: 'Nuovi trofei in arrivo…', podiums: 'podi', events: 'gare', photos: 'foto', video: 'Guarda il video', see: 'Vedi il palmarès', close: 'Chiudi' },
+  palmares: { trophies: 'I trofei', champion: 'Campione', champSub: 'Sul podio con i suoi trofei', kicker: 'Palmarès', title: 'Trofei e imprese', sub: 'Gare, podi e grandi momenti: il percorso di Omar ai massimi livelli, con la squadra del Marocco.', empty: 'Nuovi trofei in arrivo…', podiums: 'podi', events: 'gare', photos: 'foto', video: 'Guarda il video', see: 'Vedi il palmarès', close: 'Chiudi' },
   hero: {
     kicker: 'Rabat · Mohammedia · Marocco',
     tagline: 'Tonno e marlin - la stagione dei giganti.',

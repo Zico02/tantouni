@@ -292,7 +292,7 @@ const SPECIES = [
     "rarity": "prized",
     "zone": "monde",
     "names": {
-      "fr": "Mafou (Cobia)",
+      "fr": "Mafou",
       "en": "Cobia",
       "ar": "الكوبيا",
       "es": "Cobia",
@@ -1034,6 +1034,7 @@ export function seedAchievements() {
         '/uploads/jebel-sifah-affiche.jpg',
       ],
       trophies: [{"image": "/uploads/trophee-jebel-sifah-equipe.webp", "label": {"fr": "2ᵉ place par équipe", "en": "2nd Place Team", "ar": "المركز الثاني للفرق", "es": "2.º puesto por equipos", "it": "2° posto a squadre"}}, {"image": "/uploads/trophee-jebel-sifah-top-angler.webp", "label": {"fr": "2ᵉ meilleur pêcheur", "en": "2nd Top Angler", "ar": "ثاني أفضل صياد", "es": "2.º mejor pescador", "it": "2° miglior pescatore"}}, {"image": "/uploads/trophee-jebel-sifah-biggest-catch.webp", "label": {"fr": "2ᵉ plus grosse prise", "en": "2nd Biggest Catch", "ar": "ثاني أكبر صيد", "es": "2.ª captura más grande", "it": "2ª cattura più grande"}}],
+      champion: "/uploads/jebel-sifah-champion.webp",
     },
     {
       "id": "jig-tanger",
