@@ -1,7 +1,7 @@
 // Real shark photos (Wikimedia Commons, free licences). Cut out for the catch board.
 // CC BY / BY-SA photos must show their author + licence: the fish card displays `credit`.
 export const SHARK_PHOTOS = {
-  "requin-marteau-halicorne": {"image": "/uploads/sharks/requin-marteau-halicorne.webp", "credit": {"author": "Gant223", "license": "CC BY-SA 4.0", "url": "https://commons.wikimedia.org/wiki/File:Scalloped_hammerhead_shark_in_Aqua_park_shinagawa.png"}},
+  "requin-marteau-halicorne": {"image": "/uploads/sharks/requin-marteau-halicorne-v2.webp"},
   "requin-cuivre": {"image": "/uploads/sharks/requin-cuivre.webp", "credit": {"author": "Robert Nyman", "license": "CC BY 2.0", "url": "https://commons.wikimedia.org/wiki/File:Bronze_whaler_auckland.jpg"}},
   "requin-citron": {"image": "/uploads/sharks/requin-citron.webp", "credit": {"author": "Albert kok", "license": "CC BY-SA 3.0", "url": "https://commons.wikimedia.org/wiki/File:Lemon_shark2.jpg"}},
   "requin-baleine": {"image": "/uploads/sharks/requin-baleine.webp", "credit": {"author": "Derek Keats from Johannesburg, South Africa", "license": "CC BY 2.0", "url": "https://commons.wikimedia.org/wiki/File:Whaleshark,_Daedalus_Reef,_Red_Sea,_Egypt_-_take_2_(6142991715).jpg"}},
