@@ -394,3 +394,9 @@
 .col-chip--bait.is-on { background: #4ade80; border-color: #4ade80; color: var(--ink); }
 .col-chip__hook { font-size: 15px; display: inline-block; transform-origin: 50% 0; }
 .col-chip--bait:hover .col-chip__hook, .col-chip--bait.is-on .col-chip__hook { animation: bait-wiggle 1.2s ease-in-out infinite; }
+
+.fm__credit {
+  position: absolute; top: 12px; inset-inline-start: 14px; z-index: 2; max-width: calc(100% - 28px);
+  font-size: 10.5px; color: rgba(233, 246, 255, 0.55); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.fm__credit:hover { color: var(--text); text-decoration: underline; }

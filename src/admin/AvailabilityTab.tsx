@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import Calendar, { iso } from '../components/Calendar';
 import { api } from '../lib/api';
 import { SITE } from '../lib/site';
-import type { BlockedDay, Reservation } from '../lib/types';
+import type { BlockedDay, Reservation, SeaDay } from '../lib/types';
+import SeaPanel, { SeaLine, seaVerdict, type Spot } from './SeaPanel';
 import { frDate } from './Admin';
 import { Bolt } from '../components/icons';
 
@@ -20,6 +21,17 @@ export default function AvailabilityTab({ onAuthError }: { onAuthError: (e: unkn
   const [reason, setReason] = useState('');
   const [range, setRange] = useState({ from: '', to: '', reason: '' });
   const [note, setNote] = useState('');
+  const [spot, setSpot] = useState<Spot>(() => { try { return (localStorage.getItem('tantouni-sea-spot') as Spot) || 'mohammedia'; } catch { return 'mohammedia'; } });
+  const [sea, setSea] = useState<{ days: SeaDay[]; updated: number; stale?: boolean } | null>(null);
+  const [seaErr, setSeaErr] = useState(false);
+  useEffect(() => {
+    let live = true;
+    setSea(null); setSeaErr(false);
+    try { localStorage.setItem('tantouni-sea-spot', spot); } catch { /* private mode */ }
+    api.sea(spot).then((r) => live && setSea(r)).catch((e) => { if (live) { setSeaErr(true); onAuthError(e); } });
+    return () => { live = false; };
+  }, [spot, onAuthError]);
+  const seaMap = useMemo(() => new Map((sea?.days ?? []).map((d) => [d.date, d])), [sea]);
 
   const load = () => Promise.all([api.blocked(), api.reservations()]).then(([b, r]) => { setBlocked(b); setRes(r); }).catch(onAuthError);
   useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
@@ -87,12 +99,17 @@ export default function AvailabilityTab({ onAuthError }: { onAuthError: (e: unkn
               const weather = b?.type === 'weather';
               const n = bookedOn(d);
               const past = d < today;
+              const sd = !past ? seaMap.get(d) : undefined;
+              const seaTag = sd ? <span className={`cal__sea is-${seaVerdict(sd).level}`} title={`${seaVerdict(sd).label} : vagues ${sd.wave.toFixed(1)} m, rafales ${Math.round(sd.gust ?? 0)} km/h`}>{sd.wave.toFixed(1)} m</span> : null;
               return {
                 className: `${past ? 'is-past' : ''} ${b ? (weather ? 'is-weather' : 'is-blocked') : ''} ${n >= CAP ? 'is-full' : n > CAP - 4 ? 'is-few' : ''} ${d === today ? 'is-today' : ''}`,
                 title: b ? `${weather ? 'Mauvais temps' : 'Bloqué'}${b.reason ? ` : ${b.reason}` : ''}` : `${n}/${CAP} réservés`,
-                content: b
-                  ? weather ? <span className="cal__tag cal__tag--weather"><Bolt />Mauvais temps</span> : <span className="cal__tag">Bloqué</span>
-                  : n ? <span className="cal__tag adm-cal__n">{n}/{CAP}</span> : null,
+                content: <>
+                  {b
+                    ? weather ? <span className="cal__tag cal__tag--weather"><Bolt />Mauvais temps</span> : <span className="cal__tag">Bloqué</span>
+                    : n ? <span className="cal__tag adm-cal__n">{n}/{CAP}</span> : null}
+                  {seaTag}
+                </>,
               };
             }}
           />
@@ -100,9 +117,24 @@ export default function AvailabilityTab({ onAuthError }: { onAuthError: (e: unkn
 
         <div className="adm-avail__side">
           <div className="adm-card">
+            <h3 className="adm-card__title">Bloquer une période</h3>
+            <div className="adm-range">
+              <div className="field"><label>Du</label><input type="date" min={today} value={range.from} onChange={(e) => setRange({ ...range, from: e.target.value })} /></div>
+              <div className="field"><label>Au</label><input type="date" min={range.from || today} value={range.to} onChange={(e) => setRange({ ...range, to: e.target.value })} /></div>
+            </div>
+            <div className="field"><label>Raison (facultatif)</label><input value={range.reason} onChange={(e) => setRange({ ...range, reason: e.target.value })} placeholder="Voyage IGFA, vacances…" /></div>
+            <div className="adm-split">
+              <button className="btn danger sm" disabled={!range.from || !range.to || range.to < range.from} onClick={() => blockRange()}>Bloquer la période</button>
+              <button className="btn weather sm" disabled={!range.from || !range.to || range.to < range.from} onClick={() => blockRange('weather')}><Bolt />Mauvais temps</button>
+            </div>
+          </div>
+
+          <SeaPanel days={sea?.days ?? null} spot={spot} onSpot={setSpot} selected={selected} onSelect={setSelected} updated={sea?.updated ?? null} error={seaErr} stale={!!sea?.stale} />
+          <div className="adm-card">
             {selected ? (
               <>
                 <h3 className="adm-card__title">{frDate(selected)}</h3>
+                {seaMap.get(selected) && <SeaLine d={seaMap.get(selected)!} />}
                 {blockedMap.has(selected) ? (
                   <>
                     <p className="adm-muted">Ce jour est {blockedMap.get(selected)!.type === 'weather'
@@ -127,19 +159,6 @@ export default function AvailabilityTab({ onAuthError }: { onAuthError: (e: unkn
                 )}
               </>
             ) : <p className="adm-muted">Sélectionnez un jour dans le calendrier.</p>}
-          </div>
-
-          <div className="adm-card">
-            <h3 className="adm-card__title">Bloquer une période</h3>
-            <div className="adm-range">
-              <div className="field"><label>Du</label><input type="date" min={today} value={range.from} onChange={(e) => setRange({ ...range, from: e.target.value })} /></div>
-              <div className="field"><label>Au</label><input type="date" min={range.from || today} value={range.to} onChange={(e) => setRange({ ...range, to: e.target.value })} /></div>
-            </div>
-            <div className="field"><label>Raison (facultatif)</label><input value={range.reason} onChange={(e) => setRange({ ...range, reason: e.target.value })} placeholder="Voyage IGFA, vacances…" /></div>
-            <div className="adm-split">
-              <button className="btn danger sm" disabled={!range.from || !range.to || range.to < range.from} onClick={() => blockRange()}>Bloquer la période</button>
-              <button className="btn weather sm" disabled={!range.from || !range.to || range.to < range.from} onClick={() => blockRange('weather')}><Bolt />Mauvais temps</button>
-            </div>
           </div>
 
           <div className="adm-card">

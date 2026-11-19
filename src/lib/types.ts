@@ -44,6 +44,8 @@ export interface Fish {
   description: Partial<Record<Lang, string>>;
   /** Where it lives, one short line ("Où le trouver"). */
   range?: Partial<Record<Lang, string>>;
+  /** Photo author + licence, required for CC BY / BY-SA photos. */
+  credit?: { author: string; license: string; url?: string };
   caught: boolean;
   catch: { date: string; weight: string; length: string; location: string; notes: string };
   youtube: string;
@@ -142,6 +144,7 @@ export interface Order {
   ref: string;
   name: string;
   phone: string;
+  email?: string;
   city: string;
   address: string;
   note: string;
@@ -151,4 +154,12 @@ export interface Order {
   status: OrderStatus;
   adminNotes?: string;
   createdAt: string;
+}
+
+export interface SeaDay {
+  date: string;
+  /** max wave height (m), max wave period (s), dominant wave direction (°), max swell (m) */
+  wave: number; period: number; waveDir: number; swell: number;
+  /** max wind and gusts (km/h), dominant wind direction (°), WMO weather code, max temp (°C), rain (mm) */
+  wind: number | null; gust: number | null; windDir: number | null; code: number | null; temp: number | null; rain: number | null;
 }

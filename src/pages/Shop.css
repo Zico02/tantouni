@@ -84,7 +84,10 @@
   background: var(--sun); color: var(--ink); box-shadow: 0 6px 18px -6px rgba(255, 200, 61, 0.8);
 }
 .pcard__badge--out { background: #1b2433; color: #fff; box-shadow: none; }
-.pcard.is-out .pmedia img { filter: grayscale(0.8) opacity(0.6); }
+.pcard.is-out .pmedia img { filter: grayscale(0.8) opacity(0.6); transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), filter 0.45s ease; }
+/* sold out: grey at rest, real colours while the mouse is on it */
+.pcard.is-out:hover .pmedia img, .pcard.is-out:focus-within .pmedia img { filter: none; }
+.pcard.is-out:hover .pmedia--contain img, .pcard.is-out:focus-within .pmedia--contain img { filter: drop-shadow(0 18px 18px rgba(4, 18, 43, 0.28)); }
 .pcard__quick {
   all: unset; box-sizing: border-box; cursor: pointer; position: absolute; z-index: 3;
   left: 12px; right: 12px; bottom: 12px; padding: 13px 16px; border-radius: 14px; text-align: center;

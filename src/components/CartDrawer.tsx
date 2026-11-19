@@ -36,7 +36,7 @@ export default function CartDrawer() {
   const { lines, open } = useCart();
   const [products, setProducts] = useState<Product[]>([]);
   const [step, setStep] = useState<Step>('cart');
-  const [form, setForm] = useState({ name: '', phone: '', city: '', address: '', note: '' });
+  const [form, setForm] = useState({ name: '', phone: '', email: '', city: '', address: '', note: '' });
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
   const [done, setDone] = useState<{ ref: string; total: number } | null>(null);
@@ -143,6 +143,7 @@ export default function CartDrawer() {
                   <button type="button" className="drawer__back" onClick={() => setStep('cart')}>{t('shop.back')}</button>
                   <div className="field"><label htmlFor="o-name">{t('shop.fName')}</label><input id="o-name" required autoComplete="name" value={form.name} onChange={set('name')} /></div>
                   <div className="field"><label htmlFor="o-phone">{t('shop.fPhone')}</label><input id="o-phone" required type="tel" autoComplete="tel" inputMode="tel" value={form.phone} onChange={set('phone')} /></div>
+                  <div className="field"><label htmlFor="o-email">{t('shop.fEmail')}</label><input id="o-email" type="email" autoComplete="email" value={form.email} onChange={set('email')} /></div>
                   <div className="field"><label htmlFor="o-city">{t('shop.fCity')}</label><input id="o-city" required autoComplete="address-level2" value={form.city} onChange={set('city')} /></div>
                   <div className="field"><label htmlFor="o-address">{t('shop.fAddress')}</label><textarea id="o-address" required rows={2} autoComplete="street-address" value={form.address} onChange={set('address')} /></div>
                   <div className="field"><label htmlFor="o-note">{t('shop.fNote')}</label><textarea id="o-note" rows={2} value={form.note} onChange={set('note')} /></div>

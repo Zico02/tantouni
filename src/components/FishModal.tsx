@@ -107,6 +107,11 @@ export default function FishModal({ list, index, onClose, onNav }: Props) {
             </Suspense>
           </div>
           {fish.caught && <div className="fm__x"><CaughtStamp /></div>}
+          {fish.image && fish.credit?.author && (
+            <a className="fm__credit" href={fish.credit.url || undefined} target="_blank" rel="noreferrer">
+              Photo : {fish.credit.author} · {fish.credit.license}
+            </a>
+          )}
           <div className="fm__navs">
             <button onClick={prev} aria-label={t('fish.prev')}>‹</button>
             <span>{index + 1} / {list.length}</span>

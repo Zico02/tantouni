@@ -6,12 +6,16 @@ import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { db, load, save } from './db.js';
+import { BusyError, db, ready, save, withLock } from './db.js';
+import { confirmOrder, confirmReservation, notifyOrder, notifyReservation } from './notify.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = Number(process.env.API_PORT || 3001);
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-const SECRET = process.env.ADMIN_SECRET || crypto.randomBytes(32).toString('hex');
+const ON_VERCEL = Boolean(process.env.VERCEL);
+// Sessions must survive across Vercel's many short-lived servers, so the secret can't be random there.
+const SECRET = process.env.ADMIN_SECRET
+  || (ON_VERCEL ? crypto.createHash('sha256').update(`tantoni:${ADMIN_PASSWORD}`).digest('hex') : crypto.randomBytes(32).toString('hex'));
 
 export const PRICE_PER_PERSON = 1000; // MAD
 export const BOATS = 2;
@@ -26,14 +30,29 @@ if (!ADMIN_PASSWORD) {
   console.warn('[tantoni] ADMIN_PASSWORD is not set in .env - admin login is disabled.');
 }
 
-load();
 const app = express();
 app.use(cors());
 app.use(express.json({ limit: '1mb' }));
 
 const UPLOAD_DIR = path.join(__dirname, 'uploads');
-fs.mkdirSync(UPLOAD_DIR, { recursive: true });
+if (!ON_VERCEL) fs.mkdirSync(UPLOAD_DIR, { recursive: true });
 app.use('/uploads', express.static(UPLOAD_DIR, { maxAge: '7d' }));
+
+// Load the latest data before each API call. Changes run one at a time, so a refresh never lands mid-change.
+app.use('/api', (req, res, next) => {
+  if (req.method === 'GET') return ready().then(() => next(), next);
+  withLock(() => new Promise((done) => {
+    res.on('finish', done);
+    res.on('close', done);
+    ready().then(() => next(), (e) => { done(); next(e); });
+  }));
+});
+
+// On Vercel the server may be frozen right after answering, so emails are sent before replying there.
+const background = (...jobs) => {
+  const all = Promise.allSettled(jobs.map((j) => Promise.resolve(j)));
+  return ON_VERCEL ? Promise.race([all, new Promise((r) => setTimeout(r, 6000))]) : null;
+};
 
 // ---------- helpers ----------
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -185,6 +204,7 @@ async function createReservation(body, { admin = false } = {}) {
 app.post('/api/reservations', async (req, res) => {
   const { error, code, reservation: r } = await createReservation(req.body);
   if (error) return res.status(code).json({ error });
+  await background(notifyReservation(r), confirmReservation(r));
   res.status(201).json({ ref: r.ref, date: r.date, people: r.people, total: r.total, formula: r.formula, allocation: r.allocation });
 });
 
@@ -211,6 +231,7 @@ app.post('/api/orders', async (req, res) => {
   const city = clean(req.body.city, 80);
   const address = clean(req.body.address, 300);
   const note = clean(req.body.note, 1000);
+  const email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clean(req.body.email, 160)) ? clean(req.body.email, 160) : '';
   if (!name || !phone || !city || !address) return res.status(400).json({ error: 'missing_fields' });
   const raw = Array.isArray(req.body.items) ? req.body.items.slice(0, 30) : [];
   const items = [];
@@ -226,7 +247,7 @@ app.post('/api/orders', async (req, res) => {
   const order = {
     id: crypto.randomUUID(),
     ref: 'TSH-' + crypto.randomBytes(3).toString('hex').toUpperCase(),
-    name, phone, city, address, note,
+    name, phone, email, city, address, note,
     lang: clean(req.body.lang, 5) || 'fr',
     items,
     total: items.reduce((s, i) => s + i.price * i.qty, 0),
@@ -235,6 +256,7 @@ app.post('/api/orders', async (req, res) => {
   };
   db().orders.push(order);
   await save();
+  await background(notifyOrder(order), confirmOrder(order));
   res.status(201).json({ ref: order.ref, total: order.total });
 });
 
@@ -299,6 +321,50 @@ app.post('/api/admin/blocked', async (req, res) => {
   res.status(201).json({ date, affected });
 });
 
+// ---------- sea & weather forecast (Open-Meteo: free, no key) ----------
+// Points just offshore, where the boats fish. Only these coordinates are sent.
+const SPOTS = {
+  mohammedia: { lat: 33.74, lon: -7.45 },
+  rabat: { lat: 34.06, lon: -6.88 },
+};
+const seaCache = new Map(); // spot -> { at, data }
+const SEA_TTL_MS = 30 * 60 * 1000;
+
+async function seaForecast(spot) {
+  const { lat, lon } = SPOTS[spot];
+  const tz = 'timezone=Africa%2FCasablanca&forecast_days=7';
+  const [marine, weather] = await Promise.all([
+    fetch(`https://marine-api.open-meteo.com/v1/marine?latitude=${lat}&longitude=${lon}&daily=wave_height_max,wave_period_max,wave_direction_dominant,swell_wave_height_max&${tz}`).then((r) => r.json()),
+    fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=weather_code,temperature_2m_max,precipitation_sum,wind_speed_10m_max,wind_gusts_10m_max,wind_direction_10m_dominant&wind_speed_unit=kmh&${tz}`).then((r) => r.json()),
+  ]);
+  const m = marine.daily, w = weather.daily;
+  if (!m?.time || !w?.time) throw new Error('bad_forecast');
+  return m.time.map((date, i) => {
+    const j = w.time.indexOf(date);
+    return {
+      date,
+      wave: m.wave_height_max[i], period: m.wave_period_max[i], waveDir: m.wave_direction_dominant[i], swell: m.swell_wave_height_max[i],
+      wind: j >= 0 ? w.wind_speed_10m_max[j] : null, gust: j >= 0 ? w.wind_gusts_10m_max[j] : null,
+      windDir: j >= 0 ? w.wind_direction_10m_dominant[j] : null, code: j >= 0 ? w.weather_code[j] : null,
+      temp: j >= 0 ? w.temperature_2m_max[j] : null, rain: j >= 0 ? w.precipitation_sum[j] : null,
+    };
+  });
+}
+
+app.get('/api/admin/sea', async (req, res) => {
+  const spot = SPOTS[req.query.spot] ? req.query.spot : 'mohammedia';
+  const hit = seaCache.get(spot);
+  if (hit && Date.now() - hit.at < SEA_TTL_MS) return res.json({ spot, updated: hit.at, days: hit.data });
+  try {
+    const data = await seaForecast(spot);
+    seaCache.set(spot, { at: Date.now(), data });
+    res.json({ spot, updated: Date.now(), days: data });
+  } catch {
+    if (hit) return res.json({ spot, updated: hit.at, days: hit.data, stale: true });
+    res.status(502).json({ error: 'forecast_unavailable' });
+  }
+});
+
 app.delete('/api/admin/blocked/:date', async (req, res) => {
   db().blockedDays = db().blockedDays.filter((b) => b.date !== req.params.date);
   await save();
@@ -306,7 +372,7 @@ app.delete('/api/admin/blocked/:date', async (req, res) => {
 });
 
 const FISH_FIELDS = ['slug', 'names', 'nickname', 'scientific', 'maxLength', 'maxWeight', 'depth', 'habitat', 'techniques',
-  'season', 'description', 'caught', 'catch', 'youtube', 'image', 'art', 'rarity', 'zone', 'order', 'seas', 'group', 'bait', 'range'];
+  'season', 'description', 'caught', 'catch', 'youtube', 'image', 'art', 'rarity', 'zone', 'order', 'seas', 'group', 'bait', 'range', 'credit'];
 
 function pickFish(body) {
   const out = {};
@@ -437,18 +503,22 @@ app.delete('/api/admin/orders/:id', async (req, res) => {
   res.status(204).end();
 });
 
+// Uploads go to Vercel Blob when it's connected (BLOB_READ_WRITE_TOKEN), otherwise to server/uploads.
+const USE_BLOB = Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+const fileName = (original) => `${Date.now().toString(36)}-${crypto.randomBytes(4).toString('hex')}${path.extname(original).toLowerCase()}`;
 const upload = multer({
-  storage: multer.diskStorage({
-    destination: UPLOAD_DIR,
-    filename: (_req, file, cb) => cb(null, `${Date.now().toString(36)}-${crypto.randomBytes(4).toString('hex')}${path.extname(file.originalname).toLowerCase()}`),
-  }),
-  limits: { fileSize: 10 * 1024 * 1024 },
+  storage: USE_BLOB ? multer.memoryStorage() : multer.diskStorage({ destination: UPLOAD_DIR, filename: (_req, file, cb) => cb(null, fileName(file.originalname)) }),
+  // Vercel accepts requests up to 4.5 MB
+  limits: { fileSize: (ON_VERCEL ? 4 : 10) * 1024 * 1024 },
   fileFilter: (_req, file, cb) => cb(null, /^image\/(png|jpe?g|webp|avif)$/.test(file.mimetype)),
 });
 
-app.post('/api/admin/upload', upload.single('image'), (req, res) => {
+app.post('/api/admin/upload', upload.single('image'), async (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'bad_file' });
-  res.status(201).json({ url: `/uploads/${req.file.filename}` });
+  if (!USE_BLOB) return res.status(201).json({ url: `/uploads/${req.file.filename}` });
+  const { put } = await import('@vercel/blob');
+  const blob = await put(`uploads/${fileName(req.file.originalname)}`, req.file.buffer, { access: 'public', contentType: req.file.mimetype });
+  res.status(201).json({ url: blob.url });
 });
 
 // ---------- production: serve the built site ----------
@@ -458,4 +528,13 @@ if (fs.existsSync(DIST)) {
   app.get('/{*splat}', (req, res, next) => (req.path.startsWith('/api') ? next() : res.sendFile(path.join(DIST, 'index.html'))));
 }
 
-app.listen(PORT, () => console.log(`[tantoni] API on http://localhost:${PORT}`));
+// Two admins saving at the very same moment: the second one is asked to retry.
+app.use((err, _req, res, _next) => {
+  if (err instanceof BusyError) return res.status(409).json({ error: 'busy' });
+  if (err?.code === 'LIMIT_FILE_SIZE') return res.status(413).json({ error: 'file_too_large' });
+  console.error('[tantoni]', err);
+  res.status(500).json({ error: 'server_error' });
+});
+
+if (!ON_VERCEL) app.listen(PORT, () => console.log(`[tantoni] API on http://localhost:${PORT}`));
+export default app;

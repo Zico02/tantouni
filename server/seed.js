@@ -1,5 +1,6 @@
 import { SEAS_BY_SLUG, SHARKS } from './sharks.js';
 import { RANGES } from './ranges.js';
+import { SHARK_PHOTOS } from './sharkPhotos.js';
 
 // Starting species list for the "Tableau de chasse". Omar can tick, edit, add and
 // delete from the admin panel; this file only runs when the database is created.
@@ -810,6 +811,48 @@ const SPECIES = [
     }
   }),
   F({
+    "slug": "orphie",
+    "rarity": "common",
+    "zone": "maroc",
+    "names": {
+      "fr": "Orphie",
+      "en": "Garfish",
+      "ar": "سمك الإبرة",
+      "es": "Aguja",
+      "it": "Aguglia"
+    },
+    "nickname": "NEEDLEFISH",
+    "scientific": "Belone belone",
+    "maxLength": 94,
+    "maxWeight": 1.3,
+    "depth": "0 – 10 m",
+    "habitat": [
+      "pelagic",
+      "coastal"
+    ],
+    "techniques": [
+      "spinning"
+    ],
+    "season": [],
+    "seas": [
+      "atlantique",
+      "mediterranee"
+    ],
+    "description": {
+      "fr": "Long poisson-aiguille au bec effilé garni de petites dents, au dos vert-bleu et aux arêtes vertes. Il chasse en surface et enchaîne les sauts une fois ferré.",
+      "en": "A long needle-shaped fish with a thin beak full of small teeth, a blue-green back and green bones. It hunts at the surface and leaps again and again once hooked.",
+      "ar": "سمكة طويلة على شكل إبرة بمنقار رفيع مليء بأسنان صغيرة وظهر أخضر مزرق وعظام خضراء. تصطاد على السطح وتقفز مرارًا بعد علوقها."
+    },
+    "image": "/uploads/orphie.webp",
+    "art": {
+      "shape": "barracuda",
+      "back": "#2f6a6a",
+      "belly": "#e8eef0",
+      "fin": "#9aa38a",
+      "accent": "#4a8a8a"
+    }
+  }),
+  F({
     slug: 'bar', rarity: 'common', zone: 'maroc',
     names: { fr: 'Loup Bar', en: 'European seabass', ar: 'القاروس', es: 'Lubina', it: 'Spigola' },
     nickname: 'DER3I',
@@ -998,6 +1041,49 @@ const SPECIES = [
     }
   }),
   F({
+    "slug": "raie-bouclee",
+    "rarity": "common",
+    "zone": "maroc",
+    "names": {
+      "fr": "Raie bouclée",
+      "en": "Thornback ray",
+      "ar": "الراية الشوكية",
+      "es": "Raya de clavos",
+      "it": "Razza chiodata"
+    },
+    "nickname": "THORNBACK RAY",
+    "scientific": "Raja clavata",
+    "maxLength": 105,
+    "maxWeight": 18,
+    "depth": "10 – 300 m",
+    "habitat": [
+      "coastal"
+    ],
+    "techniques": [
+      "bottom"
+    ],
+    "season": [],
+    "seas": [
+      "atlantique",
+      "mediterranee"
+    ],
+    "description": {
+      "fr": "Raie au disque losangique brun tacheté de clair, le dos et la queue hérissés de « boucles » épineuses. Elle colle au fond et se défend en faisant ventouse.",
+      "en": "A ray with a brown diamond-shaped disc spotted with cream, its back and tail covered with thorny bucklers. It sticks to the bottom and fights by suctioning down.",
+      "ar": "راية بقرص معيني بني مرقط بنقاط فاتحة، وظهر وذيل مغطيان بأشواك. تلتصق بالقاع وتقاوم بالالتصاق كالكأس."
+    },
+    "image": "/uploads/raie-bouclee.webp",
+    "art": {
+      "shape": "bream",
+      "back": "#8a7a50",
+      "belly": "#e8dcc0",
+      "fin": "#6b5e3c",
+      "accent": "#f0e6c8",
+      "spots": true,
+      "deep": true
+    }
+  }),
+  F({
     slug: "grondin-perlon",
     rarity: "common",
     zone: "maroc",
@@ -1014,6 +1100,49 @@ const SPECIES = [
     description: {"fr": "Il « marche » sur le fond grâce aux rayons de ses nageoires et déploie de grandes ailes pectorales bordées de bleu. Il grogne même quand on le sort de l'eau !", "en": "It \"walks\" on the bottom on its fin rays and spreads huge blue-edged pectoral wings. It even grunts when pulled out of the water!", "ar": "يمشي على القاع بأشعة زعانفه ويفرد زعانف صدرية كبيرة كالأجنحة. بل يصدر صوت همهمة عند إخراجه من الماء!"},
     image: "/uploads/searobin.png",
     art: {"shape": "bass", "back": "#8a4b2c", "belly": "#efe2d6", "fin": "#e07a3c", "accent": "#1d1d1d", "spots": true},
+  }),
+  F({
+    "slug": "lotte",
+    "rarity": "prized",
+    "zone": "maroc",
+    "names": {
+      "fr": "Lotte (Baudroie)",
+      "en": "Monkfish",
+      "ar": "سمك الشيطان",
+      "es": "Rape",
+      "it": "Rana pescatrice"
+    },
+    "nickname": "MONKFISH",
+    "scientific": "Lophius piscatorius",
+    "maxLength": 200,
+    "maxWeight": 57,
+    "depth": "20 – 1000 m",
+    "habitat": [
+      "coastal"
+    ],
+    "techniques": [
+      "bottom",
+      "jigging"
+    ],
+    "season": [],
+    "seas": [
+      "atlantique",
+      "mediterranee"
+    ],
+    "description": {
+      "fr": "Une tête énorme, une gueule immense et un leurre naturel sur le front pour attirer ses proies. Posée sur le fond, la lotte avale tout ce qui passe devant elle.",
+      "en": "A huge head, an enormous mouth and a natural lure on its forehead to attract prey. Lying on the bottom, the monkfish swallows anything that passes in front of it.",
+      "ar": "رأس ضخم وفم هائل وطُعم طبيعي على الجبهة لجذب الفرائس. يرقد سمك الشيطان في القاع ويبتلع كل ما يمر أمامه."
+    },
+    "image": "/uploads/lotte.webp",
+    "art": {
+      "shape": "grouper",
+      "back": "#5e3328",
+      "belly": "#c79a8a",
+      "fin": "#4a2820",
+      "accent": "#e8c8b8",
+      "deep": true
+    }
   }),
   F({
     "slug": "carangue-gros-yeux",
@@ -1138,6 +1267,50 @@ const SPECIES = [
     art: { shape: 'jack', back: '#5c6a4c', belly: '#d9dde0', fin: '#3c6fb5', accent: '#1d2125', spots: true },
   }),
   F({
+    "slug": "cordonnier-bossu",
+    "rarity": "prized",
+    "zone": "maroc",
+    "names": {
+      "fr": "Cordonnier bossu",
+      "en": "Alexandria pompano",
+      "ar": "البومبانو الإسكندراني",
+      "es": "Pámpano de Alejandría",
+      "it": "Carangide d'Alessandria"
+    },
+    "nickname": "ALEXANDRIA POMPANO",
+    "scientific": "Alectis alexandrina",
+    "maxLength": 100,
+    "maxWeight": 7,
+    "depth": "10 – 100 m",
+    "habitat": [
+      "reef",
+      "coastal"
+    ],
+    "techniques": [
+      "jigging",
+      "livebait"
+    ],
+    "season": [],
+    "seas": [
+      "atlantique",
+      "mediterranee"
+    ],
+    "description": {
+      "fr": "Une carangue au profil anguleux, argentée et iridescente. Les jeunes portent de longs filaments aux nageoires, qui raccourcissent avec l'âge. Puissante et nerveuse au jig.",
+      "en": "An angular, silvery and iridescent trevally. Juveniles carry long filaments on their fins, which shorten with age. Strong and nervous on the jig.",
+      "ar": "كارانكس بجسم زاوي فضي متلألئ. تحمل الصغار خيوطًا طويلة على الزعانف تقصر مع التقدم في العمر. قوية وعصبية على الجيغ."
+    },
+    "image": "/uploads/cordonnier-bossu.webp",
+    "art": {
+      "shape": "jack",
+      "back": "#7f9fc0",
+      "belly": "#e6ecef",
+      "fin": "#556070",
+      "accent": "#d8e4f0",
+      "deep": true
+    }
+  }),
+  F({
     slug: "rascasse",
     rarity: "common",
     zone: "maroc",
@@ -1154,6 +1327,49 @@ const SPECIES = [
     description: {"fr": "La reine de la bouillabaisse, camouflée dans les roches avec ses franges et sa robe rouge. Attention : ses épines dorsales sont venimeuses !", "en": "The queen of bouillabaisse, camouflaged among the rocks with its fringes and red coat. Careful: its dorsal spines are venomous!", "ar": "ملكة حساء السمك، متخفية بين الصخور بزوائدها ولونها الأحمر. انتبه: أشواكها الظهرية سامة!"},
     image: "/uploads/rascasse.png",
     art: {"shape": "grouper", "back": "#b8452d", "belly": "#f0c4a6", "fin": "#d4553e", "accent": "#3a1d14", "blotches": true, "spots": true},
+  }),
+  F({
+    "slug": "murene",
+    "rarity": "prized",
+    "zone": "maroc",
+    "names": {
+      "fr": "Murène",
+      "en": "Mediterranean moray",
+      "ar": "سمك الموراي",
+      "es": "Morena",
+      "it": "Murena"
+    },
+    "nickname": "MORAY",
+    "scientific": "Muraena helena",
+    "maxLength": 150,
+    "maxWeight": 15,
+    "depth": "0 – 80 m",
+    "habitat": [
+      "reef"
+    ],
+    "techniques": [
+      "bottom",
+      "livebait"
+    ],
+    "season": [],
+    "seas": [
+      "atlantique",
+      "mediterranee"
+    ],
+    "description": {
+      "fr": "Corps de serpent tacheté, gueule armée de dents pointues : la murène guette depuis son trou dans la roche et s'y enroule dès qu'elle est piquée. Un combat court mais musclé.",
+      "en": "A spotted snake-like body and a mouth full of sharp teeth: the moray waits in its hole in the rocks and wraps itself inside as soon as it is hooked. A short but brutal fight.",
+      "ar": "جسم ثعباني مرقط وفم مسلح بأسنان حادة: تتربص الموراي من جحرها في الصخر وتلتف بداخله بمجرد علوقها. معركة قصيرة لكنها عنيفة."
+    },
+    "image": "/uploads/murene.webp",
+    "art": {
+      "shape": "barracuda",
+      "back": "#6b3f2a",
+      "belly": "#b08a6a",
+      "fin": "#5a3322",
+      "accent": "#e8d3b0",
+      "spots": true
+    }
   }),
   F({
     slug: 'requin-chama', rarity: 'legend', zone: 'maroc',
@@ -1174,7 +1390,7 @@ const SPECIES = [
 
 export function seedFish() {
   // fish species first, then the sharks; each gets the seas where it lives
-  const all = [...SPECIES, ...SHARKS.map((x) => F(x))].map((x) => ({ seas: SEAS_BY_SLUG[x.slug] ?? x.seas ?? [], range: RANGES[x.slug] ?? {}, ...x }));
+  const all = [...SPECIES, ...SHARKS.map((x) => F(x))].map((x) => ({ seas: SEAS_BY_SLUG[x.slug] ?? x.seas ?? [], range: RANGES[x.slug] ?? {}, ...x, ...(SHARK_PHOTOS[x.slug] ?? {}) }));
   const now = Date.now();
   return all.map((s, i) => ({ id: `${s.slug}-${(now + i).toString(36)}`, order: i, ...s }));
 }

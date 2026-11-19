@@ -1,4 +1,4 @@
-import type { Achievement, BlockedDay, DayAvailability, Fish, Order, Product, Reservation } from './types';
+import type { Achievement, BlockedDay, DayAvailability, Fish, Order, Product, Reservation, SeaDay } from './types';
 
 const TOKEN_KEY = 'tantoni-admin-token';
 
@@ -52,7 +52,7 @@ export const api = {
   deleteAchievement: (id: string) => request<void>(`/api/admin/achievements/${id}`, { method: 'DELETE' }, true),
 
   products: () => request<Product[]>('/api/products'),
-  order: (body: { name: string; phone: string; city: string; address: string; note: string; lang: string; items: { id: string; size: string; qty: number }[] }) =>
+  order: (body: { name: string; phone: string; email: string; city: string; address: string; note: string; lang: string; items: { id: string; size: string; qty: number }[] }) =>
     request<{ ref: string; total: number }>('/api/orders', { method: 'POST', body: json(body) }),
   createProduct: (p: Partial<Product>) => request<Product>('/api/admin/products', { method: 'POST', body: json(p) }, true),
   updateProduct: (id: string, p: Partial<Product>) => request<Product>(`/api/admin/products/${id}`, { method: 'PUT', body: json(p) }, true),
@@ -69,6 +69,7 @@ export const api = {
   updateReservation: (id: string, patch: Partial<Pick<Reservation, 'status' | 'adminNotes'>>) =>
     request<Reservation>(`/api/admin/reservations/${id}`, { method: 'PATCH', body: json(patch) }, true),
   deleteReservation: (id: string) => request<void>(`/api/admin/reservations/${id}`, { method: 'DELETE' }, true),
+  sea: (spot: 'mohammedia' | 'rabat') => request<{ spot: string; updated: number; days: SeaDay[]; stale?: boolean }>(`/api/admin/sea?spot=${spot}`, {}, true),
   blocked: () => request<BlockedDay[]>('/api/admin/blocked', {}, true),
   block: (date: string, reason: string, type: 'blocked' | 'weather' = 'blocked') =>
     request<{ date: string; affected: number }>('/api/admin/blocked', { method: 'POST', body: json({ date, reason, type }) }, true),

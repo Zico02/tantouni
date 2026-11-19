@@ -245,6 +245,7 @@ export default function ShopTab({ onAuthError }: { onAuthError: (e: unknown) => 
                   <b>{o.name}</b>
                   <span className="adm-ref">{o.ref} · {when(o.createdAt)}</span>
                   <small className="adm-order__addr">{o.city} - {o.address}</small>
+                  {o.email && <a className="adm-mail" href={`mailto:${o.email}`}>{o.email}</a>}
                   {o.note && <p className="adm-row__msg">« {o.note} »</p>}
                 </div>
                 <div className="adm-order__contact">
