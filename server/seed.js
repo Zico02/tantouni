@@ -1325,7 +1325,7 @@ const SPECIES = [
     season: [],
     seas: ["atlantique", "mediterranee"],
     description: {"fr": "La reine de la bouillabaisse, camouflée dans les roches avec ses franges et sa robe rouge. Attention : ses épines dorsales sont venimeuses !", "en": "The queen of bouillabaisse, camouflaged among the rocks with its fringes and red coat. Careful: its dorsal spines are venomous!", "ar": "ملكة حساء السمك، متخفية بين الصخور بزوائدها ولونها الأحمر. انتبه: أشواكها الظهرية سامة!"},
-    image: "/uploads/rascasse.png",
+    image: "/uploads/rascasse-v2.webp",
     art: {"shape": "grouper", "back": "#b8452d", "belly": "#f0c4a6", "fin": "#d4553e", "accent": "#3a1d14", "blotches": true, "spots": true},
   }),
   F({
