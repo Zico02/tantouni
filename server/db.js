@@ -22,6 +22,7 @@ function initial() {
     achievements: seedAchievements(),
     products: seedProducts(),
     shopVersion: 4,
+    boardVersion: 2,
     orders: [],
   };
 }
@@ -71,6 +72,20 @@ function migrate(state) {
       if (p.slug === 'casquette-trucker' && p.price === 75) p.price = 150;
     }
     state.shopVersion = 4;
+    dirty = true;
+  }
+  // board v2 (one time): add the Atlantic bluefin card as 3rd tuna, then Courbine, Germon, Dogtooth
+  if ((state.boardVersion ?? 1) < 2) {
+    if (!state.fish.some((f) => f.slug === 'thon-rouge-atlantique')) {
+      const nf = seedFish().find((f) => f.slug === 'thon-rouge-atlantique');
+      if (nf) state.fish.push(nf);
+    }
+    const list = [...state.fish].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    const FRONT = ['thon-albacore', 'thon-rouge', 'thon-rouge-atlantique', 'courbine', 'germon', 'thon-dents-de-chien'];
+    const front = FRONT.map((s) => list.find((f) => f.slug === s)).filter(Boolean);
+    const rest = list.filter((f) => !FRONT.includes(f.slug));
+    [...front, ...rest].forEach((f, i) => { f.order = i; });
+    state.boardVersion = 2;
     dirty = true;
   }
   // seas filter: give existing fish their seas, and add sharks that aren't on the board yet
