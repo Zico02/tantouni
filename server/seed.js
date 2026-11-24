@@ -275,6 +275,49 @@ const SPECIES = [
     art: { shape: 'jack', back: '#4a5866', belly: '#eef0f1', fin: '#55606b', accent: '#2c3640', wavyLine: true },
   }),
   F({
+    "slug": "almaco-jack",
+    "rarity": "prized",
+    "zone": "maroc",
+    "names": {
+      "fr": "Almaco Jack",
+      "en": "Almaco Jack",
+      "ar": "السريولا الألماكو",
+      "es": "Medregal limón",
+      "it": "Ricciola falcata"
+    },
+    "nickname": "ALMACO",
+    "scientific": "Seriola rivoliana",
+    "maxLength": 160,
+    "maxWeight": 60,
+    "depth": "5 – 250 m",
+    "habitat": [
+      "pelagic",
+      "reef"
+    ],
+    "techniques": [
+      "jigging",
+      "livebait"
+    ],
+    "season": [],
+    "seas": [
+      "atlantique",
+      "indonesie"
+    ],
+    "description": {
+      "fr": "Cousine de la sériole, plus haute et plus foncée, avec une bande sombre au-dessus de l'œil. Elle tient les tombants et les épaves profondes et plonge dès la touche.",
+      "en": "A cousin of the amberjack, deeper-bodied and darker, with a dark band above the eye. It holds deep drop-offs and wrecks and dives as soon as it is hooked.",
+      "ar": "قريبة السريولا، بجسم أعلى ولون أغمق وشريط داكن فوق العين. تلازم المنحدرات والحطام العميقة وتغوص فور علوقها."
+    },
+    "image": "/uploads/almaco-jack.webp",
+    "art": {
+      "shape": "jack",
+      "back": "#4a4f58",
+      "belly": "#cfd3d8",
+      "fin": "#3a3e45",
+      "accent": "#8a8f98"
+    }
+  }),
+  F({
     slug: 'merou', rarity: 'prized', zone: 'maroc',
     names: { fr: 'Grouper', en: 'Dusky grouper', ar: 'الميرو', es: 'Mero', it: 'Cernia bruna' },
     nickname: 'MÉROU',
@@ -303,6 +346,89 @@ const SPECIES = [
       ar: 'البادخو، عملاق الصخور المغربية بلونه البني المرقط بالذهبي. عندما يعلق يندفع نحو جحره: كل شيء يُحسم في الأمتار الأولى.',
     },
     art: { shape: 'grouper', back: '#5a3d2b', belly: '#c9a77e', fin: '#4a3020', accent: '#e6d0a8', blotches: true },
+  }),
+  F({
+    "slug": "broomtail-grouper",
+    "rarity": "legend",
+    "zone": "monde",
+    "names": {
+      "fr": "Broomtail Grouper",
+      "en": "Broomtail Grouper",
+      "ar": "الهامور ذو الذيل المكنسي",
+      "es": "Garropa",
+      "it": "Cernia coda di scopa"
+    },
+    "nickname": "BROOMTAIL",
+    "scientific": "Mycteroperca xenarcha",
+    "maxLength": 150,
+    "maxWeight": 45,
+    "depth": "0 – 75 m",
+    "habitat": [
+      "reef",
+      "coastal"
+    ],
+    "techniques": [
+      "livebait",
+      "jigging",
+      "bottom"
+    ],
+    "season": [],
+    "seas": [],
+    "description": {
+      "fr": "Grand mérou du Pacifique Est à la robe marbrée et à la queue frangée « en balai ». Il guette près des roches et des épaves : une fois piqué, il faut l'arracher du fond.",
+      "en": "A big Eastern Pacific grouper with a marbled body and a ragged, broom-like tail. It lurks by rocks and wrecks: once hooked, you have to tear it off the bottom.",
+      "ar": "هامور كبير من شرق الهادئ بجسم مرقش وذيل مهدب كالمكنسة. يتربص قرب الصخور والحطام: بعد علوقه يجب انتزاعه من القاع."
+    },
+    "image": "/uploads/broomtail-grouper.webp",
+    "art": {
+      "shape": "grouper",
+      "back": "#5a3e30",
+      "belly": "#d8c49a",
+      "fin": "#4a3026",
+      "accent": "#e8d8a8",
+      "spots": true
+    }
+  }),
+  F({
+    "slug": "gorgeous-swallowtail",
+    "rarity": "prized",
+    "zone": "monde",
+    "names": {
+      "fr": "Gorgeous Swallowtail",
+      "en": "Gorgeous Swallowtail",
+      "ar": "الأنثياس الرائع",
+      "es": "Anthias de Natal",
+      "it": "Anthias del Natal"
+    },
+    "nickname": "SWALLOWTAIL",
+    "scientific": "Meganthias natalensis",
+    "maxLength": 45,
+    "maxWeight": 2,
+    "depth": "50 – 200 m",
+    "habitat": [
+      "reef"
+    ],
+    "techniques": [
+      "bottom",
+      "jigging"
+    ],
+    "season": [],
+    "seas": [
+      "indonesie"
+    ],
+    "description": {
+      "fr": "Un joyau des récifs profonds : robe orange et rose, nageoires jaunes et longue queue en hirondelle. Rare au bout de la ligne, on le remonte au jig lent ou à l'appât.",
+      "en": "A jewel of the deep reefs: an orange and pink body, yellow fins and a long swallow tail. Rarely caught, it comes up on slow jigs or bait.",
+      "ar": "جوهرة الشعاب العميقة: جسم برتقالي ووردي وزعانف صفراء وذيل طويل كذيل السنونو. نادر الصيد، يُصطاد بالجيغ البطيء أو الطُعم."
+    },
+    "image": "/uploads/gorgeous-swallowtail.webp",
+    "art": {
+      "shape": "bream",
+      "back": "#f0603a",
+      "belly": "#f7c6b0",
+      "fin": "#ffd21f",
+      "accent": "#ff8fa0"
+    }
   }),
   F({
     "slug": "mafou",
@@ -615,8 +741,8 @@ const SPECIES = [
     "rarity": "legend",
     "zone": "monde",
     "names": {
-      "fr": "Vivaneau cubera",
-      "en": "Cubera snapper",
+      "fr": "Cubera Snapper",
+      "en": "Cubera Snapper",
       "ar": "النهاش الكوبيري",
       "es": "Pargo cubera",
       "it": "Lutiano cubera"
@@ -649,6 +775,89 @@ const SPECIES = [
       "belly": "#d9b4a6",
       "fin": "#5a3c37",
       "accent": "#c96d5a"
+    }
+  }),
+  F({
+    "slug": "colorado-snapper",
+    "rarity": "prized",
+    "zone": "monde",
+    "names": {
+      "fr": "Colorado Snapper",
+      "en": "Colorado Snapper",
+      "ar": "النهاش الكولورادو",
+      "es": "Pargo colorado",
+      "it": "Lutiano colorado"
+    },
+    "nickname": "COLORADO",
+    "scientific": "Lutjanus colorado",
+    "maxLength": 91,
+    "maxWeight": 15,
+    "depth": "1 – 90 m",
+    "habitat": [
+      "reef",
+      "coastal"
+    ],
+    "techniques": [
+      "livebait",
+      "jigging",
+      "bottom"
+    ],
+    "season": [],
+    "seas": [],
+    "description": {
+      "fr": "Vivaneau rouge vif du Pacifique Est, puissant et méfiant. Il chasse près des roches et des mangroves et file vers son abri à la moindre touche.",
+      "en": "A bright red Eastern Pacific snapper, strong and wary. It hunts near rocks and mangroves and bolts for cover at the slightest bite.",
+      "ar": "نهاش أحمر زاهٍ من شرق الهادئ، قوي وحذر. يصطاد قرب الصخور والمانغروف ويندفع نحو مخبئه عند أدنى لمسة."
+    },
+    "image": "/uploads/colorado-snapper.webp",
+    "art": {
+      "shape": "bass",
+      "back": "#e0401e",
+      "belly": "#f7a080",
+      "fin": "#ff5a2a",
+      "accent": "#ffd0a0"
+    }
+  }),
+  F({
+    "slug": "rock-snapper",
+    "rarity": "prized",
+    "zone": "monde",
+    "names": {
+      "fr": "Rock Snapper",
+      "en": "Rock Snapper",
+      "ar": "نهاش الصخور",
+      "es": "Pargo mulato",
+      "it": "Lutiano di roccia"
+    },
+    "nickname": "BARRED PARGO",
+    "scientific": "Hoplopagrus guentherii",
+    "maxLength": 90,
+    "maxWeight": 12,
+    "depth": "1 – 30 m",
+    "habitat": [
+      "reef",
+      "coastal"
+    ],
+    "techniques": [
+      "livebait",
+      "bottom",
+      "jigging"
+    ],
+    "season": [],
+    "seas": [],
+    "description": {
+      "fr": "Vivaneau trapu aux larges bandes sombres, roi des fonds rocheux peu profonds. Une attaque brutale, puis il plonge droit dans les trous : il faut bloquer fort.",
+      "en": "A stocky snapper with wide dark bars, king of shallow rocky bottoms. A brutal strike, then it dives straight into the holes: you have to lock up hard.",
+      "ar": "نهاش ممتلئ بخطوط داكنة عريضة، ملك القيعان الصخرية الضحلة. هجوم عنيف ثم يغوص مباشرة في الشقوق: يجب الشد بقوة."
+    },
+    "image": "/uploads/rock-snapper.webp",
+    "art": {
+      "shape": "bass",
+      "back": "#8a4a2a",
+      "belly": "#e89a6a",
+      "fin": "#b8902a",
+      "accent": "#f0c070",
+      "bars": true
     }
   }),
   F({
@@ -1221,6 +1430,51 @@ const SPECIES = [
     art: { shape: 'jack', back: '#3b4048', belly: '#cfd4da', fin: '#23272d', accent: '#5c6470', deep: true },
   }),
   F({
+    "slug": "jack-crevalle",
+    "rarity": "prized",
+    "zone": "maroc",
+    "names": {
+      "fr": "Jack Crevalle",
+      "en": "Jack Crevalle",
+      "ar": "الكارانكس الكريفالي",
+      "es": "Jurel común",
+      "it": "Carangide crevalle"
+    },
+    "nickname": "CREVALLE",
+    "scientific": "Caranx hippos",
+    "maxLength": 124,
+    "maxWeight": 32,
+    "depth": "1 – 350 m",
+    "habitat": [
+      "coastal",
+      "surf",
+      "pelagic"
+    ],
+    "techniques": [
+      "popping",
+      "spinning",
+      "livebait"
+    ],
+    "season": [],
+    "seas": [
+      "atlantique"
+    ],
+    "description": {
+      "fr": "Carangue argentée au front bombé et à la tache noire sur l'opercule. En bancs, elle explose sur les poppers près des plages et des estuaires, et ne lâche jamais.",
+      "en": "A silvery trevally with a blunt head and a black spot on the gill cover. In schools it blows up on poppers near beaches and estuaries, and never gives up.",
+      "ar": "كارانكس فضي برأس منتفخ وبقعة سوداء على غطاء الخياشيم. في أسراب ينقض على البوبر قرب الشواطئ والمصبات ولا يستسلم أبدًا."
+    },
+    "image": "/uploads/jack-crevalle.webp",
+    "art": {
+      "shape": "jack",
+      "back": "#5f7f8a",
+      "belly": "#e6ecef",
+      "fin": "#c8b84a",
+      "accent": "#202428",
+      "deep": true
+    }
+  }),
+  F({
     "slug": "carangue-ferdau",
     "rarity": "prized",
     "zone": "monde",
@@ -1323,6 +1577,48 @@ const SPECIES = [
       "fin": "#556070",
       "accent": "#d8e4f0",
       "deep": true
+    }
+  }),
+  F({
+    "slug": "roosterfish",
+    "rarity": "legend",
+    "zone": "monde",
+    "names": {
+      "fr": "Roosterfish",
+      "en": "Roosterfish",
+      "ar": "سمكة الديك",
+      "es": "Pez gallo",
+      "it": "Pesce gallo"
+    },
+    "nickname": "PEZ GALLO",
+    "scientific": "Nematistius pectoralis",
+    "maxLength": 160,
+    "maxWeight": 52,
+    "depth": "0 – 60 m",
+    "habitat": [
+      "coastal",
+      "surf"
+    ],
+    "techniques": [
+      "popping",
+      "livebait",
+      "spinning"
+    ],
+    "season": [],
+    "seas": [],
+    "description": {
+      "fr": "Reconnaissable entre tous à sa crête de sept longs rayons, dressée quand il chasse. Il patrouille le long des plages du Pacifique Est : un rêve de pêcheur du bord.",
+      "en": "Unmistakable with its crest of seven long rays, raised when it hunts. It patrols the beaches of the Eastern Pacific: a shore angler's dream.",
+      "ar": "لا يُخطئ بعرفه المكوّن من سبعة أشعة طويلة يرفعه عند الصيد. يجوب شواطئ شرق الهادئ: حلم صياد الشاطئ."
+    },
+    "image": "/uploads/roosterfish.webp",
+    "art": {
+      "shape": "jack",
+      "back": "#3a8a9a",
+      "belly": "#e8f0f2",
+      "fin": "#1a2a30",
+      "accent": "#2a3a40",
+      "bars": true
     }
   }),
   F({

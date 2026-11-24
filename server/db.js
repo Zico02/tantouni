@@ -22,7 +22,7 @@ function initial() {
     achievements: seedAchievements(),
     products: seedProducts(),
     shopVersion: 4,
-    boardVersion: 2,
+    boardVersion: 3,
     orders: [],
   };
 }
@@ -86,6 +86,29 @@ function migrate(state) {
     const rest = list.filter((f) => !FRONT.includes(f.slug));
     [...front, ...rest].forEach((f, i) => { f.order = i; });
     state.boardVersion = 2;
+    dirty = true;
+  }
+  // board v3 (one time): 7 new fish, each placed right after a related one; Cubera renamed
+  if (state.boardVersion < 3) {
+    const NEW = [
+      ['almaco-jack', 'liche'], ['broomtail-grouper', 'badekhou'], ['gorgeous-swallowtail', 'broomtail-grouper'],
+      ['colorado-snapper', 'vivaneau-cubera'], ['rock-snapper', 'colorado-snapper'],
+      ['jack-crevalle', 'carangue-gt'], ['roosterfish', 'cordonnier-bossu'],
+    ];
+    const seed = seedFish();
+    const list = [...state.fish].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    for (const [slug, after] of NEW) {
+      if (list.some((f) => f.slug === slug)) continue;
+      const nf = seed.find((f) => f.slug === slug);
+      if (!nf) continue;
+      const i = list.findIndex((f) => f.slug === after);
+      list.splice(i >= 0 ? i + 1 : list.length, 0, nf);
+    }
+    list.forEach((f, i) => { f.order = i; });
+    state.fish = list;
+    const cubera = state.fish.find((f) => f.slug === 'vivaneau-cubera');
+    if (cubera?.names?.fr === 'Vivaneau cubera') cubera.names = { ...cubera.names, fr: 'Cubera Snapper', en: 'Cubera Snapper' };
+    state.boardVersion = 3;
     dirty = true;
   }
   // seas filter: give existing fish their seas, and add sharks that aren't on the board yet
