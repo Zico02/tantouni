@@ -30,8 +30,10 @@ export default function Collection() {
   useReveal(ref, [i18n.resolvedLanguage]);
 
   const all = fish ?? [];
-  const caught = all.filter((f) => f.caught).length;
-  const pct = all.length ? caught / all.length : 0;
+  // Baits live only in the "Appâts vivants" list: they are not part of the board or its score.
+  const board = all.filter((f) => !f.bait);
+  const caught = board.filter((f) => f.caught).length;
+  const pct = board.length ? caught / board.length : 0;
 
   const list = useMemo(() => {
     const nq = norm(q.trim());
@@ -39,7 +41,7 @@ export default function Collection() {
       (filter === 'all' || (filter === 'caught' ? f.caught : !f.caught)) &&
       (sea === 'all' || (f.seas ?? []).includes(sea)) &&
       (!sharks || f.group === 'shark') &&
-      (!baits || f.bait) &&
+      (baits ? f.bait : !f.bait) &&
       (!nq || [...Object.values(f.names), f.scientific, f.nickname || ''].some((n) => norm(n).includes(nq))));
   }, [all, filter, sea, sharks, baits, q]);
 
@@ -48,7 +50,7 @@ export default function Collection() {
   const openIndex = slug ? browse.findIndex((f) => f.slug === slug) : -1;
 
   const byRarity = (r: Rarity) => {
-    const of = all.filter((f) => f.rarity === r);
+    const of = board.filter((f) => f.rarity === r);
     return `${of.filter((f) => f.caught).length}/${of.length}`;
   };
 
@@ -64,7 +66,7 @@ export default function Collection() {
         <div className="score glass">
           <div className="score__main">
             <b className="display">{String(caught).padStart(2, '0')}</b>
-            <span className="display">/{String(all.length).padStart(2, '0')}</span>
+            <span className="display">/{String(board.length).padStart(2, '0')}</span>
             <small>{t('collection.species')} {t('collection.caught')}</small>
           </div>
           <div className="score__bar">
@@ -126,7 +128,7 @@ export default function Collection() {
               {/* initial={false}: cards are simply there on entry; they only animate when filtering */}
               <AnimatePresence mode="popLayout" initial={false}>
                 {list.map((f) => (
-                  <FishCard key={f.id} fish={f} index={all.indexOf(f)} onOpen={() => navigate(`/tableau-de-chasse/${f.slug}`)} />
+                  <FishCard key={f.id} fish={f} index={f.bait ? all.filter((x) => x.bait).indexOf(f) : board.indexOf(f)} onOpen={() => navigate(`/tableau-de-chasse/${f.slug}`)} />
                 ))}
               </AnimatePresence>
             </motion.div>

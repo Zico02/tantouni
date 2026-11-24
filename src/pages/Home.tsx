@@ -214,7 +214,7 @@ function Offer() {
 
 function Teaser() {
   const { t } = useTranslation();
-  const { fish } = useFish();
+  const fish = useFish().fish?.filter((f) => !f.bait); // baits aren't on the board
   const lang = currentLang();
   const caught = fish?.filter((f) => f.caught) ?? [];
   const shown = (caught.length >= 3 ? caught : fish ?? []).slice(0, 3);
