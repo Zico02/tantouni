@@ -208,8 +208,9 @@ app.post('/api/reservations', async (req, res) => {
   res.status(201).json({ ref: r.ref, date: r.date, people: r.people, total: r.total, formula: r.formula, allocation: r.allocation });
 });
 
+// archived fish stay in the database (admin) but are hidden from the public site
 app.get('/api/fish', (_req, res) => {
-  res.json([...db().fish].sort((a, b) => a.order - b.order));
+  res.json(db().fish.filter((f) => !f.archived).sort((a, b) => a.order - b.order));
 });
 
 const byDateDesc = (a, b) => (b.date || '').localeCompare(a.date || '');
@@ -372,13 +373,17 @@ app.delete('/api/admin/blocked/:date', async (req, res) => {
 });
 
 const FISH_FIELDS = ['slug', 'names', 'nickname', 'scientific', 'maxLength', 'maxWeight', 'depth', 'habitat', 'techniques',
-  'season', 'description', 'caught', 'catch', 'youtube', 'image', 'art', 'rarity', 'zone', 'order', 'seas', 'group', 'bait', 'range', 'credit'];
+  'season', 'description', 'caught', 'catch', 'youtube', 'image', 'art', 'rarity', 'zone', 'order', 'seas', 'group', 'bait', 'range', 'credit', 'archived'];
 
 function pickFish(body) {
   const out = {};
   for (const k of FISH_FIELDS) if (k in body) out[k] = body[k];
   return out;
 }
+
+app.get('/api/admin/fish', (_req, res) => {
+  res.json([...db().fish].sort((a, b) => a.order - b.order));
+});
 
 app.post('/api/admin/fish', async (req, res) => {
   const data = pickFish(req.body);

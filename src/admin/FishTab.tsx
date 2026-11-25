@@ -10,20 +10,29 @@ export default function FishTab({ onAuthError }: { onAuthError: (e: unknown) => 
   const [list, setList] = useState<Fish[] | null>(null);
   const [editing, setEditing] = useState<Fish | 'new' | null>(null);
   const [q, setQ] = useState('');
+  const [showArchived, setShowArchived] = useState(false);
 
-  const load = () => api.fish().then(setList).catch(onAuthError);
+  const load = () => api.adminFish().then(setList).catch(onAuthError);
   useEffect(() => { load(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const shown = useMemo(() => {
     const nq = q.trim().toLowerCase();
     return (list ?? []).filter((f) => !nq || f.names.fr.toLowerCase().includes(nq) || f.scientific.toLowerCase().includes(nq));
   }, [list, q]);
-  const caught = (list ?? []).filter((f) => f.caught).length;
+  const active = (list ?? []).filter((f) => !f.archived);
+  const archived = shown.filter((f) => f.archived);
+  const caught = active.filter((f) => f.caught).length;
 
   const toggle = async (f: Fish) => {
     const next = { ...f, caught: !f.caught };
     setList((l) => l!.map((x) => (x.id === f.id ? next : x)));
     try { await api.updateFish(f.id, { caught: next.caught }); } catch (e) { onAuthError(e); load(); }
+  };
+  // Archive: hidden from the public site, kept here and can be restored at any time.
+  const archive = async (f: Fish, value: boolean) => {
+    if (value && !confirm(`Archiver « ${f.names.fr} » ? Il disparaît du site mais reste ici, et vous pourrez le restaurer.`)) return;
+    setList((l) => l!.map((x) => (x.id === f.id ? { ...x, archived: value } : x)));
+    try { await api.updateFish(f.id, { archived: value }); } catch (e) { onAuthError(e); load(); }
   };
   const remove = async (f: Fish) => {
     if (!confirm(`Supprimer « ${f.names.fr} » du tableau de chasse ?`)) return;
@@ -32,7 +41,8 @@ export default function FishTab({ onAuthError }: { onAuthError: (e: unknown) => 
   const move = async (f: Fish, dir: -1 | 1) => {
     if (!list) return;
     const i = list.findIndex((x) => x.id === f.id);
-    const j = i + dir;
+    let j = i + dir;
+    while (j >= 0 && j < list.length && Boolean(list[j].archived) !== Boolean(f.archived)) j += dir;
     if (j < 0 || j >= list.length) return;
     const a = list[i], b = list[j];
     const reordered = [...list];
@@ -48,12 +58,42 @@ export default function FishTab({ onAuthError }: { onAuthError: (e: unknown) => 
     setEditing(null);
   };
 
+  const renderRow = (f: Fish) => {
+    const v = fishVisual(f);
+    return (
+      <motion.div layout key={f.id} className={`adm-fishrow ${f.caught ? 'is-caught' : ''} ${f.archived ? 'is-archived' : ''}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, x: -30 }}>
+        <div className="adm-fishrow__img">
+          <img src={v.src} alt="" />
+          {f.caught && <CaughtStamp />}
+        </div>
+        <div className="adm-fishrow__name">
+          <b>{f.names.fr}</b>
+          <small>{f.scientific} · {{ legend: 'Légende', prized: 'Trophée', common: 'Classique' }[f.rarity]}{f.youtube ? ' · ▶ vidéo' : ''}{f.image ? ' · 📷 photo' : ''}</small>
+        </div>
+        <label className="adm-switch" title="Capturé ?">
+          <input type="checkbox" checked={f.caught} onChange={() => toggle(f)} />
+          <span className="adm-switch__track"><span /></span>
+          <em>{f.caught ? 'Capturé' : 'À capturer'}</em>
+        </label>
+        <div className="adm-fishrow__actions">
+          <button className="adm-icon-btn" title="Monter" onClick={() => move(f, -1)} disabled={!!q}>↑</button>
+          <button className="adm-icon-btn" title="Descendre" onClick={() => move(f, 1)} disabled={!!q}>↓</button>
+          <button className="btn ghost sm" onClick={() => setEditing(f)}>Modifier</button>
+          {f.archived
+            ? <button className="btn ghost sm" onClick={() => archive(f, false)}>Restaurer</button>
+            : <button className="adm-icon-btn" title="Archiver (cacher du site)" onClick={() => archive(f, true)}>📦</button>}
+          <button className="adm-icon-btn" title="Supprimer" onClick={() => remove(f)}>🗑</button>
+        </div>
+      </motion.div>
+    );
+  };
+
   return (
     <div className="adm-page">
       <header className="adm-page__head">
         <div>
           <h1 className="display">Tableau de chasse</h1>
-          <p><b style={{ color: 'var(--sun)' }}>{caught}</b> / {list?.length ?? 0} espèces capturées · cochez une espèce dès que vous la sortez de l'eau !</p>
+          <p><b style={{ color: 'var(--sun)' }}>{caught}</b> / {active.length} espèces capturées · cochez une espèce dès que vous la sortez de l'eau !</p>
         </div>
         <button className="btn" onClick={() => setEditing('new')}>+ Ajouter un poisson</button>
       </header>
@@ -65,35 +105,23 @@ export default function FishTab({ onAuthError }: { onAuthError: (e: unknown) => 
       {!list && <p className="adm-muted">Chargement…</p>}
       <div className="adm-fish">
         <AnimatePresence>
-          {shown.map((f) => {
-            const v = fishVisual(f);
-            return (
-              <motion.div layout key={f.id} className={`adm-fishrow ${f.caught ? 'is-caught' : ''}`} initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, x: -30 }}>
-                <div className="adm-fishrow__img">
-                  <img src={v.src} alt="" />
-                  {f.caught && <CaughtStamp />}
-                </div>
-                <div className="adm-fishrow__name">
-                  <b>{f.names.fr}</b>
-                  <small>{f.scientific} · {{ legend: 'Légende', prized: 'Trophée', common: 'Classique' }[f.rarity]}{f.youtube ? ' · ▶ vidéo' : ''}{f.image ? ' · 📷 photo' : ''}</small>
-                </div>
-                <label className="adm-switch" title="Capturé ?">
-                  <input type="checkbox" checked={f.caught} onChange={() => toggle(f)} />
-                  <span className="adm-switch__track"><span /></span>
-                  <em>{f.caught ? 'Capturé' : 'À capturer'}</em>
-                </label>
-                <div className="adm-fishrow__actions">
-                  <button className="adm-icon-btn" title="Monter" onClick={() => move(f, -1)} disabled={!!q}>↑</button>
-                  <button className="adm-icon-btn" title="Descendre" onClick={() => move(f, 1)} disabled={!!q}>↓</button>
-                  <button className="btn ghost sm" onClick={() => setEditing(f)}>Modifier</button>
-                  <button className="adm-icon-btn" title="Supprimer" onClick={() => remove(f)}>🗑</button>
-                </div>
-              </motion.div>
-            );
-          })}
+          {shown.filter((f) => !f.archived).map(renderRow)}
         </AnimatePresence>
       </div>
 
+      {archived.length > 0 && (
+        <>
+          <h2 className="adm-fish__archive-title">
+            📦 Archivés ({archived.length}) · cachés du site
+            <button className="btn ghost sm" onClick={() => setShowArchived((v) => !v)}>{showArchived ? 'Masquer' : 'Afficher'}</button>
+          </h2>
+          {showArchived && (
+            <div className="adm-fish">
+              <AnimatePresence>{archived.map(renderRow)}</AnimatePresence>
+            </div>
+          )}
+        </>
+      )}
       <AnimatePresence>
         {editing && (
           <FishForm key="form" fish={editing === 'new' ? null : editing} onClose={() => setEditing(null)} onSaved={saved} onAuthError={onAuthError} />

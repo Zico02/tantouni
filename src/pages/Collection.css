@@ -113,6 +113,8 @@
 /* ---------- grid + cards ---------- */
 .col-grid-wrap { padding-block: 30px 140px; }
 .col-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+/* the bait list: two cards per row, centred (one per row on phones, see below) */
+.col-grid--baits { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 960px; margin-inline: auto; }
 .col-empty { text-align: center; color: var(--muted); padding: 60px 0; }
 
 .fcard {

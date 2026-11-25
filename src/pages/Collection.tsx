@@ -124,7 +124,7 @@ export default function Collection() {
         )}
         {fish && (
           <LayoutGroup>
-            <motion.div className="col-grid" layout>
+            <motion.div className={`col-grid ${baits ? 'col-grid--baits' : ''}`} layout>
               {/* initial={false}: cards are simply there on entry; they only animate when filtering */}
               <AnimatePresence mode="popLayout" initial={false}>
                 {list.map((f) => (

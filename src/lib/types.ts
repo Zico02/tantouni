@@ -57,6 +57,8 @@ export interface Fish {
   group?: 'shark';
   /** Used by Omar as live bait for the big predators. */
   bait?: boolean;
+  /** Hidden from the public site, kept in the admin (can be restored). */
+  archived?: boolean;
 }
 
 export interface DayAvailability {

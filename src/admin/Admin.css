@@ -154,6 +154,10 @@
   background: rgba(6, 48, 110, 0.2);
 }
 .adm-fishrow.is-caught { border-color: rgba(255, 59, 48, 0.35); background: linear-gradient(90deg, rgba(255, 59, 48, 0.08), rgba(6, 48, 110, 0.2) 40%); }
+.adm-fishrow.is-archived { opacity: 0.6; border-style: dashed; background: rgba(6, 48, 110, 0.08); }
+.adm-fishrow.is-archived .adm-fishrow__img img { filter: grayscale(1); }
+.adm-fish__archive-title { margin: 34px 0 10px; font-size: 15px; color: var(--muted); font-weight: 700; display: flex; gap: 8px; align-items: center; }
+.adm-fish__archive-title button { margin-inline-start: auto; }
 .adm-fishrow__img { position: relative; height: 56px; display: grid; place-items: center; }
 .adm-fishrow__img img { max-height: 56px; width: auto; max-width: 100%; }
 .adm-fishrow__img .stamp { position: absolute; width: 96%; height: auto; }
