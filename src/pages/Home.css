@@ -184,12 +184,12 @@
 .tech:hover .tech__photo { transform: scale(1.04); }
 [dir='rtl'] .tech:hover .tech__photo { transform: scaleX(-1) scale(1.04); }
 .tech__icon {
-  width: 72px; height: 72px; display: grid; place-items: center; margin-bottom: 12px;
+  width: 80px; height: 80px; display: grid; place-items: center; margin-bottom: 12px;
   border-radius: 16px; color: var(--gold);
   background: linear-gradient(150deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
   box-shadow: 0 14px 30px -14px rgba(0, 0, 0, 0.7);
 }
-.tech__icon svg { width: 48px; height: 48px; }
+.tech__icon img { width: 60px; height: 60px; object-fit: contain; }
 .tech h3 { font-size: clamp(24px, 2.1vw, 32px); margin: 0; }
 .tech p { margin: 0; color: #d3e0f2; line-height: 1.65; font-size: clamp(15px, 1.1vw, 17px); }
 .tech__more {
