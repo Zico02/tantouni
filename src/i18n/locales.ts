@@ -24,7 +24,7 @@ const fr = {
   season: { kicker: 'Mohammedia · Atlantique', title: 'La saison des géants', text: 'Thons rouges, marlins blancs, sérioles, courbines… Les eaux marocaines comptent parmi les plus riches au monde.' },
   experience: {
     kicker: "L'expérience",
-    title: 'Trois techniques. Une journée inoubliable.',
+    title1: 'Trois techniques.', title2: 'Une journée', hl: 'inoubliable.', more: 'En savoir plus',
     jigging: { t: 'Jigging', d: 'Leurres métalliques animés à la verticale sur les têtes de roche. Sérioles, dentis, mérous.' },
     trolling: { t: 'Traîne', d: 'Leurres tractés au large à la recherche des pélagiques : thons, marlins, coryphènes.' },
     livebait: { t: 'Pêche au vif', d: 'Le poisson vivant, la technique des records. Patience… puis explosion.' },
@@ -142,7 +142,7 @@ const en: Dict = {
   season: { kicker: 'Mohammedia · Atlantic', title: 'The season of giants', text: 'Bluefin tuna, white marlin, amberjack, meagre… Moroccan waters are among the richest in the world.' },
   experience: {
     kicker: 'The experience',
-    title: 'Three techniques. One unforgettable day.',
+    title1: 'Three techniques.', title2: 'One', hl: 'unforgettable day.', more: 'Learn more',
     jigging: { t: 'Jigging', d: 'Metal lures worked vertically over rocky peaks. Amberjack, dentex, grouper.' },
     trolling: { t: 'Trolling', d: 'Lures pulled offshore in search of pelagics: tuna, marlin, mahi-mahi.' },
     livebait: { t: 'Live bait', d: 'Live fish, the technique behind the records. Patience… then explosion.' },
@@ -258,7 +258,7 @@ const ar: Dict = {
   season: { kicker: 'المحمدية · الأطلسي', title: 'موسم العمالقة', text: 'التونة الحمراء، المرلين الأبيض، السريولا، الكوربين… المياه المغربية من أغنى المياه في العالم.' },
   experience: {
     kicker: 'التجربة',
-    title: 'ثلاث تقنيات. يوم لا يُنسى.',
+    title1: 'ثلاث تقنيات.', title2: 'يوم', hl: 'لا يُنسى.', more: 'اكتشف المزيد',
     jigging: { t: 'جيغينغ', d: 'طُعوم معدنية تُحرَّك عموديًا فوق الصخور. سريولا، دنتي، ميرو.' },
     trolling: { t: 'الصيد بالجر', d: 'طعوم مجرورة في عرض البحر بحثًا عن الأسماك السطحية: التونة، المرلين، الدورادو.' },
     livebait: { t: 'الطعم الحي', d: 'السمكة الحية، تقنية الأرقام القياسية. صبر… ثم انفجار.' },
@@ -374,7 +374,7 @@ const es: Dict = {
   season: { kicker: 'Mohammedia · Atlántico', title: 'La temporada de los gigantes', text: 'Atunes rojos, marlines blancos, serviolas, corvinas… Las aguas marroquíes están entre las más ricas del mundo.' },
   experience: {
     kicker: 'La experiencia',
-    title: 'Tres técnicas. Un día inolvidable.',
+    title1: 'Tres técnicas.', title2: 'Un día', hl: 'inolvidable.', more: 'Saber más',
     jigging: { t: 'Jigging', d: 'Señuelos metálicos trabajados en vertical sobre las rocas. Serviolas, dentones, meros.' },
     trolling: { t: 'Curricán', d: 'Señuelos arrastrados mar adentro en busca de pelágicos: atunes, marlines, dorados.' },
     livebait: { t: 'Pesca con vivo', d: 'El pez vivo, la técnica de los récords. Paciencia… y luego explosión.' },
@@ -490,7 +490,7 @@ const it: Dict = {
   season: { kicker: 'Mohammedia · Atlantico', title: 'La stagione dei giganti', text: 'Tonni rossi, marlin bianchi, ricciole, bocche d’oro… Le acque marocchine sono tra le più ricche al mondo.' },
   experience: {
     kicker: "L'esperienza",
-    title: 'Tre tecniche. Una giornata indimenticabile.',
+    title1: 'Tre tecniche.', title2: 'Una giornata', hl: 'indimenticabile.', more: 'Scopri di più',
     jigging: { t: 'Jigging', d: 'Esche metalliche animate in verticale sulle secche. Ricciole, dentici, cernie.' },
     trolling: { t: 'Traina', d: 'Esche trainate al largo alla ricerca dei pelagici: tonni, marlin, lampughe.' },
     livebait: { t: 'Pesca con il vivo', d: 'Il pesce vivo, la tecnica dei record. Pazienza… poi esplosione.' },

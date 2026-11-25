@@ -22,6 +22,7 @@ export default function Footer() {
         <div>
           <Logo />
           <p className="footer__port">{SITE.port} · Maroc</p>
+          <p className="footer__port">Marina Rabat · Maroc</p>
         </div>
         <nav className="footer__links">
           <Link to="/">{t('nav.home')}</Link>
@@ -29,7 +30,6 @@ export default function Footer() {
           <Link to="/tableau-de-chasse">{t('nav.collection')}</Link>
           <Link to="/palmares">{t('nav.achievements')}</Link>
           <Link to="/boutique">{t('nav.shop')}</Link>
-          <Link to="/admin">{t('footer.admin')}</Link>
         </nav>
         <div>
           <p className="footer__follow">{t('footer.follow')}</p>

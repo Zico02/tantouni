@@ -155,9 +155,13 @@ function Season() {
   );
 }
 
+// Gold line icons (24×24 grid)
 const techIcons = {
-  jigging: <path d="M12 2v5m0 0c-2.5 0-4 2-4 5 0 4 2 9 4 10 2-1 4-6 4-10 0-3-1.5-5-4-5zm0 15v5m-2-1h4" />,
-  trolling: <path d="M2 16c3 0 3-2 6-2s3 2 6 2 3-2 6-2M4 20c3 0 3-2 6-2s3 2 6 2M14 4l6 6-8 2 2-8z" />,
+  // a jig: long slim lure with an eye at the nose and an assist hook at the tail
+  jigging: <><path d="M19.5 4.5c-3-1.2-8.6 2.6-12.4 7.6-1.6 2.1-2.3 3.8-2 4.6.4.8 2.3.4 4.6-.9 5-2.9 10-8.4 9.8-11.3z" /><circle cx="17.2" cy="6.6" r=".9" /><path d="M10 9.8l3.6 2.4M19.5 4.5l1.5-1.5M5.1 16.7l-1.6 1.6m0 0c-.9.9-.6 2.4.5 2.6 1 .2 1.8-.6 1.6-1.6" /></>,
+  // a sport-fishing boat on the waves
+  trolling: <><path d="M3 14h17l-2.5 3.5H5.5z" /><path d="M7 14v-3h7l2 3M10 11V5l5 3.5M10 5h-.5" /><path d="M2 20.5c1.7 0 1.7-1 3.3-1s1.7 1 3.4 1 1.7-1 3.3-1 1.7 1 3.4 1 1.6-1 3.3-1 1.6 1 3.3 1" /></>,
+  // a hook rising out of the water
   livebait: <path d="M15 3v8a4 4 0 1 1-8 0M15 3l-2 2m2-2 2 2M3 18c2-2 5-2 7 0s5 2 7 0 4-2 4-2" />,
 };
 
@@ -165,17 +169,30 @@ function Experience() {
   const { t } = useTranslation();
   return (
     <section className="section experience">
-      <div className="container">
-        <span className="kicker" data-reveal>{t('experience.kicker')}</span>
-        <h2 className="h2" data-reveal>{t('experience.title')}</h2>
+      {/* underwater backdrop: sunlit surface and a tuna swimming by */}
+      <div className="experience__sea" aria-hidden>
+        <img src="/img/experience/sea.webp" alt="" loading="lazy" />
+      </div>
+      <div className="container experience__inner">
+        <span className="kicker experience__kicker" data-reveal>{t('experience.kicker')}</span>
+        <h2 className="h2 experience__title" data-reveal>
+          {t('experience.title1')}<br />
+          {t('experience.title2')} <em>{t('experience.hl')}</em>
+        </h2>
+        <span className="experience__rule" data-reveal />
         <div className="experience__grid">
           {(['jigging', 'trolling', 'livebait'] as const).map((k, i) => (
             <div key={k} data-reveal data-reveal-delay={i * 0.12}>
-              <div className="tech glass">
-                <svg viewBox="0 0 24 24" className="tech__icon" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">{techIcons[k]}</svg>
+              <article className={`tech tech--${k}`}>
+                <img className="tech__photo" src={`/img/experience/${k}.webp`} alt="" loading="lazy" />
+                <span className="tech__icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">{techIcons[k]}</svg>
+                </span>
                 <h3>{t(`experience.${k}.t`)}</h3>
                 <p>{t(`experience.${k}.d`)}</p>
-              </div>
+                {/* the link also covers the whole card (see .tech__more::after) */}
+                <Link to="/reservation" className="tech__more">{t('experience.more')} <Arrow /></Link>
+              </article>
             </div>
           ))}
         </div>
@@ -237,11 +254,13 @@ function Teaser() {
         <div className="teaser__school">
           {shown.map((f, i) => {
             const v = fishVisual(f);
+            // on this teaser the meagre goes by its Moroccan name, "Courbine"
+            const name = f.slug === 'courbine' && lang === 'fr' ? 'Courbine' : fishName(f, lang);
             return (
               <Link to={`/tableau-de-chasse/${f.slug}`} key={f.id} className={`teaser__fish teaser__fish--${i}`} data-reveal data-reveal-delay={i * 0.15}>
-                <SwimmingFish src={v.src} aspect={v.aspect} period={3 + i * 0.6} alt={fishName(f, lang)} />
+                <SwimmingFish src={v.src} aspect={v.aspect} period={3 + i * 0.6} alt={name} />
                 {f.caught && <CaughtStamp />}
-                <span className="teaser__name">{fishName(f, lang)}</span>
+                <span className="teaser__name">{name}</span>
               </Link>
             );
           })}

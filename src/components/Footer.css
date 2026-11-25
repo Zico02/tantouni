@@ -21,6 +21,7 @@
   padding-bottom: 40px;
 }
 .footer__port { color: var(--muted); font-size: 14px; margin-top: 14px; }
+.footer__port + .footer__port { margin-top: 4px; }
 .footer__links { display: grid; gap: 10px; align-content: start; }
 .footer__links a { color: var(--muted); font-weight: 600; }
 .footer__links a:hover { color: var(--text); }

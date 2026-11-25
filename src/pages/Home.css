@@ -154,11 +154,62 @@
 .season__text { position: relative; padding-top: clamp(8px, 1.5vw, 20px); padding-bottom: clamp(50px, 8vw, 110px); }
 
 /* ---------- experience ---------- */
-.experience__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 50px; }
-.tech { padding: 28px 26px; height: 100%; display: flex; flex-direction: column; gap: 10px; }
-.tech__icon { width: 40px; height: 40px; color: var(--sun); margin-bottom: 8px; }
-.tech h3 { font-size: 20px; margin: 0; }
-.tech p { margin: 0; color: var(--muted); }
+.experience { --gold: #e3b54b; overflow: hidden; isolation: isolate; background: linear-gradient(180deg, #071d3d 0%, #04152f 60%, var(--abyss) 100%); padding-top: clamp(70px, 6.5vw, 130px); }
+/* the photo band (sunlit surface + tuna) sits at the top and melts into the section colour */
+.experience__sea { position: absolute; inset: 0 0 auto 0; aspect-ratio: 1959 / 350; min-height: 260px; z-index: -1; pointer-events: none; }
+.experience__sea img {
+  width: 100%; height: 100%; object-fit: cover; object-position: 100% 0;
+  -webkit-mask-image: linear-gradient(180deg, #000 80%, transparent 100%); mask-image: linear-gradient(180deg, #000 80%, transparent 100%);
+}
+[dir='rtl'] .experience__sea img { transform: scaleX(-1); }
+.experience__inner { position: relative; }
+.experience__kicker { color: var(--gold); }
+.experience__title { margin-bottom: 18px; line-height: 1.05; text-shadow: 0 4px 30px rgba(0, 10, 30, 0.6); }
+.experience__title em { font-style: normal; color: var(--gold); }
+.experience__rule { display: block; width: 84px; height: 3px; border-radius: 3px; background: var(--gold); }
+
+.experience__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: clamp(34px, 4vw, 50px); }
+.tech {
+  position: relative; overflow: hidden; isolation: isolate;
+  padding: 26px 34px 26px; height: 100%; min-height: 300px;
+  display: flex; flex-direction: column; gap: 10px;
+  border-radius: var(--radius); border: 1px solid rgba(160, 205, 255, 0.2);
+  background: #0a1d3b;
+  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s, box-shadow 0.3s;
+}
+.tech:hover { transform: translateY(-6px); border-color: rgba(227, 181, 75, 0.5); box-shadow: 0 40px 70px -30px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(227, 181, 75, 0.15); }
+.tech__photo { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; object-fit: cover; object-position: 100% 50%; transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+[dir='rtl'] .tech__photo { transform: scaleX(-1); }
+.tech:hover .tech__photo { transform: scale(1.04); }
+[dir='rtl'] .tech:hover .tech__photo { transform: scaleX(-1) scale(1.04); }
+.tech__icon {
+  width: 72px; height: 72px; display: grid; place-items: center; margin-bottom: 12px;
+  border-radius: 16px; color: var(--gold);
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+  box-shadow: 0 14px 30px -14px rgba(0, 0, 0, 0.7);
+}
+.tech__icon svg { width: 48px; height: 48px; }
+.tech h3 { font-size: clamp(24px, 2.1vw, 32px); margin: 0; }
+.tech p { margin: 0; color: #d3e0f2; line-height: 1.65; font-size: clamp(15px, 1.1vw, 17px); }
+.tech__more {
+  margin-top: auto; padding-top: 22px; align-self: flex-start; display: inline-flex; align-items: center; gap: 10px;
+  color: var(--gold); font-size: 13px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; text-decoration: none;
+}
+.tech__more::before { content: ''; width: 14px; height: 2px; background: currentColor; border-radius: 2px; }
+.tech__more::after { content: ''; position: absolute; inset: 0; } /* the whole card is clickable */
+.tech__more:hover, .tech__more:focus-visible { color: #ffd77a; }
+.tech__more:focus-visible { outline: none; }
+.tech:has(.tech__more:focus-visible) { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(227, 181, 75, 0.35); }
+.tech__more .arrow { width: 16px; height: 16px; transition: transform 0.3s; }
+.tech:hover .tech__more .arrow { transform: translateX(5px); }
+[dir='rtl'] .tech__more { letter-spacing: 0; }
+[dir='rtl'] .tech:hover .tech__more .arrow { transform: scaleX(-1) translateX(5px); }
+@media (max-width: 900px) {
+  .experience__sea { aspect-ratio: auto; height: 260px; }
+  .experience__sea img { object-position: 85% 0; opacity: 0.75; }
+  .tech { min-height: 0; }
+}
 
 /* ---------- offer ---------- */
 .offer__grid { display: grid; grid-template-columns: 1.15fr 1fr; gap: 50px; align-items: center; }
