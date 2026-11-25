@@ -309,8 +309,8 @@ export default function Home() {
       <Captain />
       <Season />
       <Experience />
-      <Offer />
       <Teaser />
+      <Offer />
       <Videos />
       <FinalCta />
     </div>
