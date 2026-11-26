@@ -41,7 +41,7 @@ const fr = {
   },
   teaser: {
     kicker: 'Le tableau de chasse',
-    title: 'Chaque espèce capturée reçoit son tampon.',
+    title: 'Chaque capture, une aventure. Chaque tampon, une histoire.',
     text: "Omar coche une à une toutes les espèces qu'il a sorties de l'eau. Combien en manque-t-il ? Venez voir… ou venez l'aider.",
     cta: 'Ouvrir le tableau',
   },
@@ -159,7 +159,7 @@ const en: Dict = {
   },
   teaser: {
     kicker: 'The catch board',
-    title: 'Every species caught gets its stamp.',
+    title: 'Every catch, an adventure. Every stamp, a story.',
     text: 'Omar ticks off every species he has pulled out of the water. How many are missing? Come and see… or come and help.',
     cta: 'Open the board',
   },
@@ -275,7 +275,7 @@ const ar: Dict = {
   },
   teaser: {
     kicker: 'لوحة الصيد',
-    title: 'كل نوع يُصطاد يحصل على ختمه.',
+    title: 'كل صيدة مغامرة. وكل ختم حكاية.',
     text: 'يشطب عمر واحدًا تلو الآخر كل الأنواع التي أخرجها من الماء. كم تبقّى؟ تعال وشاهد… أو تعال وساعده.',
     cta: 'افتح اللوحة',
   },
@@ -391,7 +391,7 @@ const es: Dict = {
   },
   teaser: {
     kicker: 'El tablón de capturas',
-    title: 'Cada especie capturada recibe su sello.',
+    title: 'Cada captura, una aventura. Cada sello, una historia.',
     text: 'Omar tacha una a una todas las especies que ha sacado del agua. ¿Cuántas faltan? Ven a verlo… o ven a ayudarle.',
     cta: 'Abrir el tablón',
   },
@@ -507,7 +507,7 @@ const it: Dict = {
   },
   teaser: {
     kicker: 'La bacheca catture',
-    title: 'Ogni specie catturata riceve il suo timbro.',
+    title: "Ogni cattura, un'avventura. Ogni timbro, una storia.",
     text: "Omar spunta una per una tutte le specie che ha tirato fuori dall'acqua. Quante ne mancano? Vieni a vedere… o vieni ad aiutarlo.",
     cta: 'Apri la bacheca',
   },
