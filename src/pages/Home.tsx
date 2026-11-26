@@ -129,7 +129,6 @@ function Captain() {
 }
 
 function Season() {
-  const { t } = useTranslation();
   const ref = useRef<HTMLElement>(null);
   useGSAP(
     () => {
@@ -145,11 +144,6 @@ function Season() {
       <div className="season__media">
         <img className="season__img" src="/img/season-of-giants.webp" alt="Chasseur de géants" />
         <div className="season__shade" />
-      </div>
-      <div className="container season__text">
-        <span className="kicker" data-reveal>{t('season.kicker')}</span>
-        <h2 className="h2" data-reveal>{t('season.title')}</h2>
-        <p className="lead" data-reveal>{t('season.text')}</p>
       </div>
     </section>
   );

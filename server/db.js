@@ -22,7 +22,7 @@ function initial() {
     achievements: seedAchievements(),
     products: seedProducts(),
     shopVersion: 4,
-    boardVersion: 4,
+    boardVersion: 5,
     orders: [],
   };
 }
@@ -125,6 +125,26 @@ function migrate(state) {
     list.forEach((f, i) => { f.order = i; });
     state.fish = list;
     state.boardVersion = 4;
+    dirty = true;
+  }
+  // board v5 (one time): 4 new fish, each right after a related one
+  if (state.boardVersion < 5) {
+    const NEW = [
+      ['pacific-red-snapper', 'rock-snapper'], ['golden-snapper', 'pacific-red-snapper'],
+      ['pacific-black-snook', 'loup-mouchete'], ['congre', 'murene'],
+    ];
+    const seed = seedFish();
+    const list = [...state.fish].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+    for (const [slug, after] of NEW) {
+      if (list.some((f) => f.slug === slug)) continue;
+      const nf = seed.find((f) => f.slug === slug);
+      if (!nf) continue;
+      const i = list.findIndex((f) => f.slug === after);
+      list.splice(i >= 0 ? i + 1 : list.length, 0, nf);
+    }
+    list.forEach((f, i) => { f.order = i; });
+    state.fish = list;
+    state.boardVersion = 5;
     dirty = true;
   }
   // seas filter: give existing fish their seas, and add sharks that aren't on the board yet

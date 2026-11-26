@@ -895,6 +895,38 @@ const SPECIES = [
     }
   }),
   F({
+    slug: 'pacific-red-snapper', rarity: 'prized', zone: 'monde',
+    names: { fr: 'Pacific Red Snapper', en: 'Pacific Red Snapper', ar: 'النهاش الأحمر الهادئ', es: 'Huachinango del Pacífico', it: 'Lutiano rosso del Pacifico' },
+    nickname: 'HUACHINANGO',
+    scientific: 'Lutjanus peru',
+    image: '/uploads/pacific-red-snapper.webp',
+    maxLength: 95, maxWeight: 8, depth: '0 – 80 m',
+    habitat: ['reef'], techniques: ['jigging', 'bottom', 'livebait'], season: [],
+    seas: [],
+    description: {
+      fr: "Le huachinango, vivaneau rouge vif des côtes pacifiques du Mexique au Pérou. Il vit en bancs sur les fonds rocheux et mord franchement au jig comme à l'appât.",
+      en: 'The huachinango, a bright red snapper of the Pacific coast from Mexico to Peru. It schools over rocky bottoms and bites hard on jigs and bait.',
+      ar: 'الواتشينانغو، نهاش أحمر زاهٍ من سواحل الهادئ بين المكسيك والبيرو. يعيش في أسراب فوق القيعان الصخرية ويهاجم الطعم الصناعي والطبيعي بقوة.',
+    },
+    art: { shape: 'bass', back: '#d8341c', belly: '#f6b8a8', fin: '#e8442a', accent: '#ff8a6a' },
+  }),
+  F({
+    slug: 'golden-snapper', rarity: 'prized', zone: 'monde',
+    names: { fr: 'Golden Snapper', en: 'Golden Snapper', ar: 'النهاش الذهبي', es: 'Pargo dorado', it: 'Lutiano dorato' },
+    nickname: "JOHN'S SNAPPER",
+    scientific: 'Lutjanus johnii',
+    image: '/uploads/golden-snapper.webp',
+    maxLength: 97, maxWeight: 10, depth: '0 – 80 m',
+    habitat: ['reef', 'coastal'], techniques: ['jigging', 'bottom', 'livebait'], season: [],
+    seas: ['golfe', 'mer-oman', 'indonesie'],
+    description: {
+      fr: "Robe argentée aux reflets dorés et queue orangée : un beau vivaneau des récifs et des estuaires de l'océan Indien. Puissant, il file vers les roches dès la touche.",
+      en: 'A silver body with golden glints and an orange tail: a handsome snapper of the reefs and estuaries of the Indian Ocean. Powerful, it races for the rocks as soon as it bites.',
+      ar: 'جسم فضي بلمعان ذهبي وذيل برتقالي: نهاش جميل من شعاب ومصبات المحيط الهندي. قوي، يندفع نحو الصخور بمجرد أن يعض.',
+    },
+    art: { shape: 'bass', back: '#c86a4a', belly: '#f2e4dc', fin: '#f0a020', accent: '#f7c040' },
+  }),
+  F({
     "slug": "thazard-atlantique",
     "rarity": "prized",
     "zone": "monde",
@@ -1141,6 +1173,22 @@ const SPECIES = [
     description: {"fr": "Le cousin tacheté du bar, couvert de points noirs sur le dos. Il chasse dans les vagues et les estuaires, très présent sur les côtes marocaines.", "en": "The spotted cousin of the seabass, covered in black dots on its back. It hunts in the surf and estuaries and is common on Moroccan coasts.", "ar": "القريب المرقط للقاروس، تغطي ظهره نقاط سوداء. يصطاد في الأمواج والمصبات ويكثر على السواحل المغربية."},
     image: "/uploads/loup-mouchete-v2.png",
     art: {"shape": "bass", "back": "#7a8578", "belly": "#eef1ee", "fin": "#8e978c", "accent": "#1d2320", "spots": true},
+  }),
+  F({
+    slug: 'pacific-black-snook', rarity: 'legend', zone: 'monde',
+    names: { fr: 'Pacific Black Snook', en: 'Pacific Black Snook', ar: 'السنوك الأسود الهادئ', es: 'Robalo prieto', it: 'Snook nero del Pacifico' },
+    nickname: 'ROBALO PRIETO',
+    scientific: 'Centropomus nigrescens',
+    image: '/uploads/pacific-black-snook.webp',
+    maxLength: 120, maxWeight: 26, depth: '0 – 20 m',
+    habitat: ['coastal', 'surf'], techniques: ['spinning', 'livebait', 'popping'], season: [],
+    seas: [],
+    description: {
+      fr: "Le plus grand des snooks, reconnaissable à sa ligne latérale noire. Il chasse dans le ressac et les embouchures, et casse les lignes sur les rochers : un trophée mythique.",
+      en: 'The largest of the snooks, recognisable by its black lateral line. It hunts in the surf and river mouths and breaks lines on the rocks: a legendary trophy.',
+      ar: 'أكبر أسماك السنوك، يُعرف بخطه الجانبي الأسود. يصطاد في الأمواج ومصبات الأنهار ويقطع الخيوط على الصخور: جائزة أسطورية.',
+    },
+    art: { shape: 'bass', back: '#4a5a40', belly: '#e8ecdc', fin: '#c8c060', accent: '#1a1a1a' },
   }),
   F({
     slug: 'sar', rarity: 'common', zone: 'maroc',
@@ -1715,6 +1763,22 @@ const SPECIES = [
       "accent": "#e8d3b0",
       "spots": true
     }
+  }),
+  F({
+    slug: 'congre', rarity: 'prized', zone: 'maroc',
+    names: { fr: 'Congre', en: 'Conger eel', ar: 'ثعبان البحر', es: 'Congrio', it: 'Grongo' },
+    nickname: 'CONGER',
+    scientific: 'Conger conger',
+    image: '/uploads/congre.webp',
+    maxLength: 300, maxWeight: 110, depth: '0 – 1000 m',
+    habitat: ['reef'], techniques: ['bottom', 'livebait'], season: [],
+    seas: ['atlantique', 'mediterranee'],
+    description: {
+      fr: "Un serpent de mer massif qui vit caché dans les épaves et les failles. Il sort la nuit, prend l'appât d'un coup et s'enroule dans les roches : une vraie épreuve de force.",
+      en: 'A massive sea serpent that hides in wrecks and crevices. It comes out at night, grabs the bait in one go and wraps itself around the rocks: a real test of strength.',
+      ar: 'ثعبان بحري ضخم يختبئ في الحطام والشقوق. يخرج ليلًا ويبتلع الطعم دفعة واحدة ثم يلتف حول الصخور: اختبار حقيقي للقوة.',
+    },
+    art: { shape: 'barracuda', back: '#5a5650', belly: '#e4e2dc', fin: '#6a645c', accent: '#2a2824' },
   }),
   F({
     slug: 'requin-chama', rarity: 'legend', zone: 'maroc',
