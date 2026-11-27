@@ -203,3 +203,6 @@ input, textarea, select { font: inherit; color: inherit; }
   font-family: 'Archivo', system-ui, sans-serif;
   line-height: 0.9;
 }
+
+/* highlighted words in headings */
+.gold { font-style: normal; color: #e3b54b; }

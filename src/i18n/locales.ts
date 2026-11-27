@@ -13,7 +13,7 @@ const fr = {
   marquee: ['Tantouni', 'Jigging', 'Traîne', 'Pêche au vif', 'Big game', 'Mohammedia', 'Marlin', 'Thon rouge'],
   captain: {
     kicker: 'Le capitaine',
-    title: 'Omar, pêcheur pro. Chasseur de géants.',
+    title: 'Omar, *pêcheur pro.* Chasseur *de géants.*',
     text: "Depuis Mohammedia, Omar emmène chaque jour ses pêcheurs là où mordent les plus beaux poissons de l'Atlantique marocain. Des vidéos suivies par une communauté énorme, et un seul mot d'ordre quand le moulinet hurle : TANTOUNI !",
     followers: 'abonnés Instagram',
     igfa: 'Jebel Sifah 2026 · IGFA',
@@ -32,7 +32,7 @@ const fr = {
   },
   offer: {
     kicker: 'Le tarif',
-    title: 'Simple et clair.',
+    title: '*Simple* et *clair.*',
     perPerson: 'par personne',
     boats: '2 bateaux',
     seatsPerBoat: '5 pêcheurs max. par bateau',
@@ -46,8 +46,8 @@ const fr = {
     text: "Omar coche une à une toutes les espèces qu'il a sorties de l'eau. Combien en manque-t-il ? Venez voir… ou venez l'aider.",
     cta: 'Ouvrir le tableau',
   },
-  videos: { kicker: 'Sur la chaîne', title: 'Les dernières aventures', watch: 'Regarder sur YouTube' },
-  cta: { title: 'Prêt à crier TANTOUNI ?', text: 'Les places partent vite : 10 pêcheurs par jour seulement.', button: 'Réserver maintenant' },
+  videos: { kicker: 'Sur la chaîne', title: 'Les dernières *aventures*', watch: 'Regarder sur YouTube' },
+  cta: { title: 'Prêt à crier *TANTOUNI* ?', text: 'Les places partent vite : 10 pêcheurs par jour seulement.', button: 'Réserver maintenant' },
   footer: { rights: 'Tous droits réservés.', follow: 'Suivez les aventures', admin: 'Espace capitaine' },
   book: {
     kicker: 'Réservation',
@@ -132,7 +132,7 @@ const en: Dict = {
   marquee: ['Tantouni', 'Jigging', 'Trolling', 'Live bait', 'Big game', 'Mohammedia', 'Marlin', 'Bluefin'],
   captain: {
     kicker: 'The captain',
-    title: 'Omar, pro angler. Giant hunter.',
+    title: 'Omar, *pro angler.* *Giant* hunter.',
     text: "From Mohammedia, Omar takes his anglers out every day to where the best fish of the Moroccan Atlantic bite. Videos followed by a huge community, and one battle cry when the reel screams: TANTOUNI!",
     followers: 'Instagram followers',
     igfa: 'Jebel Sifah 2026 · IGFA',
@@ -151,7 +151,7 @@ const en: Dict = {
   },
   offer: {
     kicker: 'Pricing',
-    title: 'Simple and clear.',
+    title: '*Simple* and *clear.*',
     perPerson: 'per person',
     boats: '2 boats',
     seatsPerBoat: 'max. 5 anglers per boat',
@@ -165,8 +165,8 @@ const en: Dict = {
     text: 'Omar ticks off every species he has pulled out of the water. How many are missing? Come and see… or come and help.',
     cta: 'Open the board',
   },
-  videos: { kicker: 'On the channel', title: 'Latest adventures', watch: 'Watch on YouTube' },
-  cta: { title: 'Ready to shout TANTOUNI?', text: 'Seats go fast: only 10 anglers per day.', button: 'Book now' },
+  videos: { kicker: 'On the channel', title: 'Latest *adventures*', watch: 'Watch on YouTube' },
+  cta: { title: 'Ready to shout *TANTOUNI*?', text: 'Seats go fast: only 10 anglers per day.', button: 'Book now' },
   footer: { rights: 'All rights reserved.', follow: 'Follow the adventures', admin: 'Captain area' },
   book: {
     kicker: 'Booking',
@@ -249,7 +249,7 @@ const ar: Dict = {
   marquee: ['طنطوني', 'جيغينغ', 'الجر', 'الطعم الحي', 'الصيد الكبير', 'المحمدية', 'مرلين', 'التونة الحمراء'],
   captain: {
     kicker: 'القبطان',
-    title: 'عمر، صياد محترف. صائد العمالقة.',
+    title: 'عمر، *صياد محترف.* صائد *العمالقة.*',
     text: 'من المحمدية، يأخذ عمر صياديه كل يوم إلى حيث تعض أجمل أسماك الأطلسي المغربي. فيديوهات يتابعها مجتمع ضخم، وصرخة واحدة عندما تصرخ البكرة: طنطوني!',
     followers: 'متابع على إنستغرام',
     igfa: 'جبل سيفة 2026 · IGFA',
@@ -268,7 +268,7 @@ const ar: Dict = {
   },
   offer: {
     kicker: 'السعر',
-    title: 'بسيط وواضح.',
+    title: '*بسيط* *وواضح.*',
     perPerson: 'للشخص',
     boats: 'قاربان',
     seatsPerBoat: '5 صيادين كحد أقصى لكل قارب',
@@ -282,8 +282,8 @@ const ar: Dict = {
     text: 'يشطب عمر واحدًا تلو الآخر كل الأنواع التي أخرجها من الماء. كم تبقّى؟ تعال وشاهد… أو تعال وساعده.',
     cta: 'افتح اللوحة',
   },
-  videos: { kicker: 'على القناة', title: 'آخر المغامرات', watch: 'شاهد على يوتيوب' },
-  cta: { title: 'مستعد لتصرخ طنطوني؟', text: 'الأماكن تنفد بسرعة: 10 صيادين فقط في اليوم.', button: 'احجز الآن' },
+  videos: { kicker: 'على القناة', title: 'آخر *المغامرات*', watch: 'شاهد على يوتيوب' },
+  cta: { title: 'مستعد لتصرخ *طنطوني*؟', text: 'الأماكن تنفد بسرعة: 10 صيادين فقط في اليوم.', button: 'احجز الآن' },
   footer: { rights: 'جميع الحقوق محفوظة.', follow: 'تابع المغامرات', admin: 'فضاء القبطان' },
   book: {
     kicker: 'الحجز',
@@ -366,7 +366,7 @@ const es: Dict = {
   marquee: ['Tantouni', 'Jigging', 'Curricán', 'Pesca con vivo', 'Big game', 'Mohammedia', 'Marlín', 'Atún rojo'],
   captain: {
     kicker: 'El capitán',
-    title: 'Omar, pescador profesional. Cazador de gigantes.',
+    title: 'Omar, *pescador profesional.* Cazador *de gigantes.*',
     text: 'Desde Mohammedia, Omar lleva cada día a sus pescadores donde pican los mejores peces del Atlántico marroquí. Vídeos seguidos por una comunidad enorme, y un solo grito cuando chilla el carrete: ¡TANTOUNI!',
     followers: 'seguidores en Instagram',
     igfa: 'Jebel Sifah 2026 · IGFA',
@@ -385,7 +385,7 @@ const es: Dict = {
   },
   offer: {
     kicker: 'La tarifa',
-    title: 'Simple y claro.',
+    title: '*Simple* y *claro.*',
     perPerson: 'por persona',
     boats: '2 barcos',
     seatsPerBoat: 'máx. 5 pescadores por barco',
@@ -399,8 +399,8 @@ const es: Dict = {
     text: 'Omar tacha una a una todas las especies que ha sacado del agua. ¿Cuántas faltan? Ven a verlo… o ven a ayudarle.',
     cta: 'Abrir el tablón',
   },
-  videos: { kicker: 'En el canal', title: 'Las últimas aventuras', watch: 'Ver en YouTube' },
-  cta: { title: '¿Listo para gritar TANTOUNI?', text: 'Las plazas vuelan: solo 10 pescadores al día.', button: 'Reservar ahora' },
+  videos: { kicker: 'En el canal', title: 'Las últimas *aventuras*', watch: 'Ver en YouTube' },
+  cta: { title: '¿Listo para gritar *TANTOUNI*?', text: 'Las plazas vuelan: solo 10 pescadores al día.', button: 'Reservar ahora' },
   footer: { rights: 'Todos los derechos reservados.', follow: 'Sigue las aventuras', admin: 'Zona del capitán' },
   book: {
     kicker: 'Reserva',
@@ -483,7 +483,7 @@ const it: Dict = {
   marquee: ['Tantouni', 'Jigging', 'Traina', 'Pesca con il vivo', 'Big game', 'Mohammedia', 'Marlin', 'Tonno rosso'],
   captain: {
     kicker: 'Il capitano',
-    title: 'Omar, pescatore pro. Cacciatore di giganti.',
+    title: 'Omar, *pescatore pro.* Cacciatore *di giganti.*',
     text: "Da Mohammedia, Omar porta ogni giorno i suoi pescatori dove abboccano i pesci più belli dell'Atlantico marocchino. Video seguiti da una community enorme, e un solo grido quando il mulinello urla: TANTOUNI!",
     followers: 'follower su Instagram',
     igfa: 'Jebel Sifah 2026 · IGFA',
@@ -502,7 +502,7 @@ const it: Dict = {
   },
   offer: {
     kicker: 'La tariffa',
-    title: 'Semplice e chiaro.',
+    title: '*Semplice* e *chiaro.*',
     perPerson: 'a persona',
     boats: '2 barche',
     seatsPerBoat: 'max. 5 pescatori per barca',
@@ -516,8 +516,8 @@ const it: Dict = {
     text: "Omar spunta una per una tutte le specie che ha tirato fuori dall'acqua. Quante ne mancano? Vieni a vedere… o vieni ad aiutarlo.",
     cta: 'Apri la bacheca',
   },
-  videos: { kicker: 'Sul canale', title: 'Le ultime avventure', watch: 'Guarda su YouTube' },
-  cta: { title: 'Pronto a gridare TANTOUNI?', text: 'I posti vanno a ruba: solo 10 pescatori al giorno.', button: 'Prenota ora' },
+  videos: { kicker: 'Sul canale', title: 'Le ultime *avventure*', watch: 'Guarda su YouTube' },
+  cta: { title: 'Pronto a gridare *TANTOUNI*?', text: 'I posti vanno a ruba: solo 10 pescatori al giorno.', button: 'Prenota ora' },
   footer: { rights: 'Tutti i diritti riservati.', follow: 'Segui le avventure', admin: 'Area capitano' },
   book: {
     kicker: 'Prenotazione',

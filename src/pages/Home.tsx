@@ -173,6 +173,10 @@ function RodMount() {
   );
 }
 
+// Words between *stars* in a translation are shown in gold.
+const gold = (text: string) =>
+  text.split(/\*([^*]+)\*/).map((part, i) => (i % 2 ? <em key={i} className="gold">{part}</em> : part));
+
 function Captain() {
   const { t } = useTranslation();
   const ref = useRef<HTMLElement>(null);
@@ -207,7 +211,7 @@ function Captain() {
       <div className="container captain__grid">
         <div className="captain__text">
           <span className="kicker" data-reveal>{t('captain.kicker')}</span>
-          <h2 className="h2" data-reveal>{t('captain.title')}</h2>
+          <h2 className="h2" data-reveal>{gold(t('captain.title'))}</h2>
           <p className="lead" data-reveal>{t('captain.text')}</p>
           <div className="captain__social" data-reveal>
             <Link to="/palmares" className="btn sm">🏆 {t('palmares.see')}</Link>
@@ -372,7 +376,7 @@ function Offer() {
       <div className="container offer__grid">
         <div className="offer__card glass" data-reveal>
           <span className="kicker">{t('offer.kicker')}</span>
-          <h2 className="h2">{t('offer.title')}</h2>
+          <h2 className="h2">{gold(t('offer.title'))}</h2>
           <div className="offer__price">
             <b className="display">{SITE.pricePerPerson}</b>
             <span><em className="display">{SITE.currency}</em>{t('offer.perPerson')}</span>
@@ -459,7 +463,7 @@ function Videos() {
     <section className="section videos">
       <div className="container">
         <span className="kicker" data-reveal>{t('videos.kicker')}</span>
-        <h2 className="h2" data-reveal>{t('videos.title')}</h2>
+        <h2 className="h2" data-reveal>{gold(t('videos.title'))}</h2>
         <div className="videos__grid">
           {SITE.videos.map((v, i) => (
             <a key={v.id} href={`https://www.youtube.com/watch?v=${v.id}`} target="_blank" rel="noreferrer" className="video" data-reveal data-reveal-delay={(i % 3) * 0.1}>
@@ -484,7 +488,7 @@ function FinalCta() {
   return (
     <section className="section final">
       <div className="container final__inner">
-        <h2 className="final__title" data-reveal>{t('cta.title')}</h2>
+        <h2 className="final__title" data-reveal>{gold(t('cta.title'))}</h2>
         <p className="lead" data-reveal>{t('cta.text')}</p>
         <Link to="/reservation" className="btn" data-reveal>{t('cta.button')} <Arrow /></Link>
       </div>
