@@ -149,6 +149,43 @@ function Season() {
   );
 }
 
+// "La saison des géants": the three headline species, each card opens its fish on the board
+const GIANTS = [
+  { k: 'tuna', slug: 'thon-rouge-atlantique' },
+  { k: 'marlin', slug: 'marlin-blanc' },
+  { k: 'amberjack', slug: 'seriole' },
+] as const;
+
+function Giants() {
+  const { t } = useTranslation();
+  return (
+    <section className="section giants">
+      <div className="giants__sea" aria-hidden>
+        <img src="/img/giants/sea.webp" alt="" loading="lazy" />
+      </div>
+      <div className="container giants__inner">
+        <span className="kicker giants__kicker" data-reveal>{t('season.kicker')}</span>
+        <h2 className="h2 giants__title" data-reveal>
+          {t('season.title1')} <em>{t('season.hl')}</em>
+        </h2>
+        <p className="lead giants__lead" data-reveal>{t('season.text')}</p>
+        <div className="experience__grid giants__grid">
+          {GIANTS.map(({ k, slug }, i) => (
+            <div key={k} data-reveal data-reveal-delay={i * 0.12}>
+              <article className={`tech giant giant--${k}`}>
+                <img className="tech__photo" src={`/img/giants/${k}.webp`} alt="" loading="lazy" />
+                <h3>{t(`season.${k}.t`)}</h3>
+                <p>{t(`season.${k}.d`)}</p>
+                <Link to={`/tableau-de-chasse/${slug}`} className="tech__more">{t('season.more')} <Arrow /></Link>
+              </article>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function Experience() {
   const { t } = useTranslation();
   return (
@@ -302,6 +339,7 @@ export default function Home() {
       <Hero />
       <Captain />
       <Season />
+      <Giants />
       <Experience />
       <Teaser />
       <Offer />

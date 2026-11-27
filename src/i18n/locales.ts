@@ -21,7 +21,7 @@ const fr = {
     boats: 'bateaux',
     seats: 'pêcheurs par jour',
   },
-  season: { kicker: 'Mohammedia · Atlantique', title: 'La saison des géants', text: 'Thons rouges, marlins blancs, sérioles, courbines… Les eaux marocaines comptent parmi les plus riches au monde.' },
+  season: { kicker: "Mohammedia · Atlantique", title1: "La saison des", hl: "géants", more: "En savoir plus", tuna: { t: "Thons rouges", d: "Une pêche d'exception dans les eaux profondes de l'Atlantique." }, marlin: { t: "Marlins blancs", d: "Des combats légendaires pour les passionnés de pêche sportive." }, amberjack: { t: "Sérioles & Courbines", d: "Une diversité de poissons pour une expérience unique." }, text: 'Thons rouges, marlins blancs, sérioles, courbines… Les eaux marocaines comptent parmi les plus riches au monde.' },
   experience: {
     kicker: "L'expérience",
     title1: 'Trois techniques.', title2: 'Une journée', hl: 'inoubliable.', more: 'En savoir plus',
@@ -139,7 +139,7 @@ const en: Dict = {
     boats: 'boats',
     seats: 'anglers per day',
   },
-  season: { kicker: 'Mohammedia · Atlantic', title: 'The season of giants', text: 'Bluefin tuna, white marlin, amberjack, meagre… Moroccan waters are among the richest in the world.' },
+  season: { kicker: "Mohammedia · Atlantic", title1: "The season of", hl: "giants", more: "Learn more", tuna: { t: "Bluefin tuna", d: "An exceptional fishery in the deep waters of the Atlantic." }, marlin: { t: "White marlin", d: "Legendary fights for sport-fishing enthusiasts." }, amberjack: { t: "Amberjack & Meagre", d: "A wide variety of fish for a unique experience." }, text: 'Bluefin tuna, white marlin, amberjack, meagre… Moroccan waters are among the richest in the world.' },
   experience: {
     kicker: 'The experience',
     title1: 'Three techniques.', title2: 'One', hl: 'unforgettable day.', more: 'Learn more',
@@ -255,7 +255,7 @@ const ar: Dict = {
     boats: 'قاربان',
     seats: 'صيادين في اليوم',
   },
-  season: { kicker: 'المحمدية · الأطلسي', title: 'موسم العمالقة', text: 'التونة الحمراء، المرلين الأبيض، السريولا، الكوربين… المياه المغربية من أغنى المياه في العالم.' },
+  season: { kicker: "المحمدية · الأطلسي", title1: "موسم", hl: "العمالقة", more: "اكتشف المزيد", tuna: { t: "التونة الحمراء", d: "صيد استثنائي في أعماق مياه الأطلسي." }, marlin: { t: "المرلين الأبيض", d: "معارك أسطورية لعشاق الصيد الرياضي." }, amberjack: { t: "السريولا والكوربين", d: "تنوع كبير من الأسماك لتجربة فريدة." }, text: 'التونة الحمراء، المرلين الأبيض، السريولا، الكوربين… المياه المغربية من أغنى المياه في العالم.' },
   experience: {
     kicker: 'التجربة',
     title1: 'ثلاث تقنيات.', title2: 'يوم', hl: 'لا يُنسى.', more: 'اكتشف المزيد',
@@ -371,7 +371,7 @@ const es: Dict = {
     boats: 'barcos',
     seats: 'pescadores al día',
   },
-  season: { kicker: 'Mohammedia · Atlántico', title: 'La temporada de los gigantes', text: 'Atunes rojos, marlines blancos, serviolas, corvinas… Las aguas marroquíes están entre las más ricas del mundo.' },
+  season: { kicker: "Mohammedia · Atlántico", title1: "La temporada de los", hl: "gigantes", more: "Saber más", tuna: { t: "Atunes rojos", d: "Una pesca excepcional en las aguas profundas del Atlántico." }, marlin: { t: "Marlines blancos", d: "Combates legendarios para los apasionados de la pesca deportiva." }, amberjack: { t: "Serviolas y corvinas", d: "Una gran variedad de peces para una experiencia única." }, text: 'Atunes rojos, marlines blancos, serviolas, corvinas… Las aguas marroquíes están entre las más ricas del mundo.' },
   experience: {
     kicker: 'La experiencia',
     title1: 'Tres técnicas.', title2: 'Un día', hl: 'inolvidable.', more: 'Saber más',
@@ -487,7 +487,7 @@ const it: Dict = {
     boats: 'barche',
     seats: 'pescatori al giorno',
   },
-  season: { kicker: 'Mohammedia · Atlantico', title: 'La stagione dei giganti', text: 'Tonni rossi, marlin bianchi, ricciole, bocche d’oro… Le acque marocchine sono tra le più ricche al mondo.' },
+  season: { kicker: "Mohammedia · Atlantico", title1: "La stagione dei", hl: "giganti", more: "Scopri di più", tuna: { t: "Tonni rossi", d: "Una pesca d'eccezione nelle acque profonde dell'Atlantico." }, marlin: { t: "Marlin bianchi", d: "Combattimenti leggendari per gli appassionati di pesca sportiva." }, amberjack: { t: "Ricciole e bocche d'oro", d: "Una grande varietà di pesci per un'esperienza unica." }, text: 'Tonni rossi, marlin bianchi, ricciole, bocche d’oro… Le acque marocchine sono tra le più ricche al mondo.' },
   experience: {
     kicker: "L'esperienza",
     title1: 'Tre tecniche.', title2: 'Una giornata', hl: 'indimenticabile.', more: 'Scopri di più',

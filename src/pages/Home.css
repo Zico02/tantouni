@@ -296,3 +296,30 @@
   .hero__kicker { font-size: 10.5px; letter-spacing: 0.14em; }
   .hero__scroll { display: none; }
 }
+
+/* ---------- la saison des géants ---------- */
+.giants { --gold: #e3b54b; overflow: hidden; isolation: isolate; background: linear-gradient(180deg, var(--abyss) 0%, #04142e 30%, #051a3a 70%, var(--abyss) 100%); padding-top: clamp(120px, 10vw, 200px); }
+.giants__sea { position: absolute; inset: clamp(30px, 3.5vw, 70px) 0 auto 0; aspect-ratio: 1672 / 430; min-height: 300px; z-index: -1; pointer-events: none; }
+.giants__sea img {
+  width: 100%; height: 100%; object-fit: cover; object-position: 100% 0;
+  /* fades in under the photo above, and out into the cards */
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.3) 18%, rgba(0, 0, 0, 0.8) 38%, #000 55%, #000 78%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.3) 18%, rgba(0, 0, 0, 0.8) 38%, #000 55%, #000 78%, transparent 100%);
+}
+[dir='rtl'] .giants__sea img { transform: scaleX(-1); }
+.giants__inner { position: relative; }
+.giants__kicker { color: var(--cyan); }
+.giants__kicker::before { background: var(--gold); }
+.giants__title { margin-bottom: 14px; line-height: 1.05; text-shadow: 0 4px 30px rgba(0, 10, 30, 0.6); }
+.giants__title em { font-style: normal; color: var(--gold); }
+.giants__lead { color: #b9cbe4; max-width: 56ch; }
+.giant .tech__photo { object-position: 70% 50%; }
+.giant h3 { margin-top: auto; font-size: clamp(21px, 1.75vw, 28px); white-space: nowrap; }
+.giants { padding-bottom: clamp(40px, 4vw, 70px); }
+.giants + .experience { padding-top: clamp(90px, 8vw, 150px); }
+.giant .tech__more { margin-top: 0; }
+.giant p { max-width: 30ch; }
+@media (max-width: 900px) {
+  .giants__sea { aspect-ratio: auto; height: 300px; }
+  .giants__sea img { object-position: 85% 0; opacity: 0.8; }
+}
