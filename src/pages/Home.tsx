@@ -6,7 +6,8 @@ import BoatSeats from '../components/BoatSeats';
 import CaughtStamp from '../components/CaughtStamp';
 import { Arrow, Check } from '../components/icons';
 import { SocialIcon } from '../components/Footer';
-import { gsap, useGSAP, useReveal } from '../lib/motion';
+import { gsap, ScrollTrigger, useGSAP, useReveal } from '../lib/motion';
+import Jig from '../components/Jig';
 import { fishVisual } from '../lib/fishArt';
 import { fishName, useFish } from '../lib/useFish';
 import { SITE } from '../lib/site';
@@ -86,13 +87,51 @@ function Captain() {
           onUpdate: () => { el.textContent = Math.round(obj.v) + (el.dataset.suffix || ''); },
         });
       });
+
+      // The jig: hangs in the gap between the two columns and sinks as you scroll the section.
+      const section = ref.current!;
+      const rig = section.querySelector<HTMLElement>('.jig-rig')!;
+      const col = section.querySelector<HTMLElement>('.captain__text')!;
+      const place = () => {
+        const s = section.getBoundingClientRect();
+        const c = col.getBoundingClientRect();
+        const gap = parseFloat(getComputedStyle(col.parentElement!).columnGap) || 60;
+        const narrow = window.innerWidth < 900;
+        rig.style.left = `${narrow ? s.width - 26 : c.right - s.left + gap / 2}px`;
+      };
+      place();
+      const ro = new ResizeObserver(place);
+      ro.observe(section);
+
+      gsap.fromTo(rig, { y: () => section.offsetHeight * 0.06 }, {
+        y: () => section.offsetHeight * 0.72,
+        ease: 'none',
+        scrollTrigger: { trigger: section, start: 'top 75%', end: 'bottom 25%', scrub: 0.8, invalidateOnRefresh: true },
+      });
+      // light from the surface fades as the jig goes deeper
+      gsap.fromTo(section.querySelector('.captain__light'), { opacity: 1 }, {
+        opacity: 0.15, ease: 'none',
+        scrollTrigger: { trigger: section, start: 'top 75%', end: 'bottom 25%', scrub: true },
+      });
+      // a quick extra kick while scrolling, like a jig being worked
+      const tilt = gsap.quickTo(section.querySelector('.jig-rig__body'), 'rotation', { duration: 0.5, ease: 'power3.out' });
+      ScrollTrigger.create({
+        trigger: section, start: 'top bottom', end: 'bottom top',
+        onUpdate: (st) => tilt(gsap.utils.clamp(-14, 14, st.getVelocity() / 120)),
+      });
+      return () => ro.disconnect();
     },
     { scope: ref },
   );
   return (
     <section className="section captain" ref={ref}>
+      <div className="captain__light" aria-hidden />
+      <div className="jig-rig" aria-hidden>
+        <span className="jig-rig__line" />
+        <div className="jig-rig__body"><Jig className="jig-rig__jig" /></div>
+      </div>
       <div className="container captain__grid">
-        <div>
+        <div className="captain__text">
           <span className="kicker" data-reveal>{t('captain.kicker')}</span>
           <h2 className="h2" data-reveal>{t('captain.title')}</h2>
           <p className="lead" data-reveal>{t('captain.text')}</p>

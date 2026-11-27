@@ -137,6 +137,35 @@
 }
 
 /* ---------- captain ---------- */
+.captain { overflow: hidden; isolation: isolate; }
+/* soft light from the surface, fades as the jig goes down (see Captain) */
+.captain__light {
+  position: absolute; inset: 0; z-index: -2; pointer-events: none;
+  background:
+    radial-gradient(60% 45% at 52% 0%, rgba(72, 160, 255, 0.22), transparent 70%),
+    repeating-linear-gradient(98deg, transparent 0 80px, rgba(140, 200, 255, 0.035) 80px 140px, transparent 140px 230px);
+}
+/* the jig on its line: placed between the two columns by JS, moved down by the scroll */
+.jig-rig { position: absolute; top: 0; left: 50%; width: 0; z-index: -1; pointer-events: none; will-change: transform; }
+.jig-rig__line {
+  position: absolute; bottom: calc(100% - 8px); left: -0.5px; width: 1px; height: 3000px;
+  background: linear-gradient(180deg, transparent, rgba(220, 235, 255, 0.35) 40%, rgba(230, 240, 255, 0.6));
+}
+.jig-rig__body { position: absolute; top: 0; left: 0; transform-origin: 0 4px; }
+.jig-rig__jig {
+  display: block; width: 66px; height: auto; margin-left: -33px; transform-origin: 50% 4px;
+  filter: drop-shadow(0 0 14px rgba(120, 200, 255, 0.35)) drop-shadow(0 12px 18px rgba(0, 0, 0, 0.5));
+  animation: jig-flutter 2.4s ease-in-out infinite;
+}
+/* the slow-pitch flutter: a lazy sway with a little flash of the side */
+@keyframes jig-flutter {
+  0%, 100% { rotate: -5deg; scale: 1 1; }
+  25% { rotate: 4deg; scale: 0.86 1; }
+  50% { rotate: 6deg; scale: 1 1; }
+  75% { rotate: -3deg; scale: 0.9 1; }
+}
+@media (max-width: 900px) { .jig-rig__jig { width: 36px; margin-left: -18px; opacity: 0.85; } }
+@media (prefers-reduced-motion: reduce) { .jig-rig__jig { animation: none; } }
 .captain__grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(40px, 6vw, 90px); align-items: center; }
 .captain__social { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 30px; }
 .captain__stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
