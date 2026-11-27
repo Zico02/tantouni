@@ -68,7 +68,32 @@ function Hero() {
           </ul>
         </div>
       </div>
-      <span className="hero__scroll" aria-hidden><i /></span>
+      {/* scroll hint: a spinning reel being reeled in (handle turns, line lays on the spool) */}
+      <span className="hero__scroll" aria-hidden>
+        <svg viewBox="420 185 440 465" fill="none" strokeLinecap="round" strokeLinejoin="round">
+          <g stroke="#8fa0b8" strokeWidth="14">
+            {/* reel foot + stem */}
+            <rect x="612" y="198" width="196" height="26" rx="13" />
+            <path d="M700 224c0 60-14 96-4 150M728 224c4 70 30 118 80 160 34 30 40 70 18 96-16 18-46 24-78 24h-60" />
+            {/* bail arm around the rotor */}
+            <path d="M560 300c-30-12-56-10-62 6-6 16 18 28 18 28v232s-18 14-6 30c10 14 40 8 70-6" />
+            <path d="M520 334h96c46 0 78 30 78 86v40c0 58-32 90-80 90h-96" />
+            {/* rotor + spool + front cap */}
+            <rect x="552" y="368" width="96" height="152" rx="14" />
+            <path d="M552 392h-78v104h78" />
+            <path d="M474 384c-28 2-42 34-42 60 0 28 14 58 42 60" />
+            <path d="M488 376v136" />
+          </g>
+          {/* line laying on the spool */}
+          <rect className="reel__lay" x="576" y="392" width="30" height="12" rx="6" fill="#f2c230" />
+          {/* the handle turning */}
+          <g className="reel__handle" stroke="#f2c230" strokeWidth="14">
+            <circle cx="760" cy="436" r="26" />
+            <path d="M746 458L694 600" />
+            <rect x="644" y="598" width="96" height="36" rx="18" />
+          </g>
+        </svg>
+      </span>
     </section>
   );
 }
@@ -88,47 +113,40 @@ function Captain() {
         });
       });
 
-      // The jig: hangs in the gap between the two columns and sinks as you scroll the section.
+      // The jig: hangs straight under the scroll-mouse (page centre, see CSS) and sinks as you
+      // scroll the section. Halfway down the slim jig is swapped for a heavier one, and the
+      // water gets darker the deeper it goes.
       const section = ref.current!;
-      const rig = section.querySelector<HTMLElement>('.jig-rig')!;
-      const col = section.querySelector<HTMLElement>('.captain__text')!;
-      const place = () => {
-        const s = section.getBoundingClientRect();
-        const c = col.getBoundingClientRect();
-        const gap = parseFloat(getComputedStyle(col.parentElement!).columnGap) || 60;
-        const narrow = window.innerWidth < 900;
-        rig.style.left = `${narrow ? s.width - 26 : c.right - s.left + gap / 2}px`;
-      };
-      place();
-      const ro = new ResizeObserver(place);
-      ro.observe(section);
-
-      gsap.fromTo(rig, { y: () => section.offsetHeight * 0.06 }, {
-        y: () => section.offsetHeight * 0.72,
-        ease: 'none',
-        scrollTrigger: { trigger: section, start: 'top 75%', end: 'bottom 25%', scrub: 0.8, invalidateOnRefresh: true },
+      const q = gsap.utils.selector(section);
+      const tl = gsap.timeline({
+        defaults: { ease: 'none' },
+        scrollTrigger: { trigger: section, start: 'top 75%', end: 'bottom 20%', scrub: 0.8, invalidateOnRefresh: true },
       });
-      // light from the surface fades as the jig goes deeper
-      gsap.fromTo(section.querySelector('.captain__light'), { opacity: 1 }, {
-        opacity: 0.15, ease: 'none',
-        scrollTrigger: { trigger: section, start: 'top 75%', end: 'bottom 25%', scrub: true },
-      });
+      tl.fromTo(q('.jig-rig'), { y: () => section.offsetHeight * 0.04 }, { y: () => Math.max(section.offsetHeight * 0.3, section.offsetHeight - (window.innerWidth < 900 ? 220 : 340)), duration: 1 }, 0)
+        .fromTo(q('.captain__light'), { opacity: 1 }, { opacity: 0.1, duration: 1 }, 0)
+        .fromTo(q('.captain__deep'), { opacity: 0 }, { opacity: 1, duration: 1 }, 0)
+        // the swap: one jig becomes the other in a blink (no flash, no zoom)
+        .to(q('.jig-rig__jig--slim'), { opacity: 0, duration: 0.012 }, 0.5)
+        .fromTo(q('.jig-rig__jig--heavy'), { opacity: 0 }, { opacity: 1, duration: 0.012 }, 0.5);
       // a quick extra kick while scrolling, like a jig being worked
-      const tilt = gsap.quickTo(section.querySelector('.jig-rig__body'), 'rotation', { duration: 0.5, ease: 'power3.out' });
+      const tilt = gsap.quickTo(q('.jig-rig__body')[0], 'rotation', { duration: 0.5, ease: 'power3.out' });
       ScrollTrigger.create({
         trigger: section, start: 'top bottom', end: 'bottom top',
         onUpdate: (st) => tilt(gsap.utils.clamp(-14, 14, st.getVelocity() / 120)),
       });
-      return () => ro.disconnect();
     },
     { scope: ref },
   );
   return (
     <section className="section captain" ref={ref}>
       <div className="captain__light" aria-hidden />
+      <div className="captain__deep" aria-hidden />
       <div className="jig-rig" aria-hidden>
         <span className="jig-rig__line" />
-        <div className="jig-rig__body"><Jig className="jig-rig__jig" /></div>
+        <div className="jig-rig__body">
+          <Jig model="slim" className="jig-rig__jig jig-rig__jig--slim" />
+          <Jig model="heavy" className="jig-rig__jig jig-rig__jig--heavy" />
+        </div>
       </div>
       <div className="container captain__grid">
         <div className="captain__text">
@@ -207,7 +225,10 @@ function Giants() {
         <h2 className="h2 giants__title" data-reveal>
           {t('season.title1')} <em>{t('season.hl')}</em>
         </h2>
-        <p className="lead giants__lead" data-reveal>{t('season.text')}</p>
+        {/* the species on one line, the sentence on the next */}
+        <p className="lead giants__lead" data-reveal>
+          {t('season.text').split(/(?<=…)\s+/).map((part, i) => <span key={i} className="giants__lead-line">{part}</span>)}
+        </p>
         <div className="experience__grid giants__grid">
           {GIANTS.map(({ k, slug }, i) => (
             <div key={k} data-reveal data-reveal-delay={i * 0.12}>
@@ -377,8 +398,8 @@ export default function Home() {
     <div ref={ref} className="home">
       <Hero />
       <Captain />
-      <Season />
       <Giants />
+      <Season />
       <Experience />
       <Teaser />
       <Offer />

@@ -14,7 +14,7 @@ const fr = {
   captain: {
     kicker: 'Le capitaine',
     title: 'Omar, pêcheur pro. Chasseur de géants.',
-    text: "Depuis Mohammedia, Omar emmène chaque jour ses pêcheurs là où mordent les plus beaux poissons de l'Atlantique marocain. Des vidéos suivies par une communauté énorme, une 2ᵉ place par équipe avec le Maroc au championnat international de Jebel Sifah 2026 à Oman (IGFA), et un seul mot d'ordre quand le moulinet hurle : TANTOUNI !",
+    text: "Depuis Mohammedia, Omar emmène chaque jour ses pêcheurs là où mordent les plus beaux poissons de l'Atlantique marocain. Des vidéos suivies par une communauté énorme, et un seul mot d'ordre quand le moulinet hurle : TANTOUNI !",
     followers: 'abonnés Instagram',
     igfa: 'Jebel Sifah 2026 · IGFA',
     igfaValue: '2ᵉ',
@@ -132,7 +132,7 @@ const en: Dict = {
   captain: {
     kicker: 'The captain',
     title: 'Omar, pro angler. Giant hunter.',
-    text: "From Mohammedia, Omar takes his anglers out every day to where the best fish of the Moroccan Atlantic bite. Videos followed by a huge community, 2nd place team with Morocco at the 2026 Jebel Sifah International Fishing Championship in Oman (IGFA), and one battle cry when the reel screams: TANTOUNI!",
+    text: "From Mohammedia, Omar takes his anglers out every day to where the best fish of the Moroccan Atlantic bite. Videos followed by a huge community, and one battle cry when the reel screams: TANTOUNI!",
     followers: 'Instagram followers',
     igfa: 'Jebel Sifah 2026 · IGFA',
     igfaValue: '2nd',
@@ -248,7 +248,7 @@ const ar: Dict = {
   captain: {
     kicker: 'القبطان',
     title: 'عمر، صياد محترف. صائد العمالقة.',
-    text: 'من المحمدية، يأخذ عمر صياديه كل يوم إلى حيث تعض أجمل أسماك الأطلسي المغربي. فيديوهات يتابعها مجتمع ضخم، والمركز الثاني للفرق مع المغرب في بطولة جبل سيفة الدولية 2026 بعُمان (IGFA)، وصرخة واحدة عندما تصرخ البكرة: طنطوني!',
+    text: 'من المحمدية، يأخذ عمر صياديه كل يوم إلى حيث تعض أجمل أسماك الأطلسي المغربي. فيديوهات يتابعها مجتمع ضخم، وصرخة واحدة عندما تصرخ البكرة: طنطوني!',
     followers: 'متابع على إنستغرام',
     igfa: 'جبل سيفة 2026 · IGFA',
     igfaValue: 'الثاني',
@@ -364,7 +364,7 @@ const es: Dict = {
   captain: {
     kicker: 'El capitán',
     title: 'Omar, pescador profesional. Cazador de gigantes.',
-    text: 'Desde Mohammedia, Omar lleva cada día a sus pescadores donde pican los mejores peces del Atlántico marroquí. Vídeos seguidos por una comunidad enorme, 2.º puesto por equipos con Marruecos en el campeonato internacional de Jebel Sifah 2026 en Omán (IGFA), y un solo grito cuando chilla el carrete: ¡TANTOUNI!',
+    text: 'Desde Mohammedia, Omar lleva cada día a sus pescadores donde pican los mejores peces del Atlántico marroquí. Vídeos seguidos por una comunidad enorme, y un solo grito cuando chilla el carrete: ¡TANTOUNI!',
     followers: 'seguidores en Instagram',
     igfa: 'Jebel Sifah 2026 · IGFA',
     igfaValue: '2.º',
@@ -480,7 +480,7 @@ const it: Dict = {
   captain: {
     kicker: 'Il capitano',
     title: 'Omar, pescatore pro. Cacciatore di giganti.',
-    text: "Da Mohammedia, Omar porta ogni giorno i suoi pescatori dove abboccano i pesci più belli dell'Atlantico marocchino. Video seguiti da una community enorme, 2° posto a squadre con il Marocco al campionato internazionale di Jebel Sifah 2026 in Oman (IGFA), e un solo grido quando il mulinello urla: TANTOUNI!",
+    text: "Da Mohammedia, Omar porta ogni giorno i suoi pescatori dove abboccano i pesci più belli dell'Atlantico marocchino. Video seguiti da una community enorme, e un solo grido quando il mulinello urla: TANTOUNI!",
     followers: 'follower su Instagram',
     igfa: 'Jebel Sifah 2026 · IGFA',
     igfaValue: '2°',

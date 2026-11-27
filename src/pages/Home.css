@@ -111,29 +111,20 @@
 
 .hero__scroll {
   position: absolute;
-  bottom: 28px;
+  bottom: 22px;
   left: 50%;
   translate: -50% 0;
-  width: 24px;
-  height: 38px;
-  border: 2px solid rgba(233, 246, 255, 0.45);
-  border-radius: 14px;
+  width: 52px;
 }
-.hero__scroll i {
-  position: absolute;
-  top: 7px;
-  left: 50%;
-  width: 4px;
-  height: 8px;
-  margin-left: -2px;
-  border-radius: 2px;
-  background: var(--sun);
-  animation: scroll-dot 1.8s ease-in-out infinite;
-}
-@keyframes scroll-dot { 0% { transform: translateY(0); opacity: 1; } 80%, 100% { transform: translateY(14px); opacity: 0; } }
+.hero__scroll svg { display: block; width: 100%; height: auto; overflow: visible; }
+/* reeling: the handle turns around its axle, the line lays up and down the spool */
+.reel__handle { transform-box: view-box; transform-origin: 760px 436px; animation: reel-turn 1.4s linear infinite; }
+.reel__lay { animation: reel-lay 1.4s ease-in-out infinite; }
+@keyframes reel-turn { to { rotate: -360deg; } }
+@keyframes reel-lay { 0%, 100% { translate: 0 0; } 50% { translate: 0 100px; } }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__sonar i, .hero__line--glow > span, .hero__scroll i { animation: none; }
+  .hero__sonar i, .hero__line--glow > span, .reel__handle, .reel__lay { animation: none; }
 }
 
 /* ---------- captain ---------- */
@@ -145,28 +136,43 @@
     radial-gradient(60% 45% at 52% 0%, rgba(72, 160, 255, 0.22), transparent 70%),
     repeating-linear-gradient(98deg, transparent 0 80px, rgba(140, 200, 255, 0.035) 80px 140px, transparent 140px 230px);
 }
-/* the jig on its line: placed between the two columns by JS, moved down by the scroll */
+/* the water gets darker as the jig goes deeper (opacity driven by the scroll) */
+.captain__deep {
+  position: absolute; inset: 0; z-index: -2; pointer-events: none; opacity: 0;
+  /* darkest in the middle, back to the page colour at the very bottom so the next section joins cleanly */
+  background: linear-gradient(180deg, rgba(0, 5, 16, 0.25) 0%, rgba(0, 4, 12, 0.7) 50%, rgba(0, 3, 10, 0.85) 78%, var(--abyss) 100%);
+}
+/* the jig on its line: straight under the scroll-mouse (page centre), moved down by the scroll */
 .jig-rig { position: absolute; top: 0; left: 50%; width: 0; z-index: -1; pointer-events: none; will-change: transform; }
 .jig-rig__line {
-  position: absolute; bottom: calc(100% - 8px); left: -0.5px; width: 1px; height: 3000px;
-  background: linear-gradient(180deg, transparent, rgba(220, 235, 255, 0.35) 40%, rgba(230, 240, 255, 0.6));
+  /* fluo yellow-green braid */
+  position: absolute; bottom: calc(100% - 6px); left: -1px; width: 2px; height: 3000px;
+  background: linear-gradient(180deg, rgba(198, 232, 52, 0) 0%, rgba(198, 232, 52, 0.75) 35%, #c6e834 70%, #9fd12a 100%);
+  box-shadow: 0 0 6px rgba(190, 235, 60, 0.45);
 }
 .jig-rig__body { position: absolute; top: 0; left: 0; transform-origin: 0 4px; }
-.jig-rig__jig {
-  display: block; width: 66px; height: auto; margin-left: -33px; transform-origin: 50% 4px;
-  filter: drop-shadow(0 0 14px rgba(120, 200, 255, 0.35)) drop-shadow(0 12px 18px rgba(0, 0, 0, 0.5));
-  animation: jig-flutter 2.4s ease-in-out infinite;
+.jig-rig__jig { position: absolute; top: 0; left: 0; filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.55)); }
+/* the photo is hung by its nose ring (69% across the picture), and sways from there */
+.jig-rig__jig img {
+  display: block; height: 168px; width: auto; max-width: none; translate: -69% 0;
+  transform-origin: 69% 2px; animation: jig-flutter 2.4s ease-in-out infinite;
+  user-select: none; -webkit-user-drag: none;
 }
-/* the slow-pitch flutter: a lazy sway with a little flash of the side */
+.jig-rig__jig--heavy { opacity: 0; }
+.jig-rig__jig--heavy img { height: 158px; animation-duration: 3s; }   /* heavier jig: slower, lazier swing */
 @keyframes jig-flutter {
   0%, 100% { rotate: -5deg; scale: 1 1; }
   25% { rotate: 4deg; scale: 0.86 1; }
   50% { rotate: 6deg; scale: 1 1; }
   75% { rotate: -3deg; scale: 0.9 1; }
 }
-@media (max-width: 900px) { .jig-rig__jig { width: 36px; margin-left: -18px; opacity: 0.85; } }
-@media (prefers-reduced-motion: reduce) { .jig-rig__jig { animation: none; } }
-.captain__grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: clamp(40px, 6vw, 90px); align-items: center; }
+@media (max-width: 900px) {
+  .jig-rig { left: auto; right: 26px; }
+  .jig-rig__jig img { height: 104px; }
+  .jig-rig__jig--heavy img { height: 98px; }
+}
+@media (prefers-reduced-motion: reduce) { .jig-rig__jig img { animation: none; } }
+.captain__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(130px, 13vw, 230px); align-items: center; max-width: 1560px; }
 .captain__social { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 30px; }
 .captain__stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .stat { padding: 24px 22px; display: grid; gap: 6px; align-content: end; }
@@ -301,6 +307,7 @@
 
 @media (max-width: 960px) {
   .captain__grid, .offer__grid, .teaser__grid { grid-template-columns: 1fr; }
+  .captain__grid { gap: 40px; }
   .experience__grid, .videos__grid { grid-template-columns: 1fr; }
 }
 @media (min-width: 640px) and (max-width: 960px) {
@@ -341,7 +348,8 @@
 .giants__kicker::before { background: var(--gold); }
 .giants__title { margin-bottom: 14px; line-height: 1.05; text-shadow: 0 4px 30px rgba(0, 10, 30, 0.6); }
 .giants__title em { font-style: normal; color: var(--gold); }
-.giants__lead { color: #b9cbe4; max-width: 56ch; }
+.giants__lead { color: #b9cbe4; max-width: none; }
+.giants__lead-line { display: block; }
 .giant .tech__photo { object-position: 70% 50%; }
 .giant h3 { margin-top: auto; font-size: clamp(21px, 1.75vw, 28px); white-space: nowrap; }
 .giants { padding-bottom: clamp(40px, 4vw, 70px); }
