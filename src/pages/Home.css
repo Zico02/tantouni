@@ -227,10 +227,12 @@
 .experience .experience__grid .tech { min-height: 0; aspect-ratio: 1.1 / 1; }
 .experience .experience__grid .tech p { max-width: 25ch; }
 /* title and text sit in the lower half, like the mockups (the photo shows above them) */
-.experience .experience__grid .tech h3 { margin-top: auto; }
-.experience .experience__grid .tech .tech__more { margin-top: clamp(18px, 3vw, 40px); }
+/* same layout in every card: icon, then the title at a fixed height, a 3-line text block, the link at the bottom */
+.experience .experience__grid .tech h3 { margin-top: clamp(20px, 3.4vw, 44px); }
+.experience .experience__grid .tech p { min-height: calc(3 * 1.6em); }
+.experience .experience__grid .tech .tech__more { margin-top: auto; }
 /* on the trolling card the text runs over the marlin, as in the mockup */
-.experience .experience__grid .tech--trolling p { max-width: 36ch; }
+.experience .experience__grid .tech--trolling p { max-width: 25ch; }
 .experience .experience__grid .tech__photo { object-position: 50% 50%; }
 /* darker on the left, where the text sits, so it stays readable on the busy photos */
 .experience .experience__grid .tech::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
@@ -295,6 +297,7 @@
 .teaser__grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: center; position: relative; }
 /* one sentence per line: a slightly smaller title and a full-width paragraph so each sentence fits on its line */
 .teaser .h2 { font-size: clamp(28px, 2.9vw, 50px); }
+.teaser .h2 em { font-style: normal; color: #e3b54b; }
 @media (min-width: 901px) { .teaser__grid { grid-template-columns: 1.3fr 1fr; } .teaser .h2 > span { white-space: nowrap; } }
 .teaser .lead { max-width: none; }
 .teaser__count { display: flex; align-items: baseline; gap: 6px; margin: 10px 0 28px; }

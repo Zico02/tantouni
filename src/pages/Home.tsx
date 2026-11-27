@@ -338,7 +338,8 @@ function Experience() {
       <div className="container experience__inner">
         <span className="kicker experience__kicker" data-reveal>{t('experience.kicker')}</span>
         <h2 className="h2 experience__title" data-reveal>
-          {t('experience.title1')}<br />
+          {/* 'Quatre' in white, 'techniques.' in gold */}
+          {(([n, ...rest]) => <>{n} <em>{rest.join(' ')}</em></>)(t('experience.title1').split(' '))}<br />
           {t('experience.title2')} <em>{t('experience.hl')}</em>
         </h2>
         <span className="experience__rule" data-reveal />
@@ -396,6 +397,20 @@ function Offer() {
 const lines = (text: string) =>
   text.split(/(?<=[.?!؟])\s+/).map((part, i) => <span key={i} style={{ display: 'block' }}>{part}</span>);
 
+// Same as lines(), and in each sentence the 2nd word and the last word are gold:
+// "Chaque *capture*, une *aventure*." (works the same in every language).
+const goldLines = (text: string) =>
+  text.split(/(?<=[.?!؟])\s+/).map((part, i) => {
+    const w = part.split(' ');
+    return (
+      <span key={i} style={{ display: 'block' }}>
+        {w.map((word, k) => (
+          <span key={k}>{k > 0 && ' '}{k === 1 || (k === w.length - 1 && k > 1) ? <em>{word}</em> : word}</span>
+        ))}
+      </span>
+    );
+  });
+
 function Teaser() {
   const { t } = useTranslation();
   const fish = useFish().fish?.filter((f) => !f.bait); // baits aren't on the board
@@ -409,7 +424,7 @@ function Teaser() {
         <div>
           <span className="kicker" data-reveal>{t('teaser.kicker')}</span>
           {/* one sentence per line */}
-          <h2 className="h2" data-reveal>{lines(t('teaser.title'))}</h2>
+          <h2 className="h2" data-reveal>{goldLines(t('teaser.title'))}</h2>
           <p className="lead" data-reveal>{lines(t('teaser.text'))}</p>
           {fish && (
             <p className="teaser__count display" data-reveal>

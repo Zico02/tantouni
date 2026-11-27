@@ -88,6 +88,10 @@ export default function DeepSea() {
   return (
     <>
       <div className="deepsea" aria-hidden>
+        {/* the dive: surface → deep blue → sea floor, cross-fading as you scroll down */}
+        <div className="deepsea__photo deepsea__photo--1" />
+        <div className="deepsea__photo deepsea__photo--2" />
+        <div className="deepsea__photo deepsea__photo--3" />
         <div className="deepsea__rays" />
         <div className="deepsea__caustics" />
         {SILHOUETTES.map((s, i) => {

@@ -11,6 +11,16 @@
       color-mix(in srgb, #04235a calc(100% - var(--depth) * 100%), #010717) 55%,
       #010a1c 100%);
 }
+/* three real underwater photos, one after the other as you go deeper (--depth goes 0 → 1 with the scroll) */
+.deepsea__photo {
+  position: absolute; inset: -4%;
+  background-size: cover; background-position: center; background-repeat: no-repeat;
+  transform: scale(calc(1 + var(--depth) * 0.08)) translateY(calc(var(--depth) * -2%));   /* a slow sink */
+  will-change: opacity, transform;
+}
+.deepsea__photo--1 { background-image: url('/img/dive/1-surface.webp'); opacity: clamp(0, calc(1 - (var(--depth) - 0.18) * 3), 1); }
+.deepsea__photo--2 { background-image: url('/img/dive/2-deep.webp'); opacity: clamp(0, min(calc((var(--depth) - 0.18) * 3), calc(1 - (var(--depth) - 0.6) * 3)), 1); }
+.deepsea__photo--3 { background-image: url('/img/dive/3-floor.webp'); background-position: center bottom; opacity: clamp(0, calc((var(--depth) - 0.6) * 3), 1); }
 .deepsea__rays {
   position: absolute;
   inset: -20% -10% 30%;
