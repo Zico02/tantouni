@@ -1056,6 +1056,22 @@ const SPECIES = [
     art: { shape: 'barracuda', back: '#3d5468', belly: '#e9eef2', fin: '#4a6176', accent: '#26394b', bars: true },
   }),
   F({
+    slug: 'payara', rarity: 'legend', zone: 'monde',
+    names: { fr: 'Payara', en: 'Payara', ar: 'الباييرا', es: 'Payara', it: 'Payara' },
+    nickname: 'VAMPIRE FISH',
+    scientific: 'Hydrolycus scomberoides',
+    image: '/uploads/payara.webp',
+    maxLength: 117, maxWeight: 18, depth: '0 – 10 m',
+    habitat: ['coastal'], techniques: ['spinning', 'livebait'], season: [],
+    seas: [],
+    description: {
+      fr: "Le « poisson vampire » des rivières d'Amazonie et de l'Orénoque : deux crocs géants sur la mâchoire inférieure, qui se rangent dans des trous du crâne. Il chasse dans les rapides et saute comme un fou une fois piqué.",
+      en: 'The "vampire fish" of the Amazon and Orinoco rivers: two giant fangs on the lower jaw, which slot into holes in its skull. It hunts in the rapids and leaps like mad once hooked.',
+      ar: '«السمكة مصاصة الدماء» في أنهار الأمازون والأورينوكو: نابان ضخمان في الفك السفلي ينغرسان في ثقوب بالجمجمة. تصطاد في المنحدرات المائية وتقفز بجنون حين تعلق بالصنارة.',
+    },
+    art: { shape: 'barracuda', back: '#3d5a78', belly: '#e6ecf2', fin: '#9aa8b4', accent: '#f0e6c8' },
+  }),
+  F({
     "slug": "thazard-blanc",
     "rarity": "prized",
     "zone": "maroc",

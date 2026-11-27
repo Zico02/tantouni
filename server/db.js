@@ -22,7 +22,7 @@ function initial() {
     achievements: seedAchievements(),
     products: seedProducts(),
     shopVersion: 4,
-    boardVersion: 5,
+    boardVersion: 6,
     orders: [],
   };
 }
@@ -145,6 +145,19 @@ function migrate(state) {
     list.forEach((f, i) => { f.order = i; });
     state.fish = list;
     state.boardVersion = 5;
+    dirty = true;
+  }
+  // board v6 (one time): the payara, right after the barracuda
+  if (state.boardVersion < 6) {
+    if (!state.fish.some((f) => f.slug === 'payara')) {
+      const nf = seedFish().find((f) => f.slug === 'payara');
+      const list = [...state.fish].sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+      const i = list.findIndex((f) => f.slug === 'barracuda');
+      if (nf) list.splice(i >= 0 ? i + 1 : list.length, 0, nf);
+      list.forEach((f, k) => { f.order = k; });
+      state.fish = list;
+    }
+    state.boardVersion = 6;
     dirty = true;
   }
   // seas filter: give existing fish their seas, and add sharks that aren't on the board yet
