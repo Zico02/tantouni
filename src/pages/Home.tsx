@@ -6,7 +6,7 @@ import BoatSeats from '../components/BoatSeats';
 import CaughtStamp from '../components/CaughtStamp';
 import { Arrow, Check } from '../components/icons';
 import { SocialIcon } from '../components/Footer';
-import { gsap, ScrollTrigger, useGSAP, useReveal } from '../lib/motion';
+import { gsap, useGSAP, useReveal } from '../lib/motion';
 import JigJourney from '../components/JigJourney';
 import { fishVisual } from '../lib/fishArt';
 import { fishName, useFish } from '../lib/useFish';
