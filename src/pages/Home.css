@@ -109,18 +109,15 @@
 }
 .hero__facts b { color: #fff; font-weight: 700; margin-inline-end: 4px; }
 
-.hero__scroll {
-  position: absolute;
-  bottom: 22px;
-  left: 50%;
-  translate: -50% 0;
-  width: 52px;
-}
-.hero__scroll svg { display: block; width: 100%; height: auto; overflow: visible; }
+/* zero-height anchor on the line between the hero and the next section, drawn above both */
+.rod-mount { position: relative; height: 0; z-index: 6; pointer-events: none; }
+/* the rod: tip on the section line at the page centre (x 0, y 31 in its drawing), rotated
+   up towards the top-right corner of the hero */
+.rod { position: absolute; left: 50%; margin-left: -2px; top: -31px; transform-origin: 2px 31px; overflow: visible; filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.35)); }
 /* reeling: the handle turns around its axle, the line lays up and down the spool */
-.reel__handle { transform-box: view-box; transform-origin: 760px 436px; animation: reel-turn 1.4s linear infinite; }
+.reel__handle { transform-box: fill-box; transform-origin: 81.7% 11.6%; animation: reel-turn 1.4s linear infinite; }
 .reel__lay { animation: reel-lay 1.4s ease-in-out infinite; }
-@keyframes reel-turn { to { rotate: -360deg; } }
+@keyframes reel-turn { to { rotate: 360deg; } }   /* clockwise */
 @keyframes reel-lay { 0%, 100% { translate: 0 0; } 50% { translate: 0 100px; } }
 
 @media (prefers-reduced-motion: reduce) {
@@ -129,6 +126,13 @@
 
 /* ---------- captain ---------- */
 .captain { overflow: hidden; isolation: isolate; }
+/* underwater photo: sun from the surface top-right, a school of fish; melts into the sections above and below */
+.captain::before {
+  content: ''; position: absolute; inset: 0; z-index: -3; pointer-events: none;
+  background: url('/img/captain-sea.webp') center top / cover no-repeat;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 82%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 12%, #000 82%, transparent 100%);
+}
 /* soft light from the surface, fades as the jig goes down (see Captain) */
 .captain__light {
   position: absolute; inset: 0; z-index: -2; pointer-events: none;
@@ -140,36 +144,46 @@
 .captain__deep {
   position: absolute; inset: 0; z-index: -2; pointer-events: none; opacity: 0;
   /* darkest in the middle, back to the page colour at the very bottom so the next section joins cleanly */
-  background: linear-gradient(180deg, rgba(0, 5, 16, 0.25) 0%, rgba(0, 4, 12, 0.7) 50%, rgba(0, 3, 10, 0.85) 78%, var(--abyss) 100%);
+  background: linear-gradient(180deg, rgba(0, 5, 16, 0.25) 0%, rgba(0, 4, 12, 0.5) 50%, rgba(0, 3, 10, 0.45) 100%);
 }
-/* the jig on its line: straight under the scroll-mouse (page centre), moved down by the scroll */
-.jig-rig { position: absolute; top: 0; left: 50%; width: 0; z-index: -1; pointer-events: none; will-change: transform; }
+/* deeper water at the bottom of the section: light rays in the dark, leading into La saison des géants.
+   Its bottom edge is the page colour, so the two sections join without a seam. */
+.captain::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 75%; z-index: -3; pointer-events: none;
+  background: url('/img/captain-deep.webp') center top / cover no-repeat;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 35%, #000 86%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 35%, #000 86%, transparent 100%);
+}
+/* ---------- the jig journey (see JigJourney): Omar → La saison des géants → the glasses ---------- */
+.jig-journey { position: relative; overflow: hidden; }
+/* straight under the reel (page centre); moved down by the scroll, drawn above the sections */
+.jig-rig { position: absolute; top: 0; left: 50%; width: 0; z-index: 5; pointer-events: none; will-change: transform; }
 .jig-rig__line {
-  /* fluo yellow-green braid */
-  position: absolute; bottom: calc(100% - 6px); left: -1px; width: 2px; height: 3000px;
-  background: linear-gradient(180deg, rgba(198, 232, 52, 0) 0%, rgba(198, 232, 52, 0.75) 35%, #c6e834 70%, #9fd12a 100%);
-  box-shadow: 0 0 6px rgba(190, 235, 60, 0.45);
+  /* grey, like the line on the rod */
+  position: absolute; bottom: calc(100% - 6px); left: -1px; width: 2px; height: 6000px;
+  background: #8fa0b8; opacity: 0.85;
 }
-.jig-rig__body { position: absolute; top: 0; left: 0; transform-origin: 0 4px; }
-.jig-rig__jig { position: absolute; top: 0; left: 0; filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.55)); }
-/* the photo is hung by its nose ring (69% across the picture), and sways from there */
+.jig-rig__body, .jig-rig__shake { position: absolute; top: 0; left: 0; transform-origin: 0 4px; }
+.jig-rig__jig { position: absolute; top: 0; left: 0; opacity: 0; filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.55)); }
+.jig-rig__jig.is-on { opacity: 1; }   /* the switch is instant: no fade, no flash */
+/* each photo is hung by its nose ring (--ring across the picture) and sways from there */
 .jig-rig__jig img {
-  display: block; height: 168px; width: auto; max-width: none; translate: -69% 0;
-  transform-origin: 69% 2px; animation: jig-flutter 2.4s ease-in-out infinite;
+  display: block; height: var(--h, 160px); width: auto; max-width: none; translate: calc(-1 * var(--ring, 50%)) calc(-1 * var(--top, 0%));
+  transform-origin: var(--ring, 50%) var(--top, 0%); animation: jig-flutter 2.6s ease-in-out infinite;
   user-select: none; -webkit-user-drag: none;
 }
-.jig-rig__jig--heavy { opacity: 0; }
-.jig-rig__jig--heavy img { height: 158px; animation-duration: 3s; }   /* heavier jig: slower, lazier swing */
 @keyframes jig-flutter {
   0%, 100% { rotate: -5deg; scale: 1 1; }
   25% { rotate: 4deg; scale: 0.86 1; }
   50% { rotate: 6deg; scale: 1 1; }
   75% { rotate: -3deg; scale: 0.9 1; }
 }
+/* the amberjack of the middle card is moved by JigJourney: no hover zoom on that card, the layers must stay aligned */
+.giant--amberjack:hover .tech__photo { transform: none; }
+.giant__fish { will-change: transform; transition: none; }
 @media (max-width: 900px) {
   .jig-rig { left: auto; right: 26px; }
-  .jig-rig__jig img { height: 104px; }
-  .jig-rig__jig--heavy img { height: 98px; }
+  .jig-rig__jig img { height: calc(var(--h, 160px) * 0.62); }
 }
 @media (prefers-reduced-motion: reduce) { .jig-rig__jig img { animation: none; } }
 .captain__grid { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(130px, 13vw, 230px); align-items: center; max-width: 1560px; }
@@ -198,6 +212,9 @@
   -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.25) 22%, rgba(0, 0, 0, 0.75) 42%, #000 58%, #000 80%, transparent 100%); mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.25) 22%, rgba(0, 0, 0, 0.75) 42%, #000 58%, #000 80%, transparent 100%);
 }
 [dir='rtl'] .experience__sea img { transform: scaleX(-1); }
+/* the tuna layer: same frame as the water picture, so it lines up exactly; it grows from its own centre */
+.experience__tuna { position: absolute; inset: 0; transform-origin: 74.7% 57.7%; will-change: transform, opacity, filter; }
+[dir='rtl'] .experience__tuna { transform-origin: 25.3% 57.7%; }
 .experience__inner { position: relative; }
 .experience__kicker { color: var(--gold); }
 .experience__title { margin-bottom: 18px; line-height: 1.05; text-shadow: 0 4px 30px rgba(0, 10, 30, 0.6); }
@@ -262,6 +279,10 @@
 /* ---------- teaser ---------- */
 .teaser { overflow: hidden; background: linear-gradient(180deg, var(--abyss), #021a45 50%, var(--abyss)); }
 .teaser__grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 40px; align-items: center; position: relative; }
+/* one sentence per line: a slightly smaller title and a full-width paragraph so each sentence fits on its line */
+.teaser .h2 { font-size: clamp(28px, 2.9vw, 50px); }
+@media (min-width: 901px) { .teaser__grid { grid-template-columns: 1.3fr 1fr; } .teaser .h2 > span { white-space: nowrap; } }
+.teaser .lead { max-width: none; }
 .teaser__count { display: flex; align-items: baseline; gap: 6px; margin: 10px 0 28px; }
 .teaser__count b { font-family: var(--display); font-weight: 800; font-size: 56px; color: var(--sun); }
 .teaser__count span { font-size: 28px; font-weight: 700; color: var(--muted); }
@@ -330,17 +351,18 @@
 @media (max-width: 700px) {
   .hero__fade { background: linear-gradient(180deg, rgba(2, 14, 38, 0.55) 0%, rgba(2, 14, 38, 0.7) 50%, var(--abyss) 100%); }
   .hero__kicker { font-size: 10.5px; letter-spacing: 0.14em; }
-  .hero__scroll { display: none; }
+  .rod { display: none; }
 }
 
 /* ---------- la saison des géants ---------- */
 .giants { --gold: #e3b54b; overflow: hidden; isolation: isolate; background: linear-gradient(180deg, var(--abyss) 0%, #04142e 30%, #051a3a 70%, var(--abyss) 100%); padding-top: clamp(120px, 10vw, 200px); }
-.giants__sea { position: absolute; inset: clamp(30px, 3.5vw, 70px) 0 auto 0; aspect-ratio: 1672 / 430; min-height: 300px; z-index: -1; pointer-events: none; }
+/* deep-water photo behind the whole section: light rays from above, rocky sea floor at the bottom */
+.giants__sea { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
 .giants__sea img {
-  width: 100%; height: 100%; object-fit: cover; object-position: 100% 0;
-  /* fades in under the photo above, and out into the cards */
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.3) 18%, rgba(0, 0, 0, 0.8) 38%, #000 55%, #000 78%, transparent 100%);
-  mask-image: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.3) 18%, rgba(0, 0, 0, 0.8) 38%, #000 55%, #000 78%, transparent 100%);
+  width: 100%; height: 100%; object-fit: cover; object-position: 50% 60%;
+  /* melts into the sections above and below */
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 84%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 14%, #000 84%, transparent 100%);
 }
 [dir='rtl'] .giants__sea img { transform: scaleX(-1); }
 .giants__inner { position: relative; }
@@ -357,6 +379,4 @@
 .giant .tech__more { margin-top: 0; }
 .giant p { max-width: 30ch; }
 @media (max-width: 900px) {
-  .giants__sea { aspect-ratio: auto; height: 300px; }
-  .giants__sea img { object-position: 85% 0; opacity: 0.8; }
 }

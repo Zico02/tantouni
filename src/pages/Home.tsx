@@ -1,4 +1,4 @@
-import { lazy, Suspense, useRef } from 'react';
+import { lazy, Suspense, useLayoutEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import SwimmingFish from '../components/SwimmingFish';
@@ -7,7 +7,7 @@ import CaughtStamp from '../components/CaughtStamp';
 import { Arrow, Check } from '../components/icons';
 import { SocialIcon } from '../components/Footer';
 import { gsap, ScrollTrigger, useGSAP, useReveal } from '../lib/motion';
-import Jig from '../components/Jig';
+import JigJourney from '../components/JigJourney';
 import { fishVisual } from '../lib/fishArt';
 import { fishName, useFish } from '../lib/useFish';
 import { SITE } from '../lib/site';
@@ -68,33 +68,108 @@ function Hero() {
           </ul>
         </div>
       </div>
-      {/* scroll hint: a spinning reel being reeled in (handle turns, line lays on the spool) */}
-      <span className="hero__scroll" aria-hidden>
-        <svg viewBox="420 185 440 465" fill="none" strokeLinecap="round" strokeLinejoin="round">
-          <g stroke="#8fa0b8" strokeWidth="14">
-            {/* reel foot + stem */}
-            <rect x="612" y="198" width="196" height="26" rx="13" />
-            <path d="M700 224c0 60-14 96-4 150M728 224c4 70 30 118 80 160 34 30 40 70 18 96-16 18-46 24-78 24h-60" />
-            {/* bail arm around the rotor */}
-            <path d="M560 300c-30-12-56-10-62 6-6 16 18 28 18 28v232s-18 14-6 30c10 14 40 8 70-6" />
-            <path d="M520 334h96c46 0 78 30 78 86v40c0 58-32 90-80 90h-96" />
-            {/* rotor + spool + front cap */}
-            <rect x="552" y="368" width="96" height="152" rx="14" />
-            <path d="M552 392h-78v104h78" />
-            <path d="M474 384c-28 2-42 34-42 60 0 28 14 58 42 60" />
-            <path d="M488 376v136" />
+    </section>
+  );
+}
+
+/**
+ * The rod: its cork handle starts in the top-right corner of the hero (just under the menu)
+ * and it runs diagonally down to its tip, which sits on the line between the hero and the
+ * next section, right above the page centre, where the jig's line hangs from it.
+ * Length and angle follow the screen size. The reel under the seat keeps reeling.
+ */
+function RodMount() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [rod, setRod] = useState<{ L: number; deg: number } | null>(null);
+  useLayoutEffect(() => {
+    const mount = ref.current!;
+    const hero = mount.previousElementSibling as HTMLElement | null;
+    const calc = () => {
+      if (!hero) return;
+      const line = hero.getBoundingClientRect().bottom;
+      const centre = document.documentElement.clientWidth / 2;
+      // the reel sits level with the hero facts (100K · 2e · 1000 DH), just right of the last one
+      const facts = hero.querySelector('.hero__facts li:last-child')?.getBoundingClientRect();
+      let tx = facts ? facts.right + 170 : centre + 460;
+      const ty = (facts ? facts.top + facts.height / 2 : line - 220) - 40 + 10;   // reel just below the facts line (it hangs ~40px under the rod), clear of the bubbles
+      // keep the whole rod (handle included, 214px past the reel) inside the page
+      const W = document.documentElement.clientWidth;
+      const cos0 = (tx - centre) / Math.hypot(tx - centre, line - ty);
+      tx = Math.min(tx, W - 24 - 214 * cos0);
+      const dx = tx - centre;
+      let ang = Math.atan2(line - ty, dx);
+      // never touch the "1000 DH" bubble: the rod passes at least 22px under its bottom-right corner
+      if (facts) {
+        const px = facts.right - centre, py = line - facts.bottom;
+        const maxAng = Math.atan2(py, px) - Math.asin(Math.min(1, 22 / Math.hypot(px, py)));
+        ang = Math.min(ang, maxAng);
+      }
+      const toReel = dx / Math.cos(ang);
+      // the reel hangs 214px before the end of the rod (see the drawing below)
+      setRod({ L: Math.round(toReel + 214), deg: (ang * 180) / Math.PI });
+    };
+    calc();
+    const ro = new ResizeObserver(calc);
+    if (hero) ro.observe(hero);
+    window.addEventListener('resize', calc);
+    return () => { ro.disconnect(); window.removeEventListener('resize', calc); };
+  }, []);
+
+  const L = rod?.L ?? 900;
+  const seat = L - 250;                             // reel seat starts here; cork handle after it
+  const guides = [0.14, 0.3, 0.5, 0.72].map((f) => Math.round(seat * f));
+  const s = 0.17;                                   // the reel drawing (from the old icon), scaled
+  const reelX = seat + 36 - 714 * s, reelY = 39 - 224 * s;
+  const spool = { x: reelX + 470 * s, y: reelY + 444 * s };
+  return (
+    <div className="rod-mount" ref={ref}>
+      {rod && (
+        <svg className="rod" aria-hidden width={L} height={150} viewBox={`0 0 ${L} 150`}
+          style={{ rotate: `-${rod.deg}deg` }} fill="none" strokeLinecap="round" strokeLinejoin="round">
+          {/* the line: reel → guides → tip */}
+          <path d={`M${spool.x} ${spool.y} ${guides.slice().reverse().map((x) => `L${x} 48`).join(' ')} L2 34`} stroke="#8fa0b8" strokeWidth="1.4" />
+          <g stroke="#8fa0b8" strokeWidth="3">
+            {/* blank, tapering to the tip */}
+            <path d={`M4 29L${seat} 24`} />
+            <path d={`M4 33L${seat} 38`} />
+            {/* guides */}
+            {guides.map((x, i) => <path key={i} d={`M${x} ${34 + i * 0.6}v8c0 3-1.5 5-4 6`} />)}
+            {/* reel seat with its two collars */}
+            <rect x={seat} y={20} width={84} height={22} rx={6} />
+            <rect x={seat + 6} y={17} width={14} height={28} rx={4} />
+            <rect x={seat + 64} y={17} width={14} height={28} rx={4} />
           </g>
-          {/* line laying on the spool */}
-          <rect className="reel__lay" x="576" y="392" width="30" height="12" rx="6" fill="#f2c230" />
-          {/* the handle turning */}
-          <g className="reel__handle" stroke="#f2c230" strokeWidth="14">
-            <circle cx="760" cy="436" r="26" />
-            <path d="M746 458L694 600" />
-            <rect x="644" y="598" width="96" height="36" rx="18" />
+          {/* gold tip */}
+          <path d="M10 28H3v13" stroke="#f2c230" strokeWidth="3.4" />
+          {/* gold cork handle */}
+          <g stroke="#f2c230" strokeWidth="3.4">
+            <rect x={seat + 92} y={17} width={L - seat - 112} height={28} rx={14} />
+            {Array.from({ length: Math.floor((L - seat - 130) / 16) }, (_, i) => (
+              <path key={i} d={`M${seat + 110 + i * 16} 24v14`} />
+            ))}
+            <rect x={L - 16} y={18} width={12} height={26} rx={6} />
+          </g>
+          {/* the reel hanging under the seat, handle turning */}
+          <g transform={`translate(${reelX} ${reelY}) scale(${s})`}>
+            <g stroke="#8fa0b8" strokeWidth="17">
+              <path d="M700 224c0 60-14 96-4 150M728 224c4 70 30 118 80 160 34 30 40 70 18 96-16 18-46 24-78 24h-60" />
+              <path d="M560 300c-30-12-56-10-62 6-6 16 18 28 18 28v232s-18 14-6 30c10 14 40 8 70-6" />
+              <path d="M520 334h96c46 0 78 30 78 86v40c0 58-32 90-80 90h-96" />
+              <rect x="552" y="368" width="96" height="152" rx="14" />
+              <path d="M552 392h-78v104h78" />
+              <path d="M474 384c-28 2-42 34-42 60 0 28 14 58 42 60" />
+              <path d="M488 376v136" />
+            </g>
+            <rect className="reel__lay" x="576" y="392" width="30" height="12" rx="6" fill="#f2c230" />
+            <g className="reel__handle" stroke="#f2c230" strokeWidth="17">
+              <circle cx="760" cy="436" r="26" />
+              <path d="M746 458L694 600" />
+              <rect x="644" y="598" width="96" height="36" rx="18" />
+            </g>
           </g>
         </svg>
-      </span>
-    </section>
+      )}
+    </div>
   );
 }
 
@@ -113,27 +188,15 @@ function Captain() {
         });
       });
 
-      // The jig: hangs straight under the scroll-mouse (page centre, see CSS) and sinks as you
-      // scroll the section. Halfway down the slim jig is swapped for a heavier one, and the
-      // water gets darker the deeper it goes.
+      // the water gets darker as you go down this section (the jig itself lives in <JigJourney>)
       const section = ref.current!;
       const q = gsap.utils.selector(section);
-      const tl = gsap.timeline({
+      gsap.timeline({
         defaults: { ease: 'none' },
-        scrollTrigger: { trigger: section, start: 'top 75%', end: 'bottom 20%', scrub: 0.8, invalidateOnRefresh: true },
-      });
-      tl.fromTo(q('.jig-rig'), { y: () => section.offsetHeight * 0.04 }, { y: () => Math.max(section.offsetHeight * 0.3, section.offsetHeight - (window.innerWidth < 900 ? 220 : 340)), duration: 1 }, 0)
+        scrollTrigger: { trigger: section, start: 'top 75%', end: 'bottom 20%', scrub: 0.8 },
+      })
         .fromTo(q('.captain__light'), { opacity: 1 }, { opacity: 0.1, duration: 1 }, 0)
-        .fromTo(q('.captain__deep'), { opacity: 0 }, { opacity: 1, duration: 1 }, 0)
-        // the swap: one jig becomes the other in a blink (no flash, no zoom)
-        .to(q('.jig-rig__jig--slim'), { opacity: 0, duration: 0.012 }, 0.5)
-        .fromTo(q('.jig-rig__jig--heavy'), { opacity: 0 }, { opacity: 1, duration: 0.012 }, 0.5);
-      // a quick extra kick while scrolling, like a jig being worked
-      const tilt = gsap.quickTo(q('.jig-rig__body')[0], 'rotation', { duration: 0.5, ease: 'power3.out' });
-      ScrollTrigger.create({
-        trigger: section, start: 'top bottom', end: 'bottom top',
-        onUpdate: (st) => tilt(gsap.utils.clamp(-14, 14, st.getVelocity() / 120)),
-      });
+        .fromTo(q('.captain__deep'), { opacity: 0 }, { opacity: 1, duration: 1 }, 0);
     },
     { scope: ref },
   );
@@ -141,13 +204,6 @@ function Captain() {
     <section className="section captain" ref={ref}>
       <div className="captain__light" aria-hidden />
       <div className="captain__deep" aria-hidden />
-      <div className="jig-rig" aria-hidden>
-        <span className="jig-rig__line" />
-        <div className="jig-rig__body">
-          <Jig model="slim" className="jig-rig__jig jig-rig__jig--slim" />
-          <Jig model="heavy" className="jig-rig__jig jig-rig__jig--heavy" />
-        </div>
-      </div>
       <div className="container captain__grid">
         <div className="captain__text">
           <span className="kicker" data-reveal>{t('captain.kicker')}</span>
@@ -209,8 +265,8 @@ function Season() {
 // "La saison des géants": the three headline species, each card opens its fish on the board
 const GIANTS = [
   { k: 'tuna', slug: 'thon-rouge-atlantique' },
-  { k: 'marlin', slug: 'marlin-blanc' },
   { k: 'amberjack', slug: 'seriole' },
+  { k: 'marlin', slug: 'marlin-blanc' },
 ] as const;
 
 function Giants() {
@@ -218,7 +274,7 @@ function Giants() {
   return (
     <section className="section giants">
       <div className="giants__sea" aria-hidden>
-        <img src="/img/giants/sea.webp" alt="" loading="lazy" />
+        <img src="/img/giants/deep.webp" alt="" loading="lazy" />
       </div>
       <div className="container giants__inner">
         <span className="kicker giants__kicker" data-reveal>{t('season.kicker')}</span>
@@ -233,7 +289,16 @@ function Giants() {
           {GIANTS.map(({ k, slug }, i) => (
             <div key={k} data-reveal data-reveal-delay={i * 0.12}>
               <article className={`tech giant giant--${k}`}>
-                <img className="tech__photo" src={`/img/giants/${k}.webp`} alt="" loading="lazy" />
+                {k === 'amberjack' ? (
+                  // three layers that line up exactly: the water, and the two fish that attack the jig
+                  <>
+                    <img className="tech__photo" src="/img/giants/amberjack-bg.webp" alt="" loading="lazy" />
+                    <img className="tech__photo giant__fish giant__fish--courbine" src="/img/giants/courbine-fish.png" alt="" loading="lazy" />
+                    <img className="tech__photo giant__fish giant__fish--amberjack" src="/img/giants/amberjack-fish.png" alt="" loading="lazy" />
+                  </>
+                ) : (
+                  <img className="tech__photo" src={`/img/giants/${k}.webp`} alt="" loading="lazy" />
+                )}
                 <h3>{t(`season.${k}.t`)}</h3>
                 <p>{t(`season.${k}.d`)}</p>
                 <Link to={`/tableau-de-chasse/${slug}`} className="tech__more">{t('season.more')} <Arrow /></Link>
@@ -248,11 +313,27 @@ function Giants() {
 
 function Experience() {
   const { t } = useTranslation();
+  const ref = useRef<HTMLElement>(null);
+  // the tuna swims towards us from the deep, then stops in its place (once, when the section shows up)
+  useGSAP(
+    () => {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const flip = document.documentElement.dir === 'rtl' ? -1 : 1;
+      gsap.timeline({ scrollTrigger: { trigger: ref.current, start: 'top 75%', once: true } })
+        .fromTo('.experience__tuna',
+          { scaleX: 0.22 * flip, scaleY: 0.22, opacity: 0, filter: 'blur(6px) brightness(0.45)' },
+          { scaleX: flip, scaleY: 1, opacity: 1, filter: 'blur(0px) brightness(1)', duration: 2.6, ease: 'power3.out' }, 0)
+        // the body sways while it swims, settling as it stops
+        .fromTo('.experience__tuna', { rotation: -4 }, { keyframes: [{ rotation: 3 }, { rotation: -2 }, { rotation: 1 }, { rotation: 0 }], duration: 2.6, ease: 'sine.inOut' }, 0);
+    },
+    { scope: ref },
+  );
   return (
-    <section className="section experience">
-      {/* underwater backdrop: sunlit surface and a tuna swimming by */}
+    <section className="section experience" ref={ref}>
+      {/* underwater backdrop: sunlit surface, and the tuna as its own layer so it can swim in */}
       <div className="experience__sea" aria-hidden>
         <img src="/img/experience/sea.webp" alt="" loading="lazy" />
+        <img className="experience__tuna" src="/img/experience/tuna.png" alt="" loading="lazy" />
       </div>
       <div className="container experience__inner">
         <span className="kicker experience__kicker" data-reveal>{t('experience.kicker')}</span>
@@ -310,6 +391,11 @@ function Offer() {
   );
 }
 
+// Splits a text after each sentence (. ? ! and the Arabic ؟) and puts each one on its own line.
+// "…" does not split: "Venez voir… ou venez l'aider." stays together.
+const lines = (text: string) =>
+  text.split(/(?<=[.?!؟])\s+/).map((part, i) => <span key={i} style={{ display: 'block' }}>{part}</span>);
+
 function Teaser() {
   const { t } = useTranslation();
   const fish = useFish().fish?.filter((f) => !f.bait); // baits aren't on the board
@@ -322,8 +408,9 @@ function Teaser() {
       <div className="container teaser__grid">
         <div>
           <span className="kicker" data-reveal>{t('teaser.kicker')}</span>
-          <h2 className="h2" data-reveal>{t('teaser.title')}</h2>
-          <p className="lead" data-reveal>{t('teaser.text')}</p>
+          {/* one sentence per line */}
+          <h2 className="h2" data-reveal>{lines(t('teaser.title'))}</h2>
+          <p className="lead" data-reveal>{lines(t('teaser.text'))}</p>
           {fish && (
             <p className="teaser__count display" data-reveal>
               <b>{caught.length}</b><span>/{fish.length}</span>
@@ -397,9 +484,13 @@ export default function Home() {
   return (
     <div ref={ref} className="home">
       <Hero />
-      <Captain />
-      <Giants />
-      <Season />
+      <RodMount />
+      {/* one jig follows you down through these three sections and stops on the glasses */}
+      <JigJourney>
+        <Captain />
+        <Giants />
+        <Season />
+      </JigJourney>
       <Experience />
       <Teaser />
       <Offer />
