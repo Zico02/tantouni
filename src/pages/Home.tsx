@@ -343,7 +343,7 @@ function Experience() {
         </h2>
         <span className="experience__rule" data-reveal />
         <div className="experience__grid">
-          {(['jigging', 'trolling', 'livebait'] as const).map((k, i) => (
+          {(['jigging', 'livebait', 'trolling', 'popping'] as const).map((k, i) => (
             <div key={k} data-reveal data-reveal-delay={i * 0.12}>
               <article className={`tech tech--${k}`}>
                 <img className="tech__photo" src={`/img/experience/${k}.webp`} alt="" loading="lazy" />

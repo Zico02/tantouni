@@ -221,7 +221,21 @@
 .experience__title em { font-style: normal; color: var(--gold); }
 .experience__rule { display: block; width: 84px; height: 3px; border-radius: 3px; background: var(--gold); }
 
+/* four techniques, two by two */
 .experience__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: clamp(34px, 4vw, 50px); }
+.experience .experience__grid { grid-template-columns: repeat(2, 1fr); max-width: 820px; margin-inline: auto; }   /* each card about the size of the old 3-in-a-row cards */
+.experience .experience__grid .tech { min-height: 0; aspect-ratio: 1.1 / 1; }
+.experience .experience__grid .tech p { max-width: 25ch; }
+/* title and text sit in the lower half, like the mockups (the photo shows above them) */
+.experience .experience__grid .tech h3 { margin-top: auto; }
+.experience .experience__grid .tech .tech__more { margin-top: clamp(18px, 3vw, 40px); }
+/* on the trolling card the text runs over the marlin, as in the mockup */
+.experience .experience__grid .tech--trolling p { max-width: 36ch; }
+.experience .experience__grid .tech__photo { object-position: 50% 50%; }
+/* darker on the left, where the text sits, so it stays readable on the busy photos */
+.experience .experience__grid .tech::before { content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  background: linear-gradient(90deg, rgba(3, 12, 30, 0.78) 0%, rgba(3, 12, 30, 0.45) 45%, transparent 75%); }
+[dir='rtl'] .experience .experience__grid .tech::before { background: linear-gradient(270deg, rgba(3, 12, 30, 0.78) 0%, rgba(3, 12, 30, 0.45) 45%, transparent 75%); }
 .tech {
   position: relative; overflow: hidden; isolation: isolate;
   padding: 26px 34px 26px; height: 100%; min-height: 300px;
@@ -329,7 +343,8 @@
 @media (max-width: 960px) {
   .captain__grid, .offer__grid, .teaser__grid { grid-template-columns: 1fr; }
   .captain__grid { gap: 40px; }
-  .experience__grid, .videos__grid { grid-template-columns: 1fr; }
+  .experience__grid, .experience .experience__grid, .videos__grid { grid-template-columns: 1fr; }
+  .experience .experience__grid .tech { aspect-ratio: auto; min-height: 380px; }
 }
 @media (min-width: 640px) and (max-width: 960px) {
   .videos__grid { grid-template-columns: 1fr 1fr; }
