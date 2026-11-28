@@ -22,7 +22,7 @@ function initial() {
     achievements: seedAchievements(),
     products: seedProducts(),
     shopVersion: 4,
-    boardVersion: 6,
+    boardVersion: 7,
     orders: [],
   };
 }
@@ -158,6 +158,13 @@ function migrate(state) {
       state.fish = list;
     }
     state.boardVersion = 6;
+    dirty = true;
+  }
+  // board v7 (one time): new photos for the bluefin trevally and the pagre (Chama)
+  if (state.boardVersion < 7) {
+    const swap = { '/uploads/bluefin-trevally.png': '/uploads/bluefin-trevally-v2.webp', '/uploads/chama.png': '/uploads/pagre-v2.webp' };
+    for (const f of state.fish) if (swap[f.image]) f.image = swap[f.image];
+    state.boardVersion = 7;
     dirty = true;
   }
   // seas filter: give existing fish their seas, and add sharks that aren't on the board yet

@@ -760,7 +760,7 @@ const SPECIES = [
     names: { fr: 'Pagre', en: 'Red porgy', ar: 'البغروس', es: 'Pargo', it: 'Pagro' },
     scientific: 'Pagrus pagrus',
     nickname: 'CHAMA',
-    image: '/uploads/chama.png',
+    image: '/uploads/pagre-v2.webp',
     caught: true,
     maxLength: 91, maxWeight: 7.7, depth: '10 – 250 m',
     habitat: ['reef'], techniques: ['bottom', 'jigging'], season: [],
@@ -1624,7 +1624,7 @@ const SPECIES = [
     names: { fr: 'Carangue à points bleus', en: 'Bluefin trevally', ar: 'الكراكس ذو الزعانف الزرقاء', es: 'Jurel aleta azul', it: 'Carango pinna blu' },
     nickname: 'BLUEFIN TREVALLY',
     scientific: 'Caranx melampygus',
-    image: '/uploads/bluefin-trevally.png',
+    image: '/uploads/bluefin-trevally-v2.webp',
     maxLength: 117, maxWeight: 44, depth: '0 – 190 m',
     habitat: ['reef', 'coastal'], techniques: ['popping', 'jigging', 'spinning'], season: [],
     description: {
